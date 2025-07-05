@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "KmzBackendApplication",
+            "request": "launch",
+            "mainClass": "com.edoardoconti.kmz_backend.KmzBackendApplication",
+            "projectName": "kmz-backend",
+            "vmArgs": "-Dspring.profiles.active=dev"
+        }
+    ]
+}
