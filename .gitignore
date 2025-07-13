@@ -3,6 +3,9 @@
 # Java
 #################################
 
+/target/
+/out/
+/build/
 
 # Compiled class file
 *.class
@@ -37,3 +40,28 @@ replay_pid*
 *.vpp.bak_*
 
 *.vpp.lck
+
+
+#################################
+# IntelliJ IDEA
+#################################
+.idea/
+*.iml
+*.ipr
+*.iws   
+
+
+#################################
+# IntelliJ IDEA
+#################################
+.idea/
+*.iml
+*.ipr
+*.iws
+
+
+#################################
+# OS generated files
+#################################
+.DS_Store
+Thumbs.db
