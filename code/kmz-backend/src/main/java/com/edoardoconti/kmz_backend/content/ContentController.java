@@ -1,8 +1,7 @@
-package com.edoardoconti.kmz_backend.contents;
+package com.edoardoconti.kmz_backend.content;
 
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 

@@ -1,4 +1,4 @@
-package com.edoardoconti.kmz_backend.contents;
+package com.edoardoconti.kmz_backend.content;
 
 import org.springframework.stereotype.Service;
 
