@@ -16,18 +16,18 @@ public class EventController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Content>> getEvents() {
+    public ResponseEntity<List<Event>> getEvents() {
         return ResponseEntity.ok(this.service.getEvents());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Content> getProduct(@PathVariable Long id) {
+    public ResponseEntity<Event> getProduct(@PathVariable Long id) {
         return ResponseEntity.ok(this.service.getEvent(id));
     }
 
     @PostMapping
-    public ResponseEntity<Void> uploadProduct(@RequestBody Content content) {
-        this.service.uploadEvent(content);
+    public ResponseEntity<Void> uploadProduct(@RequestBody Event event) {
+        this.service.uploadEvent(event);
         return ResponseEntity.status(201).build();
     }
 

@@ -1,6 +1,5 @@
 package com.edoardoconti.kmz_backend.product;
 
-import com.edoardoconti.kmz_backend.content.Content;
 import com.edoardoconti.kmz_backend.content.ContentType;
 import org.springframework.stereotype.Repository;
 
@@ -9,22 +8,22 @@ import java.util.List;
 
 @Repository
 public class ProductRepository {
-    private final List<Content> products = new ArrayList<>();
+    private final List<Product> products = new ArrayList<>();
     private Long nextId = 1L;
 
-    public void save(Content content) {
-        if(content.getType() != ContentType.PRODUCT)
+    public void save(Product product) {
+        if(product.getType() != ContentType.PRODUCT)
             return;
-        content.setId(nextId++);
-        products.add(content);
+        product.setId(nextId++);
+        products.add(product);
     }
 
-    public List<Content> getProducts() {
+    public List<Product> getProducts() {
         return products;
     }
 
 
-    public Content getProduct(Long id) {
+    public Product getProduct(Long id) {
         return products.stream()
                 .filter(c -> c.getId().equals(id))
                 .findFirst()

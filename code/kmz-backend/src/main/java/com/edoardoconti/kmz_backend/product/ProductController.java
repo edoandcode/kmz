@@ -2,7 +2,6 @@ package com.edoardoconti.kmz_backend.product;
 
 import java.util.List;
 
-import com.edoardoconti.kmz_backend.content.Content;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
@@ -16,18 +15,18 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Content>> getProducts() {
+    public ResponseEntity<List<Product>> getProducts() {
         return ResponseEntity.ok(this.service.getProducts());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Content> getProduct(@PathVariable Long id) {
+    public ResponseEntity<Product> getProduct(@PathVariable Long id) {
         return ResponseEntity.ok(this.service.getProduct(id));
     }
 
     @PostMapping
-    public ResponseEntity<Void> uploadProduct(@RequestBody Content content) {
-        this.service.uploadProduct(content);
+    public ResponseEntity<Void> uploadProduct( @RequestBody Product product) {
+        this.service.uploadProduct(product);
         return ResponseEntity.status(201).build();
     }
 

@@ -2,7 +2,7 @@ package com.edoardoconti.kmz_backend.process;
 
 import java.util.List;
 
-import com.edoardoconti.kmz_backend.content.Content;
+import com.edoardoconti.kmz_backend.process.Process;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
@@ -16,18 +16,18 @@ public class ProcessController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Content>> getProducts() {
+    public ResponseEntity<List<Process>> getProducts() {
         return ResponseEntity.ok(this.service.getProcesses());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Content> getProduct(@PathVariable Long id) {
+    public ResponseEntity<Process> getProcesses(@PathVariable Long id) {
         return ResponseEntity.ok(this.service.getProcess(id));
     }
 
     @PostMapping
-    public ResponseEntity<Void> uploadProduct(@RequestBody Content content) {
-        this.service.uploadProcess(content);
+    public ResponseEntity<Void> uploadProcess(@RequestBody Process process) {
+        this.service.uploadProcess(process);
         return ResponseEntity.status(201).build();
     }
 

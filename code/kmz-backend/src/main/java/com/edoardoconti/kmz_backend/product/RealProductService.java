@@ -1,6 +1,6 @@
 package com.edoardoconti.kmz_backend.product;
 
-import com.edoardoconti.kmz_backend.content.Content;
+import com.edoardoconti.kmz_backend.product.Product;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,17 +15,17 @@ public class RealProductService implements ProductService{
     }
 
     @Override
-    public void uploadProduct(Content content) {
-        this.repository.save(content);
+    public void uploadProduct(Product product) {
+        this.repository.save(product);
     }
 
     @Override
-    public List<Content> getProducts() {
+    public List<Product> getProducts() {
         return this.repository.getProducts();
     }
 
     @Override
-    public Content getProduct(Long id) {
+    public Product getProduct(Long id) {
         return this.repository.getProduct(id);
     }
 }

@@ -1,6 +1,5 @@
 package com.edoardoconti.kmz_backend.process;
 
-import com.edoardoconti.kmz_backend.content.Content;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,17 +14,17 @@ public class RealProcessService implements ProcessService{
     }
 
     @Override
-    public void uploadProcess(Content content) {
-        this.repository.save(content);
+    public void uploadProcess(Process process) {
+        this.repository.save(process);
     }
 
     @Override
-    public List<Content> getProcesses() {
+    public List<Process> getProcesses() {
         return this.repository.getProcesses();
     }
 
     @Override
-    public Content getProcess(Long id) {
+    public Process getProcess(Long id) {
         return this.repository.getProduct(id);
     }
 }

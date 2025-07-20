@@ -15,17 +15,17 @@ public class RealEventService implements EventService {
     }
 
     @Override
-    public void uploadEvent(Content content) {
-        this.repository.save(content);
+    public void uploadEvent(Event event) {
+        this.repository.save(event);
     }
 
     @Override
-    public List<Content> getEvents() {
+    public List<Event> getEvents() {
         return this.repository.getEvents();
     }
 
     @Override
-    public Content getEvent(Long id) {
+    public Event getEvent(Long id) {
         return this.repository.getEvent(id);
     }
 }
