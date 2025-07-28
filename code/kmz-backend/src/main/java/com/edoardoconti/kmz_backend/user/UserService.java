@@ -5,7 +5,7 @@ import com.edoardoconti.kmz_backend.role.UserRole;
 import java.util.List;
 
 public interface UserService {
-    void signUp(User user, UserRole[] roles);
+    void signUp(User user, List<UserRole> roles);
     List<User> getUsers();
     User getUser(Long id);
 }

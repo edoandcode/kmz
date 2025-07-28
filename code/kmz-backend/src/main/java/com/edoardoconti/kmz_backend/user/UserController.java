@@ -1,9 +1,11 @@
 package com.edoardoconti.kmz_backend.user;
 
 import com.edoardoconti.kmz_backend.role.UserRole;
+import com.edoardoconti.kmz_backend.role.UserRoleType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -11,7 +13,7 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-    private UserService service;
+    private final UserService service;
 
     public UserController(UserService service) {
         this.service = service;
@@ -28,8 +30,13 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> signUp(@RequestBody User user, UserRole[] userRoles) {
-        this.service.signUp(user, userRoles);
+    public ResponseEntity<Void> signUp(@RequestBody UserSignUpRequestDTO request) {
+
+        List<UserRole> roles = Arrays.stream(request.userRoles())
+                .map(UserRoleType::create)
+                .toList();
+
+        this.service.signUp(request.user(), roles);
         return ResponseEntity.status(201).build();
     }
 }

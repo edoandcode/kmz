@@ -4,11 +4,12 @@ import com.edoardoconti.kmz_backend.role.GenericUserRole;
 import com.edoardoconti.kmz_backend.role.UserRole;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.HashSet;
 import java.util.Set;
 
-
+@ToString
 public final class User {
     @Getter
     @Setter
