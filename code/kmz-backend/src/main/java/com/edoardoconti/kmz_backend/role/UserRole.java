@@ -1,8 +1,9 @@
 package com.edoardoconti.kmz_backend.role;
 
-import com.edoardoconti.kmz_backend.content.Content;
-import com.edoardoconti.kmz_backend.user.User;
+import com.edoardoconti.kmz_backend.user.UserAction;
 
 public interface UserRole {
-    public boolean canVisualize(Content content, User user);
+     boolean can(UserAction action);
+     String getRoleName();
+     UserAction[] can();
 }

@@ -2,13 +2,22 @@ package com.edoardoconti.kmz_backend.user;
 
 import com.edoardoconti.kmz_backend.role.GenericUserRole;
 import com.edoardoconti.kmz_backend.role.UserRole;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
 
+
 public final class User {
+    @Getter
+    @Setter
+    private Long id;
+    @Getter
     private final String firstName;
+    @Getter
     private final String lastName;
+
     private Set<UserRole> roles = new HashSet<>();
 
     public User(String firstName, String lastName) {
@@ -22,15 +31,10 @@ public final class User {
         return true;
     }
 
-
-    // getters and setters
-    public String getLastName() {
-        return lastName;
+    public void addRole(UserRole role) {
+        roles.add(role);
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
 
 
 }

@@ -1,6 +1,5 @@
 package com.edoardoconti.kmz_backend.product;
 
-import com.edoardoconti.kmz_backend.product.Product;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
