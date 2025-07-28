@@ -31,12 +31,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<Void> signUp(@RequestBody UserSignUpRequestDTO request) {
-
-        List<UserRole> roles = Arrays.stream(request.userRoles())
-                .map(UserRoleType::create)
-                .toList();
-
-        this.service.signUp(request.user(), roles);
+        this.service.signUp(request.user(), Arrays.stream(request.userRoles()).toList());
         return ResponseEntity.status(201).build();
     }
 }
