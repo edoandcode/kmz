@@ -1,7 +1,5 @@
 package com.edoardoconti.kmz_backend.user;
 
-import com.edoardoconti.kmz_backend.role.GenericUserRole;
-import com.edoardoconti.kmz_backend.role.UserRole;
 import com.edoardoconti.kmz_backend.role.UserRoleType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,15 +10,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RealUserService implements UserService{
 
-    private final UserRegister userRegister;
+    private final UserRegisterService userRegisterService;
     private final UserRepository userRepository;
-    private Long nextId = 1L;
 
     @Override
     public void signUp(UserDTO user, List<UserRoleType> roles) {
-        User savedUser = this.createGenericUser(user);
-        this.requestRolePermission(savedUser, roles);
-        this.userRepository.save(savedUser);
+        User newUser = this.createGenericUser(user);
+        User userEntity =  this.userRepository.save(newUser);
+        this.requestRolePermission(userEntity.getId(), roles);
     }
 
     @Override
@@ -37,17 +34,16 @@ public class RealUserService implements UserService{
 
     private User createGenericUser(UserDTO user) {
         var genericUser = new User(
-                user.getFirstName(),
-                user.getLastName()
+                user.firstName(),
+                user.lastName()
         );
-        genericUser.setId(nextId++);
         genericUser.addRole(UserRoleType.GENERIC_USER);
         return genericUser;
     }
 
-    private void requestRolePermission(User user, List<UserRoleType> roles) {
+    private void requestRolePermission(Long userId, List<UserRoleType> roles) {
         for (UserRoleType role : roles) {
-            this.userRegister.addRequest(user, role.create());
+            this.userRegisterService.addRequest(userId, role);
         }
     }
 

@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface UserService {
     void signUp(UserDTO user, List<UserRoleType> roles);
-    List<User> getUsers();
     User getUser(Long id);
+    List<User> getUsers();
 }
