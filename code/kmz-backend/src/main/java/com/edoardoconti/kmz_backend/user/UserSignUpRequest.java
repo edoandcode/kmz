@@ -2,14 +2,19 @@ package com.edoardoconti.kmz_backend.user;
 
 import com.edoardoconti.kmz_backend.common.RequestStatus;
 import com.edoardoconti.kmz_backend.role.UserRoleType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@Table(name="signup_requests")
 public final class UserSignUpRequest {
 
     @Id
@@ -17,9 +22,14 @@ public final class UserSignUpRequest {
     private Long id;
 
     private Long userId;
+
+    @Enumerated(EnumType.STRING)
     private UserRoleType requestedRole;
+    @Enumerated(EnumType.STRING)
     private RequestStatus status;
-    private final Date requestedAt;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date requestedAt;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date processedAt;
 
     public UserSignUpRequest(Long userId, UserRoleType requestedRole) {
