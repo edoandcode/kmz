@@ -1,31 +1,27 @@
 package com.edoardoconti.kmz_backend.event;
 
 import com.edoardoconti.kmz_backend.content.Content;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class RealEventService implements EventService {
 
-    private EventRepository repository;
-
-    public RealEventService(EventRepository repository) {
-        this.repository = repository;
-    }
+    private final EventRepository repository;
 
     @Override
-    public void uploadEvent(Event event) {
-        this.repository.save(event);
-    }
+    public Event uploadEvent(Event event) { return this.repository.save(event); }
 
     @Override
     public List<Event> getEvents() {
-        return this.repository.getEvents();
+        return this.repository.findAll();
     }
 
     @Override
     public Event getEvent(Long id) {
-        return this.repository.getEvent(id);
+        return this.repository.findById(id).orElse(null);
     }
 }

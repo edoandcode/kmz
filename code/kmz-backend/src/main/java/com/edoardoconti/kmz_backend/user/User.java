@@ -1,8 +1,5 @@
 package com.edoardoconti.kmz_backend.user;
 
-import com.edoardoconti.kmz_backend.role.GenericUserRole;
-import com.edoardoconti.kmz_backend.role.UserRole;
-
 import com.edoardoconti.kmz_backend.role.UserRoleType;
 import jakarta.persistence.*;
 

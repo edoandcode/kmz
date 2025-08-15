@@ -1,30 +1,28 @@
 package com.edoardoconti.kmz_backend.product;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class RealProductService implements ProductService{
 
-    private ProductRepository repository;
-
-    public RealProductService(ProductRepository repository) {
-        this.repository = repository;
-    }
+    private final ProductRepository repository;
 
     @Override
-    public void uploadProduct(Product product) {
-        this.repository.save(product);
+    public Product uploadProduct(Product product) {
+        return this.repository.save(product);
     }
 
     @Override
     public List<Product> getProducts() {
-        return this.repository.getProducts();
+        return this.repository.findAll();
     }
 
     @Override
     public Product getProduct(Long id) {
-        return this.repository.getProduct(id);
+        return this.repository.findById(id).orElse(null);
     }
 }

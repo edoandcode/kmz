@@ -3,7 +3,6 @@ package com.edoardoconti.kmz_backend.user;
 import com.edoardoconti.kmz_backend.common.RequestStatus;
 import com.edoardoconti.kmz_backend.role.UserRoleType;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

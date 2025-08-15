@@ -1,13 +1,17 @@
 package com.edoardoconti.kmz_backend.product;
 
 import com.edoardoconti.kmz_backend.content.Content;
-import lombok.*;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Entity
+@Table(name="products")
+@Getter
+@Setter
 public class Product extends Content {
 
     private String name;
@@ -16,5 +20,6 @@ public class Product extends Content {
     private Date harvestDate;
 
     private String cultivationMethod;
-    private String[] certification;
+    @ElementCollection
+    private List<String> certification;
 }

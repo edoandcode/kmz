@@ -1,20 +1,21 @@
 package com.edoardoconti.kmz_backend.event;
 
 import com.edoardoconti.kmz_backend.content.Content;
-import com.edoardoconti.kmz_backend.user.User;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Entity
+@Table(name="events")
+@Getter
+@Setter
 public class Event extends Content {
     private String name;
     private String location;
     private Date date;
-    private User[] guests;
+    @ElementCollection
+    private List<Long> guestsIds;
 }
