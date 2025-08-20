@@ -1,5 +1,7 @@
 package com.edoardoconti.kmz_backend.process;
 
+import jakarta.validation.constraints.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,10 +19,17 @@ import java.util.List;
 public class ProcessContentDTO {
 
     private Long id; // inherited from Content (assuming Content has an ID field)
+
+    @NotNull(message = "Author ID cannot be null")
     private Long authorId;
 
+    @NotBlank(message = "Name is required")
+    @Size(max = 100, message = "Name must be at most 100 characters")
     private String name;
-    private String description;
-    private List<String> certifications;
 
+    @Size(max = 500, message = "Description must be at most 500 characters")
+    private String description;
+
+    @Size(max = 10, message = "You can provide at most 10 certifications")
+    private List<@NotBlank(message = "Certification name cannot be blank") String> certifications;
 }

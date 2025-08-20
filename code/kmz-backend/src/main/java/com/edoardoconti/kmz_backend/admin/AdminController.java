@@ -2,7 +2,7 @@ package com.edoardoconti.kmz_backend.admin;
 
 import com.edoardoconti.kmz_backend.common.RequestStatus;
 import com.edoardoconti.kmz_backend.user.UserRegisterService;
-import com.edoardoconti.kmz_backend.user.UserSignUpRequest;
+import com.edoardoconti.kmz_backend.user.UserRolesRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public class AdminController {
     }
 
     @GetMapping("/requests")
-    public List<UserSignUpRequest> getRequests(@RequestParam(value = "status", required = false) RequestStatus status) {
+    public List<UserRolesRequest> getRequests(@RequestParam(value = "status", required = false) RequestStatus status) {
         return this.userRegisterService.getRequests(status);
     }
 

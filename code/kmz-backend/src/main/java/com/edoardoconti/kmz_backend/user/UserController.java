@@ -1,11 +1,9 @@
 package com.edoardoconti.kmz_backend.user;
 
-import com.edoardoconti.kmz_backend.role.UserRole;
-import com.edoardoconti.kmz_backend.role.UserRoleType;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -20,18 +18,18 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getUsers() {
+    public ResponseEntity<List<UserDTO>> getUsers() {
         return ResponseEntity.ok(this.service.getUsers());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getProduct(@PathVariable Long id) {
+    public ResponseEntity<UserDTO> getUser(@PathVariable Long id) {
         return ResponseEntity.ok(this.service.getUser(id));
     }
 
     @PostMapping
-    public ResponseEntity<Void> signUp(@RequestBody UserSignUpRequestDTO request) {
-        this.service.signUp(request.user(), Arrays.stream(request.userRoles()).toList());
+    public ResponseEntity<Void> signUp(@RequestBody @Valid SignUpUserRequest request) {
+        this.service.signUp(request);
         return ResponseEntity.status(201).build();
     }
 }

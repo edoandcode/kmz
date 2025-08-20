@@ -1,7 +1,7 @@
 package com.edoardoconti.kmz_backend.curator;
 
 import com.edoardoconti.kmz_backend.role.UserRoleType;
-import com.edoardoconti.kmz_backend.user.User;
+import com.edoardoconti.kmz_backend.user.UserDTO;
 import com.edoardoconti.kmz_backend.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,13 +14,13 @@ public class CuratorService {
     private final UserService userService;
 
     public Long requestCurator() {
-         List<User> curators = userService.getUsers()
+         List<UserDTO> curators = userService.getUsers()
                  .stream()
                  .filter(user -> user.getRoles().contains(UserRoleType.CURATOR))
                  .toList();
 
          // TODO: some assignment logic
-         User assignedCurator = curators.get((int)Math.floor(Math.random() * curators.size()));
+         UserDTO assignedCurator = curators.get((int)Math.floor(Math.random() * curators.size()));
          return assignedCurator.getId();
     }
 }

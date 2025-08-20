@@ -15,7 +15,7 @@ public class UserRegisterService {
     private final UserRequestRepository userRequestRepository;
 
     public void addRequest(Long userId, UserRoleType requestedRole) {
-        userRequestRepository.save(new UserSignUpRequest(userId, requestedRole));
+        userRequestRepository.save(new UserRolesRequest(userId, requestedRole));
     }
 
     public void processRequest(Long requestId, RequestStatus status) {
@@ -26,7 +26,7 @@ public class UserRegisterService {
         userRequestRepository.save(request);
     }
 
-    public List<UserSignUpRequest> getRequests(RequestStatus status) {
+    public List<UserRolesRequest> getRequests(RequestStatus status) {
         if(status != null)
             return userRequestRepository.findByStatus(status);
         return userRequestRepository.findAll();

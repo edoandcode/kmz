@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UserRequestRepository extends JpaRepository<UserSignUpRequest, Long> {
-    List<UserSignUpRequest> findByStatus(RequestStatus status);
+public interface UserRequestRepository extends JpaRepository<UserRolesRequest, Long> {
+    List<UserRolesRequest> findByStatus(RequestStatus status);
 }

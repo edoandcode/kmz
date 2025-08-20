@@ -47,6 +47,4 @@ public final class User {
         roles.add(role);
     }
 
-
-
 }

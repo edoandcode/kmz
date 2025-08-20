@@ -1,5 +1,7 @@
 package com.edoardoconti.kmz_backend.event;
 
+import jakarta.validation.constraints.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,10 +20,22 @@ import java.util.List;
 public class EventContentDTO {
 
     private Long id; // inherited from Content (assuming Content has an ID field)
+
+    @NotNull(message = "Author ID cannot be null")
     private Long authorId;
 
+    @NotBlank(message = "Name is required")
+    @Size(max = 100, message = "Name must be at most 100 characters")
     private String name;
+
+    @NotBlank(message = "Location is required")
+    @Size(max = 200, message = "Location must be at most 200 characters")
     private String location;
+
+    @NotNull(message = "Date is required")
+    @FutureOrPresent(message = "Event date cannot be in the past")
     private Date date;
-    private List<Long> guestsIds;
+
+    @Size(max = 100, message = "You can provide at most 100 guest IDs")
+    private List<@NotNull(message = "Guest ID cannot be null") Long> guestsIds;
 }

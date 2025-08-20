@@ -8,6 +8,7 @@ import com.edoardoconti.kmz_backend.process.ProcessContentDTO;
 import com.edoardoconti.kmz_backend.process.ProcessService;
 import com.edoardoconti.kmz_backend.product.ProductContentDTO;
 import com.edoardoconti.kmz_backend.product.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class ContentController {
    }
 
    @PostMapping("/products")
-    public ResponseEntity<ProductContentDTO> uploadProduct(@RequestBody ProductContentDTO productContentDto) {
+    public ResponseEntity<ProductContentDTO> uploadProduct(@RequestBody @Valid ProductContentDTO productContentDto) {
         var savedProduct = this.productService.uploadProduct(productContentDto);
         contentRequestService.addRequest(savedProduct.getAuthorId(), savedProduct.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(savedProduct);
@@ -53,7 +54,7 @@ public class ContentController {
     }
 
     @PostMapping("/processes")
-    public ResponseEntity<ProcessContentDTO> uploadProcess(@RequestBody ProcessContentDTO processContentDto) {
+    public ResponseEntity<ProcessContentDTO> uploadProcess(@RequestBody @Valid ProcessContentDTO processContentDto) {
         var savedProcess = this.processService.uploadProcess(processContentDto);
         contentRequestService.addRequest(savedProcess.getAuthorId(), savedProcess.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(savedProcess);
@@ -71,7 +72,7 @@ public class ContentController {
     }
 
     @PostMapping("/events")
-    public ResponseEntity<EventContentDTO> uploadEvent(@RequestBody EventContentDTO eventContentDto) {
+    public ResponseEntity<EventContentDTO> uploadEvent(@RequestBody @Valid EventContentDTO eventContentDto) {
         var savedEvent = this.eventService.uploadEvent(eventContentDto);
         contentRequestService.addRequest(savedEvent.getAuthorId(), savedEvent.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(savedEvent);
