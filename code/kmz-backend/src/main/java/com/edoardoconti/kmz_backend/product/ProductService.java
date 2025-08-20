@@ -3,7 +3,7 @@ package com.edoardoconti.kmz_backend.product;
 import java.util.List;
 
 public interface ProductService {
-    Product uploadProduct(Product product);
-    List<Product> getProducts();
-    Product getProduct(Long id);
+    ProductContentDTO uploadProduct(ProductContentDTO productContentDto);
+    List<ProductContentDTO> getProducts();
+    ProductContentDTO getProduct(Long id);
 }

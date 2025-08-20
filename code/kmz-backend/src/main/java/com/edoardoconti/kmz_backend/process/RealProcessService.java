@@ -10,19 +10,28 @@ import java.util.List;
 public class RealProcessService implements ProcessService{
 
     private final ProcessRepository repository;
+    private final ProcessContentMapper processContentMapper;
 
     @Override
-    public Process uploadProcess(Process process) {
-        return this.repository.save(process);
+    public ProcessContentDTO uploadProcess(ProcessContentDTO processContentDto) {
+
+        var process = this.processContentMapper.toEntity(processContentDto);
+        this.repository.save(process);
+        processContentDto.setId(process.getId());
+        return processContentDto;
     }
 
     @Override
-    public List<Process> getProcesses() {
-        return this.repository.findAll();
+    public List<ProcessContentDTO> getProcesses() {
+        return this.repository.findAll()
+                .stream()
+                .map(this.processContentMapper::toDto)
+                .toList();
     }
 
     @Override
-    public Process getProcess(Long id) {
-        return this.repository.findById(id).orElse(null);
+    public ProcessContentDTO getProcess(Long id) {
+        var process = this.repository.findById(id).orElse(null);
+        return this.processContentMapper.toDto(process);
     }
 }

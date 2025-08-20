@@ -1,6 +1,5 @@
 package com.edoardoconti.kmz_backend.event;
 
-import com.edoardoconti.kmz_backend.content.Content;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,17 +10,27 @@ import java.util.List;
 public class RealEventService implements EventService {
 
     private final EventRepository repository;
+    private final EventContentMapper eventContentMapper;
 
     @Override
-    public Event uploadEvent(Event event) { return this.repository.save(event); }
-
-    @Override
-    public List<Event> getEvents() {
-        return this.repository.findAll();
+    public EventContentDTO uploadEvent(EventContentDTO eventContentDto) {
+        var event = this.eventContentMapper.toEntity(eventContentDto);
+        this.repository.save(event);
+        eventContentDto.setId(event.getId());
+        return eventContentDto;
     }
 
     @Override
-    public Event getEvent(Long id) {
-        return this.repository.findById(id).orElse(null);
+    public List<EventContentDTO> getEvents() {
+        return this.repository.findAll()
+                .stream()
+                .map(this.eventContentMapper::toDto)
+                .toList();
+    }
+
+    @Override
+    public EventContentDTO getEvent(Long id) {
+        var event =  this.repository.findById(id).orElse(null);
+        return this.eventContentMapper.toDto(event);
     }
 }
