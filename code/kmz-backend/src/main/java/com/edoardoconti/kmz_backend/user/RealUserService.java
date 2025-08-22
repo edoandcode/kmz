@@ -5,21 +5,22 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class RealUserService implements UserService{
 
-    private final UserRegisterService userRegisterService;
+    private final UserRequestService userRequestService;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
     @Override
-    public void signUp(SignUpUserRequest request) {
-        User newUser = this.userMapper.toEntity(request.getUser());
-        newUser.addRole(UserRoleType.GENERIC_USER);
+    public void signUp(UserDTO user) {
+        User newUser = this.userMapper.toGenericUserEntity(user);
         this.userRepository.save(newUser);
-        this.requestRolePermission(newUser.getId(), request.getRoles());
+        System.out.println("User roles " + user.getRoles());
+        this.userRequestService.addSignUpRequest(newUser.getId(), user.getRoles());
     }
 
     @Override
@@ -35,13 +36,4 @@ public class RealUserService implements UserService{
         var user = this.userRepository.findById(id).orElse(null);
         return this.userMapper.toDto(user);
     }
-
-    // private methods
-
-    private void requestRolePermission(Long userId, List<UserRoleType> roles) {
-        for (UserRoleType role : roles) {
-            this.userRegisterService.addRequest(userId, role);
-        }
-    }
-
 }

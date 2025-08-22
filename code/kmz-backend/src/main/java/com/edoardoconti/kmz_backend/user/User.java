@@ -43,7 +43,6 @@ public final class User {
     }
 
     public void addRole(UserRoleType role) {
-        System.out.println("role " + role);
         roles.add(role);
     }
 

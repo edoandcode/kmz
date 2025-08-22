@@ -1,8 +1,8 @@
 package com.edoardoconti.kmz_backend.admin;
 
 import com.edoardoconti.kmz_backend.common.RequestStatus;
-import com.edoardoconti.kmz_backend.user.UserRegisterService;
-import com.edoardoconti.kmz_backend.user.UserRolesRequest;
+import com.edoardoconti.kmz_backend.user.UserRequestService;
+import com.edoardoconti.kmz_backend.user.UserSignUpRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,27 +11,27 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private final UserRegisterService userRegisterService;
+    private final UserRequestService userRequestService;
 
-    public AdminController(UserRegisterService userRegisterService) {
-        this.userRegisterService = userRegisterService;
+    public AdminController(UserRequestService userRequestService) {
+        this.userRequestService = userRequestService;
     }
 
     @GetMapping("/requests")
-    public List<UserRolesRequest> getRequests(@RequestParam(value = "status", required = false) RequestStatus status) {
-        return this.userRegisterService.getRequests(status);
+    public List<UserSignUpRequest> getRequests(
+            @RequestParam(value = "status", required = false) RequestStatus status,
+            @RequestParam(value = "userId", required = false) Long userId
+    ) {
+        return this.userRequestService.getRequests(status, userId);
     }
 
     @PostMapping("/approve/{requestId}")
     public void approveRequest(@PathVariable Long requestId) {
-        this.userRegisterService.processRequest(requestId, RequestStatus.APPROVED);
+        this.userRequestService.approveRequest(requestId);
     }
 
     @PostMapping("/reject/{requestId}")
     public void rejectRequest(@PathVariable Long requestId) {
-        this.userRegisterService.processRequest(requestId, RequestStatus.REJECTED);
+        this.userRequestService.rejectRequest(requestId);
     }
-
-
-
 }

@@ -28,8 +28,8 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> signUp(@RequestBody @Valid SignUpUserRequest request) {
-        this.service.signUp(request);
+    public ResponseEntity<Void> signUp(@RequestBody @Valid UserDTO user) {
+        this.service.signUp(user);
         return ResponseEntity.status(201).build();
     }
 }
