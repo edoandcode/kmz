@@ -8,6 +8,7 @@ import com.edoardoconti.kmz_backend.process.ProcessContentDTO;
 import com.edoardoconti.kmz_backend.process.ProcessService;
 import com.edoardoconti.kmz_backend.product.ProductContentDTO;
 import com.edoardoconti.kmz_backend.product.ProductService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name="Contents")
 public class ContentController {
 
     private final ProductService productService;

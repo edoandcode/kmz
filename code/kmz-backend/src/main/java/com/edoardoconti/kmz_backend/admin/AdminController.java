@@ -3,12 +3,14 @@ package com.edoardoconti.kmz_backend.admin;
 import com.edoardoconti.kmz_backend.common.RequestStatus;
 import com.edoardoconti.kmz_backend.user.UserRequestService;
 import com.edoardoconti.kmz_backend.user.UserSignUpRequest;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
+@Tag(name="Admin")
 public class AdminController {
 
     private final UserRequestService userRequestService;

@@ -5,14 +5,12 @@ import com.edoardoconti.kmz_backend.role.UserRoleType;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name="signup_requests")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
