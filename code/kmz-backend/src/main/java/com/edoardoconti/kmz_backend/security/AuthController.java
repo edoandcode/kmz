@@ -16,12 +16,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@Valid @RequestBody UserLoginDto userLoginDto) {
+    public ResponseEntity<JwtResponseDto> login(@Valid @RequestBody UserLoginDto userLoginDto) {
        this.authenticationManager.authenticate(
                new UsernamePasswordAuthenticationToken(
                        userLoginDto.getEmail(),
@@ -29,7 +28,9 @@ public class AuthController {
                )
        );
 
-       return ResponseEntity.ok().build();
+       var token = jwtService.generateToken(userLoginDto.getEmail());
+
+       return ResponseEntity.ok(new JwtResponseDto(token));
     }
 
     @ExceptionHandler(BadCredentialsException.class)
