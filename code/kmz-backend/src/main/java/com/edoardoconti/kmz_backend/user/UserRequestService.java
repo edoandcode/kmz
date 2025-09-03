@@ -7,9 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Stream;
 
 
 @Service
@@ -19,7 +17,7 @@ public class UserRequestService {
 
     public void addSignUpRequest(Long userId, Set<UserRoleType> requestedRoles) {
         for(var role : requestedRoles)
-            userRequestRepository.save(new UserSignUpRequest(userId, role));
+            userRequestRepository.save(new UserRegisterRequest(userId, role));
     }
 
     public void approveRequest(Long requestId) {
@@ -35,14 +33,14 @@ public class UserRequestService {
     }
 
 
-    public UserSignUpRequest getRequest(Long requestId) {
+    public UserRegisterRequest getRequest(Long requestId) {
         var request = userRequestRepository.findById(requestId).orElse(null);
         if(request == null)
             throw new NoSuchElementException("Request with id " + requestId + " was not found.");
         return request;
     }
 
-    public List<UserSignUpRequest> getRequests(RequestStatus status, Long userId) {
+    public List<UserRegisterRequest> getRequests(RequestStatus status, Long userId) {
         return userRequestRepository.findAll().stream()
                 .filter(r -> status == null || r.getStatus().equals(status))
                 .filter(r -> userId == null || r.getUserId().equals(userId))

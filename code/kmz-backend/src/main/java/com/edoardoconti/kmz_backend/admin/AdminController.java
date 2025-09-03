@@ -2,7 +2,7 @@ package com.edoardoconti.kmz_backend.admin;
 
 import com.edoardoconti.kmz_backend.common.RequestStatus;
 import com.edoardoconti.kmz_backend.user.UserRequestService;
-import com.edoardoconti.kmz_backend.user.UserSignUpRequest;
+import com.edoardoconti.kmz_backend.user.UserRegisterRequest;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +20,7 @@ public class AdminController {
     }
 
     @GetMapping("/requests")
-    public List<UserSignUpRequest> getRequests(
+    public List<UserRegisterRequest> getRequests(
             @RequestParam(value = "status", required = false) RequestStatus status,
             @RequestParam(value = "userId", required = false) Long userId
     ) {

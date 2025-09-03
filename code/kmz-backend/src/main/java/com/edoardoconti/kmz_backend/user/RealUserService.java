@@ -1,11 +1,10 @@
 package com.edoardoconti.kmz_backend.user;
 
-import com.edoardoconti.kmz_backend.role.UserRoleType;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -14,17 +13,20 @@ public class RealUserService implements UserService{
     private final UserRequestService userRequestService;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
+
 
     @Override
-    public void signUp(UserDTO user) {
-        User newUser = this.userMapper.toGenericUserEntity(user);
+    public void registerUser(UserRegisterDto userRegisterDto) {
+        User newUser = this.userMapper.toGenericUserEntity(userRegisterDto);
+        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+
         this.userRepository.save(newUser);
-        System.out.println("User roles " + user.getRoles());
-        this.userRequestService.addSignUpRequest(newUser.getId(), user.getRoles());
+        this.userRequestService.addSignUpRequest(newUser.getId(), newUser.getRoles());
     }
 
     @Override
-    public List<UserDTO> getUsers() {
+    public List<UserDto> getUsers() {
         return this.userRepository.findAll()
                 .stream()
                 .map(this.userMapper::toDto)
@@ -32,7 +34,7 @@ public class RealUserService implements UserService{
     }
 
     @Override
-    public UserDTO getUser(Long id) {
+    public UserDto getUser(Long id) {
         var user = this.userRepository.findById(id).orElse(null);
         return this.userMapper.toDto(user);
     }
