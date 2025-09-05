@@ -1,23 +1,25 @@
 package com.edoardoconti.kmz_backend.admin;
 
 import com.edoardoconti.kmz_backend.common.RequestStatus;
-import com.edoardoconti.kmz_backend.user.UserRequestService;
-import com.edoardoconti.kmz_backend.user.UserSignUpRequest;
+import com.edoardoconti.kmz_backend.role.UserRoleType;
+import com.edoardoconti.kmz_backend.user.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/admin")
 @Tag(name="Admin")
 public class AdminController {
 
     private final UserRequestService userRequestService;
-
-    public AdminController(UserRequestService userRequestService) {
-        this.userRequestService = userRequestService;
-    }
+    private final UserService userService;
 
     @GetMapping("/requests")
     public List<UserSignUpRequest> getRequests(
@@ -35,5 +37,11 @@ public class AdminController {
     @PostMapping("/reject/{requestId}")
     public void rejectRequest(@PathVariable Long requestId) {
         this.userRequestService.rejectRequest(requestId);
+    }
+    
+    @PostMapping("setup")
+    public ResponseEntity<UserDTO> registerAdmin(@Valid @RequestBody UserDTO userDto) {
+        this.userService.registerAdmin(userDto);
+        return ResponseEntity.ok(userDto);
     }
 }
