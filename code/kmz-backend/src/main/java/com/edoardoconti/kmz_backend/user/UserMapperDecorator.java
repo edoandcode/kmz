@@ -25,6 +25,11 @@ public class UserMapperDecorator implements UserMapper {
     }
 
     @Override
+    public User toEntity(UserRegisterDto userRegisterDto) {
+        return this.delegate.toEntity(userRegisterDto);
+    }
+
+    @Override
     public User toGenericUserEntity(UserRegisterDto userRegisterDto) {
         var newUser = new User();
         newUser.setFirstName(userRegisterDto.getFirstName());

@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.FORBIDDEN)
 public class NoAdminFoundException extends RuntimeException {
     public NoAdminFoundException() {
-        super("No administrator configured. Please POST to /setup/admin");
+        super("No administrator configured. Please POST to /admin/setup");
     }
 }

@@ -1,10 +1,7 @@
 package com.edoardoconti.kmz_backend.admin;
 
 import com.edoardoconti.kmz_backend.common.RequestStatus;
-import com.edoardoconti.kmz_backend.user.UserDto;
-import com.edoardoconti.kmz_backend.user.UserRequestService;
-import com.edoardoconti.kmz_backend.user.UserRegisterRequest;
-import com.edoardoconti.kmz_backend.user.UserService;
+import com.edoardoconti.kmz_backend.user.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -41,8 +38,8 @@ public class AdminController {
     }
 
     @PostMapping("setup")
-    public ResponseEntity<UserDto> registerAdmin(@Valid @RequestBody UserDto userDto) {
-        this.userService.registerAdmin(userDto);
-        return ResponseEntity.ok(userDto);
+    public ResponseEntity<UserDto> registerAdmin(@RequestBody @Valid UserRegisterDto userRegisterDto) {
+        this.userService.registerAdmin(userRegisterDto);
+        return ResponseEntity.status(201).build();
     }
 }

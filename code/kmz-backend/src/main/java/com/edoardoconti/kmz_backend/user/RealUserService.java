@@ -19,10 +19,11 @@ public class RealUserService implements UserService{
 
 
     @Override
-    public void registerAdmin(UserDto userDto) {
-        var user = this.userMapper.toEntity(userDto);
-        user.addRole(UserRoleType.ADMINISTRATOR);
-        this.userRepository.save(user);
+    public void registerAdmin(UserRegisterDto userRegisterDto) {
+        var newUser = this.userMapper.toEntity(userRegisterDto);
+        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+        newUser.addRole(UserRoleType.ADMINISTRATOR);
+        this.userRepository.save(newUser);
     }
 
     @Override
