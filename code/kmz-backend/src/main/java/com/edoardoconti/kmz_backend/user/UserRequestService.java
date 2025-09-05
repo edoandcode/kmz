@@ -14,22 +14,27 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class UserRequestService {
     private final UserRequestRepository userRequestRepository;
+    private final UserRepository userRepository;
 
     public void addSignUpRequest(Long userId, Set<UserRoleType> requestedRoles) {
         for(var role : requestedRoles)
-            userRequestRepository.save(new UserRegisterRequest(userId, role));
+            if(!role.equals(UserRoleType.GENERIC_USER))
+                this.userRequestRepository.save(new UserRegisterRequest(userId, role));
     }
 
     public void approveRequest(Long requestId) {
         var request = this.getRequest(requestId);
         request.approve();
-        userRequestRepository.save(request);
+        this.userRequestRepository.save(request);
+        var user = this.userRepository.findById(request.getUserId()).orElseThrow();
+        user.addRole(request.getRequestedRole());
+        this.userRepository.save(user);
     }
 
     public void rejectRequest(Long requestId) {
         var request = this.getRequest(requestId);
         request.reject();
-        userRequestRepository.save(request);
+        this.userRequestRepository.save(request);
     }
 
 

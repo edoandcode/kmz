@@ -22,7 +22,7 @@ public class RealUserService implements UserService{
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
 
         this.userRepository.save(newUser);
-        this.userRequestService.addSignUpRequest(newUser.getId(), newUser.getRoles());
+        this.userRequestService.addSignUpRequest(newUser.getId(), userRegisterDto.getRoles());
     }
 
     @Override
