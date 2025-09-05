@@ -6,4 +6,5 @@ public interface UserService {
     void registerUser(UserRegisterDto userRegisterDto);
     UserDto getUser(Long id);
     List<UserDto> getUsers();
+    void registerAdmin(UserDto user);
 }

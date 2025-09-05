@@ -1,5 +1,6 @@
 package com.edoardoconti.kmz_backend.user;
 
+import com.edoardoconti.kmz_backend.role.UserRoleType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,14 @@ public class RealUserService implements UserService{
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
+
+
+    @Override
+    public void registerAdmin(UserDto userDto) {
+        var user = this.userMapper.toEntity(userDto);
+        user.addRole(UserRoleType.ADMINISTRATOR);
+        this.userRepository.save(user);
+    }
 
     @Override
     public void registerUser(UserRegisterDto userRegisterDto) {

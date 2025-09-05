@@ -32,9 +32,9 @@ build/
 ### VS Code ###
 .vscode/
 
-### Env Variables
+### ENV VARIALBLES ###
 .env
+.env.dev
 .env.prod
 .env.development
 .env.production
-
