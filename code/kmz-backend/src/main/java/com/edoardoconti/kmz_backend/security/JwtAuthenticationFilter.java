@@ -6,12 +6,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Component
@@ -46,15 +48,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
+
+        var userId = this.jwtService.getUserIdFromToken(token);
+        var grantedAuthorities = this.jwtService.getRolesFromToken(token).stream()
+                .map(r -> new SimpleGrantedAuthority("ROLE_" + r.name()))
+                .toList();
+
         /**
          * If the token is valid:
          * - Create an Authentication object with user identity (userId from token)
          * - Authorities/roles are set to null here (could be extracted from token)
          */
         var authentication = new UsernamePasswordAuthenticationToken(
-                this.jwtService.getUserIdFromToken(token), // principal (user identity)
+                userId, // principal (user identity)
                 null,                                     // no credentials (JWT already validated)
-                null                                      // no authorities (can be extended)
+                grantedAuthorities                        // no authorities (can be extended)
         );
 
         // Attach request details (IP, session ID, etc.)

@@ -75,12 +75,24 @@ public class SecurityConfig {
 
                 // Authorization rules for endpoints
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/admin/**").permitAll(); // restrict /admin endpoint to only user with ADMINISTRATOR role
-                    auth.requestMatchers(HttpMethod.POST, "/users").permitAll();       // allow user registration
-                    auth.requestMatchers(HttpMethod.POST, "/auth/login").permitAll(); // allow login
-                    auth.requestMatchers(HttpMethod.POST, "/auth/refresh").permitAll(); // allow refresh jwt token
-                    auth.requestMatchers("/h2-console", "/h2-console/**").permitAll();// allow H2 console
-                    auth.anyRequest().authenticated(); // all other endpoints require authentication
+                    // allow specific setup route first
+                    auth.requestMatchers(HttpMethod.POST, "/admin/setup").permitAll();
+
+                    // then restrict all other /admin/** routes
+                    auth.requestMatchers("/admin/**").hasRole(UserRoleType.ADMINISTRATOR.name());
+
+                    // allow user registration
+                    auth.requestMatchers(HttpMethod.POST, "/users").permitAll();
+
+                    // allow login & refresh
+                    auth.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
+                    auth.requestMatchers(HttpMethod.POST, "/auth/refresh").permitAll();
+
+                    // allow H2 console
+                    auth.requestMatchers("/h2-console", "/h2-console/**").permitAll();
+
+                    // everything else requires authentication
+                    auth.anyRequest().authenticated();
                 })
 
                 // Insert JWT filter before Spring's default username/password filter

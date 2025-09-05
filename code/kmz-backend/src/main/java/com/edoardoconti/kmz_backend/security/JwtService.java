@@ -1,5 +1,6 @@
 package com.edoardoconti.kmz_backend.security;
 
+import com.edoardoconti.kmz_backend.role.UserRoleType;
 import com.edoardoconti.kmz_backend.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -8,7 +9,8 @@ import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -36,6 +38,13 @@ public class JwtService {
 
     public Long getUserIdFromToken(String token) {
         return Long.valueOf(this.getClaims(token).getSubject());
+    }
+
+    public Set<UserRoleType> getRolesFromToken(String token) {
+        List<String> roles = this.getClaims(token).get("roles", List.class);
+        return roles.stream()
+                .map(UserRoleType::valueOf) 
+                .collect(Collectors.toSet());
     }
 
 
