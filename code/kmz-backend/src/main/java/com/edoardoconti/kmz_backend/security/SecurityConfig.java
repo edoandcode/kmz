@@ -1,10 +1,15 @@
 package com.edoardoconti.kmz_backend.security;
 
+import com.edoardoconti.kmz_backend.role.UserRoleType;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -70,6 +75,7 @@ public class SecurityConfig {
 
                 // Authorization rules for endpoints
                 .authorizeHttpRequests(auth -> {
+                    auth.requestMatchers("/admin/**").permitAll(); // restrict /admin endpoint to only user with ADMINISTRATOR role
                     auth.requestMatchers(HttpMethod.POST, "/users").permitAll();       // allow user registration
                     auth.requestMatchers(HttpMethod.POST, "/auth/login").permitAll(); // allow login
                     auth.requestMatchers(HttpMethod.POST, "/auth/refresh").permitAll(); // allow refresh jwt token
@@ -80,11 +86,17 @@ public class SecurityConfig {
                 // Insert JWT filter before Spring's default username/password filter
                 // This ensures token validation happens early in the filter chain
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling(c -> c
-                        .authenticationEntryPoint(
-                                new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)
-                        )
-                );
+                // Return UNAUTHORIZED status by default if the client try to access a protected endpoint
+                .exceptionHandling(c -> {
+                    c.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
+                    c.accessDeniedHandler((
+                            HttpServletRequest httpServletRequest,
+                            HttpServletResponse httpServletResponse,
+                            AccessDeniedException accessDeniedException
+                        ) -> {
+                        httpServletResponse.setStatus(HttpStatus.FORBIDDEN.value());
+                    });
+                });
 
         // Return the built SecurityFilterChain
         return http.build();
