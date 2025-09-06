@@ -1,16 +1,13 @@
 package com.edoardoconti.kmz_backend.security;
 
-import com.edoardoconti.kmz_backend.role.UserRoleType;
 import com.edoardoconti.kmz_backend.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -18,58 +15,46 @@ public class JwtService {
 
     private final JwtConfig jwtConfig;
 
-    public String generateAccessToken(User user) {
+    public Jwt generateAccessToken(User user) {
         return generateToken(user, this.jwtConfig.getAccessTokenExpiration());
     }
 
-    public String generateRefreshToken(User user) {
+    public Jwt generateRefreshToken(User user) {
         return generateToken(user, this.jwtConfig.getRefreshTokenExpiration());
     }
 
-
-    public boolean validateToken(String token) {
+    public Jwt parseToken(String token) {
         try {
             var claims = this.getClaims(token);
-            return claims.getExpiration().after(new Date());
-        }catch(JwtException ex) {
-            return false;
+            return new Jwt(claims, this.jwtConfig.getSecretKey());
+        } catch(JwtException ex) {
+            return null;
         }
-    }
-
-    public Long getUserIdFromToken(String token) {
-        return Long.valueOf(this.getClaims(token).getSubject());
-    }
-
-    public Set<UserRoleType> getRolesFromToken(String token) {
-        List<String> roles = this.getClaims(token).get("roles", List.class);
-        return roles.stream()
-                .map(UserRoleType::valueOf) 
-                .collect(Collectors.toSet());
     }
 
 
     // private methods
 
+    private Jwt generateToken(User user, long tokenExpiration) {
+        var claims = Jwts.claims()
+                .subject(user.getId().toString())
+                .add("fullName", user.getFirstName() + " " + user.getLastName())
+                .add("email", user.getEmail())
+                .add("roles", user.getRoles())
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + 1000 * tokenExpiration))
+                .build();
+
+        return new Jwt(claims, this.jwtConfig.getSecretKey());
+    }
+
     private Claims getClaims(String token) {
         // claims are properties we know about the jwt token, appearing as key/value pairs
         return Jwts.parser()
-                .verifyWith(Keys.hmacShaKeyFor(this.jwtConfig.getSecret().getBytes()))
+                .verifyWith(this.jwtConfig.getSecretKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
-    }
-
-
-    private String generateToken(User user, long tokenExpiration) {
-        return Jwts.builder()
-                .subject(user.getId().toString())
-                .claim("fullName", user.getFirstName() + " " + user.getLastName())
-                .claim("email", user.getEmail())
-                .claim("roles", user.getRoles())
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 1000 * tokenExpiration))
-                .signWith(Keys.hmacShaKeyFor(this.jwtConfig.getSecret().getBytes()))
-                .compact();
     }
 
 

@@ -41,16 +41,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // Extract token from header (remove "Bearer " prefix)
         var token = authHeader.replace("Bearer ", "");
+        var jwt = this.jwtService.parseToken(token);
 
         // Validate token: if invalid, skip and continue filter chain
-        if(!this.jwtService.validateToken(token)){
+        if(jwt == null || !jwt.isValid()){
             filterChain.doFilter(request, response);
             return;
         }
 
 
-        var userId = this.jwtService.getUserIdFromToken(token);
-        var grantedAuthorities = this.jwtService.getRolesFromToken(token).stream()
+        var userId = jwt.getUserId();
+        var grantedAuthorities = jwt.getRoles().stream()
                 .map(r -> new SimpleGrantedAuthority("ROLE_" + r.name()))
                 .toList();
 
