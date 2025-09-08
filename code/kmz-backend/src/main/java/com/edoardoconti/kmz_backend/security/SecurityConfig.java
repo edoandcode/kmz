@@ -96,6 +96,13 @@ public class SecurityConfig {
                     // H2 console for development
                     auth.requestMatchers("/h2-console", "/h2-console/**").permitAll();
 
+                    // Permits Swagger UI
+                    auth.requestMatchers( "/v3/api-docs/**",
+                            "/swagger-ui/**",
+                            "/swagger-ui.html",
+                            "/swagger-ui/index.html"
+                    ).permitAll();
+
                     // --------- CONTENT ENDPOINTS ---------
                     // Products
                     // - GET /products and /products/{id} accessible by all authenticated users
