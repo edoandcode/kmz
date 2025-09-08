@@ -16,7 +16,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProcessContentDTO {
+public class ProcessContentDto {
 
     private Long id; // inherited from Content (assuming Content has an ID field)
 

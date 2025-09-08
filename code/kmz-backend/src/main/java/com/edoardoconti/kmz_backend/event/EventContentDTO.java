@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EventContentDTO {
+public class EventContentDto {
 
     private Long id; // inherited from Content (assuming Content has an ID field)
 

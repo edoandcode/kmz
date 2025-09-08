@@ -13,7 +13,7 @@ public class RealProductService implements ProductService{
     private final ProductContentMapper productContentMapper;
 
     @Override
-    public ProductContentDTO uploadProduct(ProductContentDTO productContentDto) {
+    public ProductContentDto uploadProduct(ProductContentDto productContentDto) {
         var product = this.productContentMapper.toEntity(productContentDto);
         productContentDto.setId(product.getId());
         this.repository.save(product);
@@ -21,7 +21,7 @@ public class RealProductService implements ProductService{
     }
 
     @Override
-    public List<ProductContentDTO> getProducts() {
+    public List<ProductContentDto> getProducts() {
         return this.repository.findAll()
                 .stream()
                 .map(this.productContentMapper::toDto)
@@ -29,7 +29,7 @@ public class RealProductService implements ProductService{
     }
 
     @Override
-    public ProductContentDTO getProduct(Long id) {
+    public ProductContentDto getProduct(Long id) {
         var product = this.repository.findById(id).orElse(null);
         return this.productContentMapper.toDto(product);
     }

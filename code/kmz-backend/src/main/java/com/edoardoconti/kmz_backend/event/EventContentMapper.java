@@ -4,6 +4,6 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface EventContentMapper {
-    EventContentDTO toDto(EventContent event);
-    EventContent toEntity(EventContentDTO dto);
+    EventContentDto toDto(EventContent event);
+    EventContent toEntity(EventContentDto dto);
 }

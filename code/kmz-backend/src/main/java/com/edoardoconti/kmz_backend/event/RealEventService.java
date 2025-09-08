@@ -13,7 +13,7 @@ public class RealEventService implements EventService {
     private final EventContentMapper eventContentMapper;
 
     @Override
-    public EventContentDTO uploadEvent(EventContentDTO eventContentDto) {
+    public EventContentDto uploadEvent(EventContentDto eventContentDto) {
         var event = this.eventContentMapper.toEntity(eventContentDto);
         this.repository.save(event);
         eventContentDto.setId(event.getId());
@@ -21,7 +21,7 @@ public class RealEventService implements EventService {
     }
 
     @Override
-    public List<EventContentDTO> getEvents() {
+    public List<EventContentDto> getEvents() {
         return this.repository.findAll()
                 .stream()
                 .map(this.eventContentMapper::toDto)
@@ -29,7 +29,7 @@ public class RealEventService implements EventService {
     }
 
     @Override
-    public EventContentDTO getEvent(Long id) {
+    public EventContentDto getEvent(Long id) {
         var event =  this.repository.findById(id).orElse(null);
         return this.eventContentMapper.toDto(event);
     }

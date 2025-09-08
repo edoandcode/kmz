@@ -13,7 +13,7 @@ public class RealProcessService implements ProcessService{
     private final ProcessContentMapper processContentMapper;
 
     @Override
-    public ProcessContentDTO uploadProcess(ProcessContentDTO processContentDto) {
+    public ProcessContentDto uploadProcess(ProcessContentDto processContentDto) {
 
         var process = this.processContentMapper.toEntity(processContentDto);
         this.repository.save(process);
@@ -22,7 +22,7 @@ public class RealProcessService implements ProcessService{
     }
 
     @Override
-    public List<ProcessContentDTO> getProcesses() {
+    public List<ProcessContentDto> getProcesses() {
         return this.repository.findAll()
                 .stream()
                 .map(this.processContentMapper::toDto)
@@ -30,7 +30,7 @@ public class RealProcessService implements ProcessService{
     }
 
     @Override
-    public ProcessContentDTO getProcess(Long id) {
+    public ProcessContentDto getProcess(Long id) {
         var process = this.repository.findById(id).orElse(null);
         return this.processContentMapper.toDto(process);
     }

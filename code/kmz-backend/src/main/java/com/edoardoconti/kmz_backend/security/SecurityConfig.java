@@ -75,23 +75,53 @@ public class SecurityConfig {
 
                 // Authorization rules for endpoints
                 .authorizeHttpRequests(auth -> {
-                    // allow specific setup route first
+                    // Allow setup route for first admin creation
                     auth.requestMatchers(HttpMethod.POST, "/admin/setup").permitAll();
 
-                    // then restrict all other /admin/** routes
-                    auth.requestMatchers("/admin/**").hasRole(UserRoleType.ADMINISTRATOR.name());
+                    // Restrict all /admin/** routes to administrators only
+                    auth.requestMatchers("/admin/**")
+                            .hasRole(UserRoleType.ADMINISTRATOR.name());
 
-                    // allow user registration
+                    // User registration is open
                     auth.requestMatchers(HttpMethod.POST, "/users").permitAll();
 
-                    // allow login & refresh
+                    // GET /users/** : only ADMINISTRATOR can visualize registered users
+                    auth.requestMatchers(HttpMethod.GET, "/users/**")
+                            .hasRole(UserRoleType.ADMINISTRATOR.name());
+
+                    // Login & refresh endpoints are public
                     auth.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
                     auth.requestMatchers(HttpMethod.POST, "/auth/refresh").permitAll();
 
-                    // allow H2 console
+                    // H2 console for development
                     auth.requestMatchers("/h2-console", "/h2-console/**").permitAll();
 
-                    // everything else requires authentication
+                    // --------- CONTENT ENDPOINTS ---------
+                    // Products
+                    // - GET /products and /products/{id} accessible by all authenticated users
+                    auth.requestMatchers(HttpMethod.GET, "/products/**")
+                            .hasRole(UserRoleType.GENERIC_USER.name());
+                    // - POST /products: only PRODUCER can upload products
+                    auth.requestMatchers(HttpMethod.POST, "/products")
+                            .hasRole(UserRoleType.PRODUCER.name());
+
+                    // Processes
+                    // - GET /processes/** accessible by all authenticated users
+                    auth.requestMatchers(HttpMethod.GET, "/processes/**")
+                            .hasRole(UserRoleType.GENERIC_USER.name());
+                    // - POST /processes: only PROCESSOR
+                    auth.requestMatchers(HttpMethod.POST, "/processes")
+                            .hasRole(UserRoleType.PROCESSOR.name());
+
+                    // Events
+                    // - GET /events/** accessible by all authenticated users
+                    auth.requestMatchers(HttpMethod.GET, "/events/**")
+                            .hasRole(UserRoleType.GENERIC_USER.name());
+                    // - POST /events: only FACILITATOR can upload events
+                    auth.requestMatchers(HttpMethod.POST, "/events")
+                            .hasRole(UserRoleType.FACILITATOR.name());
+
+                    // All other requests require authentication by default
                     auth.anyRequest().authenticated();
                 })
 

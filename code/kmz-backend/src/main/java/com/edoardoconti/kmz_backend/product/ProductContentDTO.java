@@ -16,11 +16,11 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductContentDTO {
+public class ProductContentDto {
     private Long id; // inherited from Content (assuming Content has an ID field)
 
     @NotNull(message = "Author ID cannot be null")
-    private Long authorId;
+    private Long authorId; // MUST BE INJECTED AUTOMATICALLY AL CONTENT CREATION
 
     @NotBlank(message = "Name is required")
     @Size(max = 100, message = "Name must be at most 100 characters")
@@ -32,10 +32,10 @@ public class ProductContentDTO {
     @PastOrPresent(message = "Sowing date cannot be in the future")
     private Date sowingDate;
 
-    @FutureOrPresent(message = "Harvest date cannot be in the past")
+    @PastOrPresent(message = "Sowing date cannot be in the future")
     private Date harvestDate;
 
-    @NotBlank(message = "Cultivation method is required")
+    @Size(max = 500, message = "Cultivation method must be at most 500 characters")
     private String cultivationMethod;
 
     @Size(max = 10, message = "You can provide at most 10 certifications")
