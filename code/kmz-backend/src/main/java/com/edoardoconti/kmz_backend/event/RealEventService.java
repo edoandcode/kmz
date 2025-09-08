@@ -1,5 +1,6 @@
 package com.edoardoconti.kmz_backend.event;
 
+import com.edoardoconti.kmz_backend.security.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,13 +12,15 @@ public class RealEventService implements EventService {
 
     private final EventRepository repository;
     private final EventContentMapper eventContentMapper;
+    private final AuthService authService;
 
     @Override
     public EventContentDto uploadEvent(EventContentDto eventContentDto) {
         var event = this.eventContentMapper.toEntity(eventContentDto);
+        var currentUser = this.authService.getCurrentUser();
+        event.setAuthorId(currentUser.getId());
         this.repository.save(event);
-        eventContentDto.setId(event.getId());
-        return eventContentDto;
+        return this.eventContentMapper.toDto(event);
     }
 
     @Override

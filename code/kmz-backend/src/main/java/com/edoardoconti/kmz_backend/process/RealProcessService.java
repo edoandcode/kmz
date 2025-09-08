@@ -1,5 +1,6 @@
 package com.edoardoconti.kmz_backend.process;
 
+import com.edoardoconti.kmz_backend.security.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,14 +12,16 @@ public class RealProcessService implements ProcessService{
 
     private final ProcessRepository repository;
     private final ProcessContentMapper processContentMapper;
+    private final AuthService authService;
+
 
     @Override
     public ProcessContentDto uploadProcess(ProcessContentDto processContentDto) {
-
         var process = this.processContentMapper.toEntity(processContentDto);
+        var currentUser = this.authService.getCurrentUser();
+        process.setAuthorId(currentUser.getId());
         this.repository.save(process);
-        processContentDto.setId(process.getId());
-        return processContentDto;
+        return this.processContentMapper.toDto(process);
     }
 
     @Override

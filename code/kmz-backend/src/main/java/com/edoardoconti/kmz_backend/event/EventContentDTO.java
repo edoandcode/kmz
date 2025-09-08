@@ -21,7 +21,6 @@ public class EventContentDto {
 
     private Long id; // inherited from Content (assuming Content has an ID field)
 
-    @NotNull(message = "Author ID cannot be null")
     private Long authorId;
 
     @NotBlank(message = "Name is required")

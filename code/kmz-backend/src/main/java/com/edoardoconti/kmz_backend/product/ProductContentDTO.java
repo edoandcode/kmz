@@ -19,7 +19,6 @@ import java.util.List;
 public class ProductContentDto {
     private Long id; // inherited from Content (assuming Content has an ID field)
 
-    @NotNull(message = "Author ID cannot be null")
     private Long authorId; // MUST BE INJECTED AUTOMATICALLY AL CONTENT CREATION
 
     @NotBlank(message = "Name is required")

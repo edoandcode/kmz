@@ -1,5 +1,6 @@
 package com.edoardoconti.kmz_backend.product;
 
+import com.edoardoconti.kmz_backend.security.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,13 +12,15 @@ public class RealProductService implements ProductService{
 
     private final ProductRepository repository;
     private final ProductContentMapper productContentMapper;
+    private final AuthService authService;
 
     @Override
     public ProductContentDto uploadProduct(ProductContentDto productContentDto) {
         var product = this.productContentMapper.toEntity(productContentDto);
-        productContentDto.setId(product.getId());
+        var currentUser = this.authService.getCurrentUser();
+        product.setAuthorId(currentUser.getId());
         this.repository.save(product);
-        return productContentDto;
+        return this.productContentMapper.toDto(product);
     }
 
     @Override

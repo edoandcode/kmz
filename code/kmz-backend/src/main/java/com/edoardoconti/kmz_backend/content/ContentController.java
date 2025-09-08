@@ -23,7 +23,7 @@ public class ContentController {
     private final ProductService productService;
     private final ProcessService processService;
     private final EventService eventService;
-    private final ContentRequestService contentRequestService;
+  //  private final ContentRequestService contentRequestService;
 
 
     // PRODUCT
@@ -40,7 +40,7 @@ public class ContentController {
    @PostMapping("/products")
     public ResponseEntity<ProductContentDto> uploadProduct(@RequestBody @Valid ProductContentDto productContentDto) {
         var savedProduct = this.productService.uploadProduct(productContentDto);
-        contentRequestService.addRequest(savedProduct.getAuthorId(), savedProduct.getId());
+       // contentRequestService.addRequest(savedProduct.getAuthorId(), savedProduct.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(savedProduct);
    }
 
@@ -58,7 +58,7 @@ public class ContentController {
     @PostMapping("/processes")
     public ResponseEntity<ProcessContentDto> uploadProcess(@RequestBody @Valid ProcessContentDto processContentDto) {
         var savedProcess = this.processService.uploadProcess(processContentDto);
-        contentRequestService.addRequest(savedProcess.getAuthorId(), savedProcess.getId());
+      //  contentRequestService.addRequest(savedProcess.getAuthorId(), savedProcess.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(savedProcess);
     }
 
@@ -76,7 +76,7 @@ public class ContentController {
     @PostMapping("/events")
     public ResponseEntity<EventContentDto> uploadEvent(@RequestBody @Valid EventContentDto eventContentDto) {
         var savedEvent = this.eventService.uploadEvent(eventContentDto);
-        contentRequestService.addRequest(savedEvent.getAuthorId(), savedEvent.getId());
+      //  contentRequestService.addRequest(savedEvent.getAuthorId(), savedEvent.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(savedEvent);
     }
 
