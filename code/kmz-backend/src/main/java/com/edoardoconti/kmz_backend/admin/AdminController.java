@@ -4,13 +4,13 @@ import com.edoardoconti.kmz_backend.common.RequestStatus;
 import com.edoardoconti.kmz_backend.user.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/admin")
 @Tag(name="Admin")
@@ -18,6 +18,7 @@ public class AdminController {
 
     private final UserRequestService userRequestService;
     private final UserService userService;
+
 
     @GetMapping("/requests")
     public List<UserRegisterRequest> getRequests(
