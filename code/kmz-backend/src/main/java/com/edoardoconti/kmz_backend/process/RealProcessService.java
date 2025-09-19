@@ -37,4 +37,24 @@ public class RealProcessService implements ProcessService{
         var process = this.repository.findById(id).orElse(null);
         return this.processContentMapper.toDto(process);
     }
+
+    @Override
+    public List<ProcessContentDto> getMyProcesses() {
+        var currentUser = this.authService.getCurrentUser();
+        return this.repository.findAllByAuthorId(currentUser.getId())
+                .stream()
+                .map(this.processContentMapper::toDto)
+                .toList();
+    }
+
+    @Override
+    public ProcessContentDto getMyProcess(Long id) {
+        var currentUser = this.authService.getCurrentUser();
+        return this.repository.findAllByAuthorId(currentUser.getId())
+                .stream()
+                .filter(p -> p.getId().equals(id))
+                .findFirst()
+                .map(this.processContentMapper::toDto)
+                .orElse(null);
+    }
 }

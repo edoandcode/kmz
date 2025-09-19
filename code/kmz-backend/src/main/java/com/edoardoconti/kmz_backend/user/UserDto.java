@@ -29,5 +29,9 @@ public class UserDto {
     @Size(max = 50, message = "Last name must be at most 50 characters")
     private String lastName;
 
+    @NotBlank(message = "Email must not be blank")
+    @Email(message = "Email must be valid")
+    private String email;
+
     private Set<UserRoleType> roles;
 }

@@ -105,25 +105,40 @@ public class SecurityConfig {
 
                     // --------- CONTENT ENDPOINTS ---------
                     // Products
-                    // - GET /products and /products/{id} accessible by all authenticated users
-                    auth.requestMatchers(HttpMethod.GET, "/products/**")
-                            .hasRole(UserRoleType.GENERIC_USER.name());
+                    // - GET /products only CURATOR and ADMINISTRATOR can access all events created
+                    auth.requestMatchers(HttpMethod.GET, "/products")
+                            .hasAnyRole(UserRoleType.CURATOR.name(), UserRoleType.ADMINISTRATOR.name());
+
+                    // - GET /products/me/** accessible by PRODUCER to view their own products
+                    auth.requestMatchers(HttpMethod.GET, "/products/me/**")
+                            .hasAnyRole(UserRoleType.PRODUCER.name());
+
                     // - POST /products: only PRODUCER can upload products
                     auth.requestMatchers(HttpMethod.POST, "/products")
                             .hasRole(UserRoleType.PRODUCER.name());
 
                     // Processes
-                    // - GET /processes/** accessible by all authenticated users
-                    auth.requestMatchers(HttpMethod.GET, "/processes/**")
-                            .hasRole(UserRoleType.GENERIC_USER.name());
+                    // - GET /processes only CURATOR and ADMINISTRATOR can access all events created
+                    auth.requestMatchers(HttpMethod.GET, "/processes")
+                            .hasAnyRole(UserRoleType.CURATOR.name(), UserRoleType.ADMINISTRATOR.name());
+
+                    // - GET /processes/me/** accessible by PROCESSOR to view their own processes
+                    auth.requestMatchers(HttpMethod.GET, "/processes/me/**")
+                            .hasAnyRole(UserRoleType.PROCESSOR.name());
+
                     // - POST /processes: only PROCESSOR
                     auth.requestMatchers(HttpMethod.POST, "/processes")
                             .hasRole(UserRoleType.PROCESSOR.name());
 
                     // Events
-                    // - GET /events/** accessible by all authenticated users
-                    auth.requestMatchers(HttpMethod.GET, "/events/**")
-                            .hasRole(UserRoleType.GENERIC_USER.name());
+                    // - GET /events only CURATOR and ADMINISTRATOR can access all events created
+                    auth.requestMatchers(HttpMethod.GET, "/events")
+                            .hasAnyRole(UserRoleType.CURATOR.name(), UserRoleType.ADMINISTRATOR.name());
+
+                    // - GET /events/me/** accessible by FACILITATOR to view their own events
+                    auth.requestMatchers(HttpMethod.GET, "/events/me/**")
+                            .hasAnyRole(UserRoleType.FACILITATOR.name());
+
                     // - POST /events: only FACILITATOR can upload events
                     auth.requestMatchers(HttpMethod.POST, "/events")
                             .hasRole(UserRoleType.FACILITATOR.name());

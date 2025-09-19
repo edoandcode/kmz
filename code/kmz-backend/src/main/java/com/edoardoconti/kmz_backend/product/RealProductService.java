@@ -36,4 +36,24 @@ public class RealProductService implements ProductService{
         var product = this.repository.findById(id).orElse(null);
         return this.productContentMapper.toDto(product);
     }
+
+    @Override
+    public List<ProductContentDto> getMyProducts() {
+        var currentUser = this.authService.getCurrentUser();
+        return this.repository.findAllByAuthorId(currentUser.getId())
+                .stream()
+                .map(this.productContentMapper::toDto)
+                .toList();
+    }
+
+    @Override
+    public ProductContentDto getMyProduct(Long id) {
+        var currentUser = this.authService.getCurrentUser();
+        return this.repository.findAllByAuthorId(currentUser.getId())
+                .stream()
+                .filter(p -> p.getId().equals(id))
+                .findFirst()
+                .map(this.productContentMapper::toDto)
+                .orElse(null);
+    }
 }

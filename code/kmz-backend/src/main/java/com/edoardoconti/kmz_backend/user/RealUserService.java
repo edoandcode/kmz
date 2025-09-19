@@ -28,6 +28,8 @@ public class RealUserService implements UserService{
 
     @Override
     public void registerUser(UserRegisterDto userRegisterDto) {
+        if(this.userRepository.findByEmail(userRegisterDto.getEmail()).isPresent())
+            throw new IllegalArgumentException("Email already in use");
         User newUser = this.userMapper.toGenericUserEntity(userRegisterDto);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
 

@@ -36,4 +36,24 @@ public class RealEventService implements EventService {
         var event =  this.repository.findById(id).orElse(null);
         return this.eventContentMapper.toDto(event);
     }
+
+    @Override
+    public List<EventContentDto> getMyEvents() {
+        var currentUser = this.authService.getCurrentUser();
+        return this.repository.findAllByAuthorId(currentUser.getId())
+                .stream()
+                .map(this.eventContentMapper::toDto)
+                .toList();
+    }
+
+    @Override
+    public EventContentDto getMyEvent(Long id) {
+        var currentUser = this.authService.getCurrentUser();
+        return this.repository.findAllByAuthorId(currentUser.getId())
+                .stream()
+                .filter(p -> p.getId().equals(id))
+                .findFirst()
+                .map(this.eventContentMapper::toDto)
+                .orElse(null);
+    }
 }
