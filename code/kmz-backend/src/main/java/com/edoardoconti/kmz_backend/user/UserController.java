@@ -15,22 +15,28 @@ import java.util.List;
 @Tag(name="Users")
 public class UserController {
 
-    private final UserService service;
+    private final UserService userService;
 
 
     @GetMapping
     public ResponseEntity<List<UserDto>> getUsers() {
-        return ResponseEntity.ok(this.service.getUsers());
+        return ResponseEntity.ok(this.userService.getUsers());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUser(@PathVariable Long id) {
-        return ResponseEntity.ok(this.service.getUser(id));
+        return ResponseEntity.ok(this.userService.getUser(id));
     }
 
     @PostMapping
     public ResponseEntity<Void> registerUser(@RequestBody @Valid UserRegisterDto userRegisterDto) {
-        this.service.registerUser(userRegisterDto);
+        this.userService.registerUser(userRegisterDto);
+        return ResponseEntity.status(201).build();
+    }
+
+    @PostMapping("setup-admin")
+    public ResponseEntity<UserDto> registerAdmin(@RequestBody @Valid UserRegisterDto userRegisterDto) {
+        this.userService.registerAdmin(userRegisterDto);
         return ResponseEntity.status(201).build();
     }
 }

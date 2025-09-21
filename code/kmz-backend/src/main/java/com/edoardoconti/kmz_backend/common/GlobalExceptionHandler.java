@@ -1,6 +1,6 @@
 package com.edoardoconti.kmz_backend.common;
 
-import com.edoardoconti.kmz_backend.admin.NoAdminFoundException;
+import com.edoardoconti.kmz_backend.user.NoAdminFoundException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.springframework.http.HttpStatus;

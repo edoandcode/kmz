@@ -76,10 +76,10 @@ public class SecurityConfig {
                 // Authorization rules for endpoints
                 .authorizeHttpRequests(auth -> {
                     // Allow setup route for first admin creation
-                    auth.requestMatchers(HttpMethod.POST, "/admin/setup").permitAll();
+                    auth.requestMatchers(HttpMethod.POST, "/users/setup-admin").permitAll();
 
                     // Restrict all /admin/** routes to administrators only
-                    auth.requestMatchers("/admin/**")
+                    auth.requestMatchers("/requests/users/**")
                             .hasRole(UserRoleType.ADMINISTRATOR.name());
 
                     // User registration is open

@@ -1,5 +1,6 @@
 package com.edoardoconti.kmz_backend.user;
 
+import com.edoardoconti.kmz_backend.request.RequestService;
 import com.edoardoconti.kmz_backend.role.UserRoleType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,7 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RealUserService implements UserService{
 
-    private final UserRequestService userRequestService;
+    private final RequestService requestService;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
@@ -32,9 +33,10 @@ public class RealUserService implements UserService{
             throw new IllegalArgumentException("Email already in use");
         User newUser = this.userMapper.toGenericUserEntity(userRegisterDto);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-
         this.userRepository.save(newUser);
-        this.userRequestService.addSignUpRequest(newUser.getId(), userRegisterDto.getRoles());
+        for (var role : userRegisterDto.getRoles()) {
+            this.requestService.createUserRegistrationRequest(newUser, role);
+        }
     }
 
     @Override
