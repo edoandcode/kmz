@@ -30,6 +30,7 @@ public class UserRegisterRequest {
     @Valid
     @Enumerated(EnumType.STRING)
     private UserRoleType requestedRole;
+
     @Enumerated(EnumType.STRING)
     private RequestStatus status;
     @Temporal(TemporalType.TIMESTAMP)
