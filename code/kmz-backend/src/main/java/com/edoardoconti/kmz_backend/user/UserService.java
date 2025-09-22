@@ -10,5 +10,5 @@ public interface UserService {
     UserDto getUser(Long id);
     List<UserDto> getUsers();
     void registerAdmin(UserRegisterDto userRegisterDto);
-    void updateUserRoles(Long userId, Set<UserRole> roles);
+    void addUserRole(Long userId, UserRole role);
 }

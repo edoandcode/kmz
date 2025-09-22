@@ -3,6 +3,7 @@ package com.edoardoconti.kmz_backend.request.controllers;
 import com.edoardoconti.kmz_backend.request.RequestService;
 import com.edoardoconti.kmz_backend.request.RequestStatus;
 import com.edoardoconti.kmz_backend.request.requests.UserRegistrationRequest;
+import com.edoardoconti.kmz_backend.request.requests.UserRegistrationResponseDto;
 import com.edoardoconti.kmz_backend.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class UserRequestController {
 
 
     @GetMapping("/registration")
-    public List<UserRegistrationRequest> getUserRegistrationRequests(
+    public List<UserRegistrationResponseDto> getUserRegistrationRequests(
             @RequestParam(value = "status", required = false) RequestStatus status,
             @RequestParam(value = "userId", required = false) Long userId
     ) {
@@ -29,7 +30,7 @@ public class UserRequestController {
         if (status != null)
             usersRequests = usersRequests.stream().filter(r -> r.getStatus() == status).toList();
         if (userId != null)
-            usersRequests = usersRequests.stream().filter(r -> r.getUser().getId().equals(userId)).toList();
+            usersRequests = usersRequests.stream().filter(r -> r.getUserId().equals(userId)).toList();
         return usersRequests;
     }
 
@@ -43,9 +44,7 @@ public class UserRequestController {
                     .orElse(null);
             if (request == null)
                 return ResponseEntity.badRequest().body("Request not found.");
-            var user = request.getUser();
-            user.addRole(request.getRequestedRole());
-            this.userService.updateUserRoles(user.getId(), user.getRoles());
+            this.userService.addUserRole(request.getUserId(), request.getRequestedRole());
             this.requestService.approve(requestId, message);
             return ResponseEntity.ok().body("Request approved successfully.");
         } catch (Exception ex) {

@@ -1,8 +1,7 @@
 package com.edoardoconti.kmz_backend.request;
 
 
-import com.edoardoconti.kmz_backend.request.requests.ContentPublicationRequest;
-import com.edoardoconti.kmz_backend.request.requests.UserRegistrationRequest;
+import com.edoardoconti.kmz_backend.request.requests.*;
 import com.edoardoconti.kmz_backend.role.UserRole;
 import com.edoardoconti.kmz_backend.security.AuthService;
 
@@ -70,15 +69,16 @@ public class RequestService implements RequestFactory, RequestQueryService {
     }
 
     @Override
-    public List<UserRegistrationRequest> getUserRegistrationRequests() {
+    public List<UserRegistrationResponseDto> getUserRegistrationRequests() {
         return this.requestRepository.findByType(RequestType.USER_REGISTRATION)
                 .stream()
                 .map(r -> (UserRegistrationRequest) r)
+                .map(UserRegistrationResponseMapper::toDto)
                 .toList();
     }
 
     @Override
-    public List<ContentPublicationRequest> getContentPublicationRequests() {
+    public List<ContentPublicationResponseDto> getContentPublicationRequests() {
         return List.of();
     }
 

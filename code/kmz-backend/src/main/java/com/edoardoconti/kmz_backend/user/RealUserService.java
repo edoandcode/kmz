@@ -43,11 +43,11 @@ public class RealUserService implements UserService{
 
 
     @Override
-    public void updateUserRoles(Long userId, Set<UserRole> roles) {
+    public void addUserRole(Long userId, UserRole role) {
         var user = this.userRepository.findById(userId).orElse(null);
         if(user == null)
             throw new IllegalArgumentException("User not found");
-        roles.forEach(user::addRole);
+        user.addRole(role);
         this.userRepository.save(user);
     }
 
