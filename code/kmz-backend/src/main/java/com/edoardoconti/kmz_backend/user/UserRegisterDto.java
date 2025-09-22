@@ -1,6 +1,6 @@
 package com.edoardoconti.kmz_backend.user;
 
-import com.edoardoconti.kmz_backend.role.UserRoleType;
+import com.edoardoconti.kmz_backend.role.UserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -30,6 +30,6 @@ public class UserRegisterDto {
     @Size(min = 6, max = 25, message = "Password must be between 6 to 25 characters long.")
     private String password;
 
-    private Set<UserRoleType> roles;
+    private Set<UserRole> roles;
 
 }

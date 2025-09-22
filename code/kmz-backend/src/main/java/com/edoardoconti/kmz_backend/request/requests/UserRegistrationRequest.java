@@ -2,7 +2,7 @@ package com.edoardoconti.kmz_backend.request.requests;
 
 import com.edoardoconti.kmz_backend.request.Request;
 import com.edoardoconti.kmz_backend.request.RequestType;
-import com.edoardoconti.kmz_backend.role.UserRoleType;
+import com.edoardoconti.kmz_backend.role.UserRole;
 import com.edoardoconti.kmz_backend.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
@@ -29,13 +29,13 @@ public class UserRegistrationRequest  extends Request {
     @NotNull(message="role is required")
     @Valid
     @Enumerated(EnumType.STRING)
-    private UserRoleType requestedRole;
+    private UserRole requestedRole;
 
     protected UserRegistrationRequest() {
         super(RequestType.USER_REGISTRATION, null);
     }
 
-    public UserRegistrationRequest( User user, UserRoleType role) {
+    public UserRegistrationRequest( User user, UserRole role) {
         super(RequestType.USER_REGISTRATION, null);
         this.user = user;
         this.requestedRole = role;

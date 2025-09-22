@@ -1,6 +1,6 @@
 package com.edoardoconti.kmz_backend.user;
 
-import com.edoardoconti.kmz_backend.role.UserRoleType;
+import com.edoardoconti.kmz_backend.role.UserRole;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ public class SetupAdminInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object handler) throws Exception {
-        var adminExists = this.userRepository.existsByRolesContaining(UserRoleType.ADMINISTRATOR);
+        var adminExists = this.userRepository.existsByRolesContaining(UserRole.ADMINISTRATOR);
 
         if(!adminExists) {
             if(httpServletRequest.getMethod().equals("POST") &&

@@ -1,7 +1,6 @@
 package com.edoardoconti.kmz_backend.security;
 
-import com.edoardoconti.kmz_backend.role.UserRoleType;
-import jakarta.servlet.http.HttpServlet;
+import com.edoardoconti.kmz_backend.role.UserRole;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -80,14 +79,14 @@ public class SecurityConfig {
 
                     // Restrict all /admin/** routes to administrators only
                     auth.requestMatchers("/requests/users/**")
-                            .hasRole(UserRoleType.ADMINISTRATOR.name());
+                            .hasRole(UserRole.ADMINISTRATOR.name());
 
                     // User registration is open
                     auth.requestMatchers(HttpMethod.POST, "/users").permitAll();
 
                     // GET /users/** : only ADMINISTRATOR can visualize registered users
                     auth.requestMatchers(HttpMethod.GET, "/users/**")
-                            .hasRole(UserRoleType.ADMINISTRATOR.name());
+                            .hasRole(UserRole.ADMINISTRATOR.name());
 
                     // Login & refresh endpoints are public
                     auth.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
@@ -107,41 +106,41 @@ public class SecurityConfig {
                     // Products
                     // - GET /products only CURATOR and ADMINISTRATOR can access all events created
                     auth.requestMatchers(HttpMethod.GET, "/products")
-                            .hasAnyRole(UserRoleType.CURATOR.name(), UserRoleType.ADMINISTRATOR.name());
+                            .hasAnyRole(UserRole.CURATOR.name(), UserRole.ADMINISTRATOR.name());
 
                     // - GET /products/me/** accessible by PRODUCER to view their own products
                     auth.requestMatchers(HttpMethod.GET, "/products/me/**")
-                            .hasAnyRole(UserRoleType.PRODUCER.name());
+                            .hasAnyRole(UserRole.PRODUCER.name());
 
                     // - POST /products: only PRODUCER can upload products
                     auth.requestMatchers(HttpMethod.POST, "/products")
-                            .hasRole(UserRoleType.PRODUCER.name());
+                            .hasRole(UserRole.PRODUCER.name());
 
                     // Processes
                     // - GET /processes only CURATOR and ADMINISTRATOR can access all events created
                     auth.requestMatchers(HttpMethod.GET, "/processes")
-                            .hasAnyRole(UserRoleType.CURATOR.name(), UserRoleType.ADMINISTRATOR.name());
+                            .hasAnyRole(UserRole.CURATOR.name(), UserRole.ADMINISTRATOR.name());
 
                     // - GET /processes/me/** accessible by PROCESSOR to view their own processes
                     auth.requestMatchers(HttpMethod.GET, "/processes/me/**")
-                            .hasAnyRole(UserRoleType.PROCESSOR.name());
+                            .hasAnyRole(UserRole.PROCESSOR.name());
 
                     // - POST /processes: only PROCESSOR
                     auth.requestMatchers(HttpMethod.POST, "/processes")
-                            .hasRole(UserRoleType.PROCESSOR.name());
+                            .hasRole(UserRole.PROCESSOR.name());
 
                     // Events
                     // - GET /events only CURATOR and ADMINISTRATOR can access all events created
                     auth.requestMatchers(HttpMethod.GET, "/events")
-                            .hasAnyRole(UserRoleType.CURATOR.name(), UserRoleType.ADMINISTRATOR.name());
+                            .hasAnyRole(UserRole.CURATOR.name(), UserRole.ADMINISTRATOR.name());
 
                     // - GET /events/me/** accessible by FACILITATOR to view their own events
                     auth.requestMatchers(HttpMethod.GET, "/events/me/**")
-                            .hasAnyRole(UserRoleType.FACILITATOR.name());
+                            .hasAnyRole(UserRole.FACILITATOR.name());
 
                     // - POST /events: only FACILITATOR can upload events
                     auth.requestMatchers(HttpMethod.POST, "/events")
-                            .hasRole(UserRoleType.FACILITATOR.name());
+                            .hasRole(UserRole.FACILITATOR.name());
 
                     // All other requests require authentication by default
                     auth.anyRequest().authenticated();

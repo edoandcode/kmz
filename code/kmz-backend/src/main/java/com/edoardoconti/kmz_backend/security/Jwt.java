@@ -1,6 +1,6 @@
 package com.edoardoconti.kmz_backend.security;
 
-import com.edoardoconti.kmz_backend.role.UserRoleType;
+import com.edoardoconti.kmz_backend.role.UserRole;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
@@ -25,10 +25,10 @@ public class Jwt {
         return Long.valueOf(this.claims.getSubject());
     }
 
-    public Set<UserRoleType> getRoles() {
+    public Set<UserRole> getRoles() {
         List<String> roles = this.claims.get("roles", List.class);
         return roles.stream()
-                .map(UserRoleType::valueOf)
+                .map(UserRole::valueOf)
                 .collect(Collectors.toSet());
     }
 

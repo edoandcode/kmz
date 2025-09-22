@@ -2,7 +2,7 @@ package com.edoardoconti.kmz_backend.user;
 
 import jakarta.validation.constraints.*;
 
-import com.edoardoconti.kmz_backend.role.UserRoleType;
+import com.edoardoconti.kmz_backend.role.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,5 +33,5 @@ public class UserDto {
     @Email(message = "Email must be valid")
     private String email;
 
-    private Set<UserRoleType> roles;
+    private Set<UserRole> roles;
 }

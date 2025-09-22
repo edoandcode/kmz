@@ -1,12 +1,13 @@
 package com.edoardoconti.kmz_backend.user;
 
 import com.edoardoconti.kmz_backend.request.RequestService;
-import com.edoardoconti.kmz_backend.role.UserRoleType;
+import com.edoardoconti.kmz_backend.role.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +24,18 @@ public class RealUserService implements UserService{
     public void registerAdmin(UserRegisterDto userRegisterDto) {
         var newUser = this.userMapper.toEntity(userRegisterDto);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-        newUser.addRole(UserRoleType.ADMINISTRATOR);
+        newUser.addRole(UserRole.ADMINISTRATOR);
         this.userRepository.save(newUser);
+    }
+
+    @Override
+    public void updateUserRoles(Long userId, Set<UserRole> roles) {
+        var user = this.getUser(userId);
+        if(user == null)
+            throw new IllegalArgumentException("User not found");
+        var userEntity = this.userMapper.toEntity(user);
+        roles.forEach(userEntity::addRole);
+        this.userRepository.save(userEntity);
     }
 
     @Override

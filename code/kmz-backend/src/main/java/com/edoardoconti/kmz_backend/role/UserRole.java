@@ -1,6 +1,6 @@
 package com.edoardoconti.kmz_backend.role;
 
-public enum UserRoleType {
+public enum UserRole {
     ADMINISTRATOR,
     CURATOR,
     FACILITATOR,

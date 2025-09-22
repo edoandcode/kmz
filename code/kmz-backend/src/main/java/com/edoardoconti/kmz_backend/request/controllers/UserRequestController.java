@@ -3,6 +3,7 @@ package com.edoardoconti.kmz_backend.request.controllers;
 import com.edoardoconti.kmz_backend.request.RequestService;
 import com.edoardoconti.kmz_backend.request.RequestStatus;
 import com.edoardoconti.kmz_backend.request.requests.UserRegistrationRequest;
+import com.edoardoconti.kmz_backend.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.List;
 public class UserRequestController {
 
     private final RequestService requestService;
+    private final UserService userService;
 
 
 
@@ -34,6 +36,16 @@ public class UserRequestController {
     @PostMapping("/approve/{requestId}")
     public ResponseEntity<String> approveRequest(@PathVariable Long requestId, @RequestBody(required = false) String message) {
         try {
+            var request = this.requestService.getUserRegistrationRequests()
+                    .stream()
+                    .filter(r -> r.getId().equals(requestId))
+                    .findFirst()
+                    .orElse(null);
+            if (request == null)
+                return ResponseEntity.badRequest().body("Request not found.");
+            var user = request.getUser();
+            user.addRole(request.getRequestedRole());
+            this.userService.updateUserRoles(user.getId(), user.getRoles());
             this.requestService.approve(requestId, message);
             return ResponseEntity.ok().body("Request approved successfully.");
         } catch (Exception ex) {
@@ -50,4 +62,5 @@ public class UserRequestController {
             return ResponseEntity.badRequest().body("Failed to reject request: " + ex.getMessage());
         }
     }
+
 }

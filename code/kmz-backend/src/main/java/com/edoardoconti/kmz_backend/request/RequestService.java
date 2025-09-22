@@ -1,10 +1,9 @@
 package com.edoardoconti.kmz_backend.request;
 
 
-import com.edoardoconti.kmz_backend.content.Content;
 import com.edoardoconti.kmz_backend.request.requests.ContentPublicationRequest;
 import com.edoardoconti.kmz_backend.request.requests.UserRegistrationRequest;
-import com.edoardoconti.kmz_backend.role.UserRoleType;
+import com.edoardoconti.kmz_backend.role.UserRole;
 import com.edoardoconti.kmz_backend.security.AuthService;
 
 import com.edoardoconti.kmz_backend.user.User;
@@ -46,7 +45,7 @@ public class RequestService implements RequestFactory, RequestQueryService {
     }
 
     @Override
-    public UserRegistrationRequest createUserRegistrationRequest(User user, UserRoleType role) {
+    public UserRegistrationRequest createUserRegistrationRequest(User user, UserRole role) {
         var request = new UserRegistrationRequest(user, role);
         this.requestRepository.save(request);
         return request;

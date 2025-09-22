@@ -1,6 +1,6 @@
 package com.edoardoconti.kmz_backend.user;
 
-import com.edoardoconti.kmz_backend.role.UserRoleType;
+import com.edoardoconti.kmz_backend.role.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -36,7 +36,7 @@ public class UserMapperDecorator implements UserMapper {
         newUser.setLastName(userRegisterDto.getLastName());
         newUser.setEmail(userRegisterDto.getEmail());
         newUser.setPassword(userRegisterDto.getPassword());
-        newUser.setRoles(Set.of(UserRoleType.GENERIC_USER));
+        newUser.setRoles(Set.of(UserRole.GENERIC_USER));
         return newUser;
     }
 }
