@@ -29,16 +29,6 @@ public class RealUserService implements UserService{
     }
 
     @Override
-    public void updateUserRoles(Long userId, Set<UserRole> roles) {
-        var user = this.getUser(userId);
-        if(user == null)
-            throw new IllegalArgumentException("User not found");
-        var userEntity = this.userMapper.toEntity(user);
-        roles.forEach(userEntity::addRole);
-        this.userRepository.save(userEntity);
-    }
-
-    @Override
     public void registerUser(UserRegisterDto userRegisterDto) {
         if(this.userRepository.findByEmail(userRegisterDto.getEmail()).isPresent())
             throw new IllegalArgumentException("Email already in use");
@@ -48,6 +38,17 @@ public class RealUserService implements UserService{
         for (var role : userRegisterDto.getRoles()) {
             this.requestService.createUserRegistrationRequest(newUser, role);
         }
+        System.out.println("New user" + newUser);
+    }
+
+
+    @Override
+    public void updateUserRoles(Long userId, Set<UserRole> roles) {
+        var user = this.userRepository.findById(userId).orElse(null);
+        if(user == null)
+            throw new IllegalArgumentException("User not found");
+        roles.forEach(user::addRole);
+        this.userRepository.save(user);
     }
 
     @Override

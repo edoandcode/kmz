@@ -81,6 +81,11 @@ public class SecurityConfig {
                     auth.requestMatchers("/requests/users/**")
                             .hasRole(UserRole.ADMINISTRATOR.name());
 
+                    // POST /requests/contents/publish/** : Only PRODUCER, PROCESSOR, FACILITATOR can request publication of a content
+                    auth.requestMatchers(HttpMethod.POST, "/requests/contents/publish/**")
+                            .hasAnyRole(UserRole.PRODUCER.name(), UserRole.PROCESSOR.name(), UserRole.FACILITATOR.name());
+
+
                     // User registration is open
                     auth.requestMatchers(HttpMethod.POST, "/users").permitAll();
 

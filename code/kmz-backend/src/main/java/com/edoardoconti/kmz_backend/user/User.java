@@ -8,8 +8,7 @@ import lombok.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Setter
-@Getter
+@Data
 @ToString
 @Entity
 @Table(name="users")
