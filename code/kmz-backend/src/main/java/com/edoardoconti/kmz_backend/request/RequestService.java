@@ -53,9 +53,9 @@ public class RequestService implements RequestFactory, RequestQueryService {
     }
 
     @Override
-    public ContentPublicationRequest createContentPublicationRequest(Content content) {
+    public ContentPublicationRequest createContentPublicationRequest(Long contentId) {
         var currentUser = this.authService.getCurrentUser();
-        var request = new ContentPublicationRequest(currentUser.getId(), content);
+        var request = new ContentPublicationRequest(currentUser.getId(), contentId);
         this.requestRepository.save(request);
         return request;
     }

@@ -9,6 +9,6 @@ import com.edoardoconti.kmz_backend.user.User;
 public interface RequestFactory {
 
     UserRegistrationRequest createUserRegistrationRequest(User user, UserRoleType role);
-    ContentPublicationRequest createContentPublicationRequest(Content content);
+    ContentPublicationRequest createContentPublicationRequest(Long contentId);
 
 }

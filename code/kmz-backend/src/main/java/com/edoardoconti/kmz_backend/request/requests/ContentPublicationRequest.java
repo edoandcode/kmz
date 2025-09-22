@@ -24,17 +24,16 @@ public class ContentPublicationRequest extends Request {
 
     @NotNull(message="content must not be null")
     @Valid
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "content_id", nullable = false)
-    private Content content;
+    private Long contentId;
 
     protected ContentPublicationRequest() {
         super(RequestType.CONTENT_PUBLICATION, null);
     }
 
 
-    public ContentPublicationRequest(Long requesterId, Content content) {
+    public ContentPublicationRequest(Long requesterId, Long contentId) {
         super(RequestType.CONTENT_PUBLICATION, requesterId);
-        this.content = content;
+        this.contentId = contentId;
     }
 }
