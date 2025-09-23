@@ -1,5 +1,6 @@
 package com.edoardoconti.kmz_backend.event;
 
+import com.edoardoconti.kmz_backend.content.ContentType;
 import jakarta.validation.constraints.*;
 
 import lombok.AllArgsConstructor;
@@ -37,4 +38,5 @@ public class EventContentDto {
 
     @Size(max = 100, message = "You can provide at most 100 guest IDs")
     private List<@NotNull(message = "Guest ID cannot be null") Long> guestsIds;
+
 }

@@ -37,11 +37,7 @@ public class UserRequestController {
     @PostMapping("/approve/{requestId}")
     public ResponseEntity<String> approveRequest(@PathVariable Long requestId, @RequestBody(required = false) String message) {
         try {
-            var request = this.requestService.getUserRegistrationRequests()
-                    .stream()
-                    .filter(r -> r.getId().equals(requestId))
-                    .findFirst()
-                    .orElse(null);
+            var request = this.requestService.getUserRegistrationRequest(requestId);
             if (request == null)
                 return ResponseEntity.badRequest().body("Request not found.");
             this.userService.addUserRole(request.getUserId(), request.getRequestedRole());

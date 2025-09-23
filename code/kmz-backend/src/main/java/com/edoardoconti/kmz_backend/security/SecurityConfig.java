@@ -85,6 +85,10 @@ public class SecurityConfig {
                     auth.requestMatchers(HttpMethod.POST, "/requests/contents/publish/**")
                             .hasAnyRole(UserRole.PRODUCER.name(), UserRole.PROCESSOR.name(), UserRole.FACILITATOR.name());
 
+                    // POST /requests/contents/approve/** and /requests/contents/reject/** : Only CURATOR can approve or reject content publication requests
+                    auth.requestMatchers(HttpMethod.POST, "/requests/contents/approve/**",
+                            "/requests/contents/reject/**")
+                            .hasAnyRole(UserRole.CURATOR.name());
 
                     // User registration is open
                     auth.requestMatchers(HttpMethod.POST, "/users").permitAll();

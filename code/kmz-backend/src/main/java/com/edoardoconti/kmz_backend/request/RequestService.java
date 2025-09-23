@@ -1,6 +1,7 @@
 package com.edoardoconti.kmz_backend.request;
 
 
+import com.edoardoconti.kmz_backend.content.ContentService;
 import com.edoardoconti.kmz_backend.request.requests.*;
 import com.edoardoconti.kmz_backend.role.UserRole;
 import com.edoardoconti.kmz_backend.security.AuthService;
@@ -17,6 +18,7 @@ import java.util.List;
 public class RequestService implements RequestFactory, RequestQueryService {
     private final RequestRepository requestRepository;
     private final AuthService authService;
+    private final ContentService contentService;
 
     public final void approve(Long requestId, String message) {
         var request = this.getRequest(requestId);
@@ -52,8 +54,10 @@ public class RequestService implements RequestFactory, RequestQueryService {
 
     @Override
     public ContentPublicationRequest createContentPublicationRequest(Long contentId) {
+        System.out.println("Content ID: " + contentId);
         var currentUser = this.authService.getCurrentUser();
         var request = new ContentPublicationRequest(currentUser.getId(), contentId);
+        System.out.println("Created Request: " + request);
         this.requestRepository.save(request);
         return request;
     }
@@ -78,8 +82,33 @@ public class RequestService implements RequestFactory, RequestQueryService {
     }
 
     @Override
+    public UserRegistrationResponseDto getUserRegistrationRequest(Long id) {
+        return this.getUserRegistrationRequests()
+                .stream()
+                .filter(r -> r.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
     public List<ContentPublicationResponseDto> getContentPublicationRequests() {
-        return List.of();
+        return this.requestRepository.findByType(RequestType.CONTENT_PUBLICATION)
+                .stream()
+                .map(r -> (ContentPublicationRequest) r)
+                .map(req -> {
+                    var content = this.contentService.getContent(req.getContentId());
+                    return ContentPublicationResponseMapper.toDto(req, content);
+                })
+                .toList();
+    }
+
+    @Override
+    public ContentPublicationResponseDto getContentPublicationRequest(Long id) {
+        return this.getContentPublicationRequests()
+                .stream()
+                .filter(r -> r.getId().equals(id))
+                .findFirst()
+                .orElse(null);
     }
 
 

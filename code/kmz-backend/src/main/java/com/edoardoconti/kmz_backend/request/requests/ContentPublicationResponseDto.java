@@ -1,5 +1,6 @@
 package com.edoardoconti.kmz_backend.request.requests;
 
+import com.edoardoconti.kmz_backend.content.Content;
 import com.edoardoconti.kmz_backend.request.RequestStatus;
 import com.edoardoconti.kmz_backend.request.RequestType;
 import com.edoardoconti.kmz_backend.role.UserRole;
@@ -14,9 +15,7 @@ public class ContentPublicationResponseDto {
 
     private Long id;
 
-    private Long contentId;
-
-    private UserRole requestedRole;
+    private Content content;
 
     private Date createdAt;
 

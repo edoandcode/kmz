@@ -21,4 +21,9 @@ abstract public class Content {
     private ContentType type;
 
     private Long authorId;
+
+
+    public Content(ContentType type) {
+        this.type = type;
+    }
 }

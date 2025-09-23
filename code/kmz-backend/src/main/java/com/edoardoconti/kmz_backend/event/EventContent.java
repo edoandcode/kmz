@@ -1,6 +1,7 @@
 package com.edoardoconti.kmz_backend.event;
 
 import com.edoardoconti.kmz_backend.content.Content;
+import com.edoardoconti.kmz_backend.content.ContentType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,4 +19,10 @@ public class EventContent extends Content {
     private Date date;
     @ElementCollection
     private List<Long> guestsIds;
+
+
+    public EventContent(){
+        super(ContentType.EVENT);
+    }
+
 }
