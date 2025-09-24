@@ -151,6 +151,9 @@ public class SecurityConfig {
                     auth.requestMatchers(HttpMethod.POST, "/events")
                             .hasRole(UserRole.FACILITATOR.name());
 
+                    // FEED
+                    // - GET /public/contents anyone can access public contents
+                    auth.requestMatchers(HttpMethod.GET, "/public/contents/**").permitAll();
 
                     // SYSTEM
                     // - GET /system/status anyone can access system status
