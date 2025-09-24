@@ -151,6 +151,11 @@ public class SecurityConfig {
                     auth.requestMatchers(HttpMethod.POST, "/events")
                             .hasRole(UserRole.FACILITATOR.name());
 
+
+                    // SYSTEM
+                    // - GET /system/status anyone can access system status
+                    auth.requestMatchers(HttpMethod.GET, "/system/status").permitAll();
+
                     // All other requests require authentication by default
                     auth.anyRequest().authenticated();
                 })

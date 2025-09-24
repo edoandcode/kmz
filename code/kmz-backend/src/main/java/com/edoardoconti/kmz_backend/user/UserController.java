@@ -35,8 +35,8 @@ public class UserController {
     }
 
     @PostMapping("setup-admin")
-    public ResponseEntity<UserDto> registerAdmin(@RequestBody @Valid UserRegisterDto userRegisterDto) {
-        this.userService.registerAdmin(userRegisterDto);
+    public ResponseEntity<UserDto> registerSuperAdmin(@RequestBody @Valid UserRegisterDto userRegisterDto) {
+        this.userService.registerSuperAdmin(userRegisterDto);
         return ResponseEntity.status(201).build();
     }
 }

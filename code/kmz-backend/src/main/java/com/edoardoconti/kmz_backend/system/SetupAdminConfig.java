@@ -1,4 +1,4 @@
-package com.edoardoconti.kmz_backend.user;
+package com.edoardoconti.kmz_backend.system;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

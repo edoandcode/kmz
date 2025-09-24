@@ -19,9 +19,15 @@ public class RealUserService implements UserService{
     private final PasswordEncoder passwordEncoder;
 
 
+     @Override
+    public boolean superAdminExists() {
+        return this.userRepository.existsByRolesContaining(UserRole.ADMINISTRATOR);
+     }
 
     @Override
-    public void registerAdmin(UserRegisterDto userRegisterDto) {
+    public void registerSuperAdmin(UserRegisterDto userRegisterDto) {
+        if(this.userRepository.existsByRolesContaining(UserRole.ADMINISTRATOR))
+            throw new IllegalStateException("Super Admin user already exists");
         var newUser = this.userMapper.toEntity(userRegisterDto);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         newUser.addRole(UserRole.ADMINISTRATOR);
