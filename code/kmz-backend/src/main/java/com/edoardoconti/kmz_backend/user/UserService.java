@@ -5,10 +5,10 @@ import com.edoardoconti.kmz_backend.role.UserRole;
 import java.util.List;
 
 public interface UserService {
-    void registerUser(UserRegisterDto userRegisterDto);
+    UserDto registerUser(UserRegisterDto userRegisterDto);
     UserDto getUser(Long id);
     List<UserDto> getUsers();
-    void registerSuperAdmin(UserRegisterDto userRegisterDto);
+    UserDto registerSuperAdmin(UserRegisterDto userRegisterDto);
     void addUserRole(Long userId, UserRole role);
     boolean superAdminExists();
 }

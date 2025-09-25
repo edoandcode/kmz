@@ -29,15 +29,15 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> registerUser(@RequestBody @Valid UserRegisterDto userRegisterDto) {
-        this.userService.registerUser(userRegisterDto);
-        return ResponseEntity.status(201).build();
+    public ResponseEntity<UserDto> registerUser(@RequestBody @Valid UserRegisterDto userRegisterDto) {
+        var user = this.userService.registerUser(userRegisterDto);
+        return ResponseEntity.status(201).body(user);
     }
 
     @PostMapping("setup-admin")
     public ResponseEntity<UserDto> registerSuperAdmin(@RequestBody @Valid UserRegisterDto userRegisterDto) {
-        this.userService.registerSuperAdmin(userRegisterDto);
-        return ResponseEntity.status(201).build();
+        var user = this.userService.registerSuperAdmin(userRegisterDto);
+        return ResponseEntity.status(201).body(user);
     }
 }
 

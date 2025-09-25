@@ -1,0 +1,32 @@
+package com.edoardoconti.kmz_backend.request.content_publication;
+
+import com.edoardoconti.kmz_backend.content.Content;
+import com.edoardoconti.kmz_backend.request.RequestStatus;
+import com.edoardoconti.kmz_backend.request.RequestType;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.Date;
+
+@NoArgsConstructor
+@Data
+public class ContentPublicationResponseDto {
+
+    private Long id;
+
+    private Content content;
+
+    private Date createdAt;
+
+    private Date processedAt;
+
+    private RequestStatus status;
+
+    private String message;
+
+    private Long requesterId;
+
+    private Long recipientId;
+
+    private RequestType type;
+}
