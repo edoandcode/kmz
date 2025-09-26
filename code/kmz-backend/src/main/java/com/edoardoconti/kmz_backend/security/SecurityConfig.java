@@ -77,7 +77,10 @@ public class SecurityConfig {
                     // Allow setup route for first admin creation
                     auth.requestMatchers(HttpMethod.POST, "/users/setup-admin").permitAll();
 
-                    // Restrict all /admin/** routes to administrators only
+
+                    //  -----  REQUESTS ----
+
+                    // Restrict all routes to view the requests to ADMINISTRATOR only
                     auth.requestMatchers("/requests/users/**")
                             .hasRole(UserRole.ADMINISTRATOR.name());
 
@@ -90,26 +93,28 @@ public class SecurityConfig {
                             "/requests/contents/reject/**")
                             .hasAnyRole(UserRole.CURATOR.name());
 
+                    // GET /requests/contents/publication : only ADMINISTRATOR can access all event participation requests
+                    auth.requestMatchers(HttpMethod.GET, "/requests/events/participation")
+                            .hasAnyRole(UserRole.ADMINISTRATOR.name());
+
+                    // GET requests/events/invite/** : only FACILITATOR can invite users to events
+                    auth.requestMatchers(HttpMethod.POST, "/requests/events/invite/**")
+                            .hasAnyRole(UserRole.FACILITATOR.name());
+
+                    // -------- USERS ------------
+                    
                     // User registration is open
                     auth.requestMatchers(HttpMethod.POST, "/users").permitAll();
 
                     // GET /users/** : only ADMINISTRATOR can visualize registered users
                     auth.requestMatchers(HttpMethod.GET, "/users/**")
-                            .hasRole(UserRole.ADMINISTRATOR.name());
+                            .hasAnyRole(UserRole.ADMINISTRATOR.name(), UserRole.CURATOR.name());
+
+                    // ---------- AUTH  ------------
 
                     // Login & refresh endpoints are public
                     auth.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
                     auth.requestMatchers(HttpMethod.POST, "/auth/refresh").permitAll();
-
-                    // H2 console for development
-                    auth.requestMatchers("/h2-console", "/h2-console/**").permitAll();
-
-                    // Permits Swagger UI
-                    auth.requestMatchers( "/v3/api-docs/**",
-                            "/swagger-ui/**",
-                            "/swagger-ui.html",
-                            "/swagger-ui/index.html"
-                    ).permitAll();
 
                     // --------- CONTENT ENDPOINTS ---------
                     // Products
@@ -151,16 +156,33 @@ public class SecurityConfig {
                     auth.requestMatchers(HttpMethod.POST, "/events")
                             .hasRole(UserRole.FACILITATOR.name());
 
-                    // FEED
+                    // ----------  FEED ------------
                     // - GET /public/contents anyone can access public contents
                     auth.requestMatchers(HttpMethod.GET, "/public/contents/**").permitAll();
 
-                    // SYSTEM
+                    // ---------- SYSTEM --------------
                     // - GET /system/status anyone can access system status
                     auth.requestMatchers(HttpMethod.GET, "/system/status").permitAll();
 
+
+                    // ------- DB CONSOLE ---
+
+                    // H2 console for development
+                    auth.requestMatchers("/h2-console", "/h2-console/**").permitAll();
+
+                    // ------- SWAGGER UI -----------
+
+                    // Permits Swagger UI
+                    auth.requestMatchers( "/v3/api-docs/**",
+                            "/swagger-ui/**",
+                            "/swagger-ui.html",
+                            "/swagger-ui/index.html"
+                    ).permitAll();
+
+
                     // All other requests require authentication by default
                     auth.anyRequest().authenticated();
+
                 })
 
                 // Insert JWT filter before Spring's default username/password filter

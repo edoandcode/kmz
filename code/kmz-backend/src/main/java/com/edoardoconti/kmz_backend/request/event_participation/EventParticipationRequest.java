@@ -35,9 +35,9 @@ public class EventParticipationRequest extends Request {
         super(RequestType.EVENT_PARTICIPATION, null);
     }
 
-    public EventParticipationRequest( Long eventId, Long guestId) {
-        super(RequestType.EVENT_PARTICIPATION, null);
+    public EventParticipationRequest( Long eventId, Long requesterId, Long recipientId) {
+        super(RequestType.EVENT_PARTICIPATION, requesterId, recipientId);
         this.eventId = eventId;
-        this.guestId = guestId;
+        this.guestId = recipientId;
     }
 }

@@ -2,16 +2,13 @@ package com.edoardoconti.kmz_backend.request.event_participation;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/requests/event")
+@RequestMapping("/requests/events")
 public class EventParticipationRequestController {
     private final EventParticipationRequestService eventParticipationRequestService;
 
@@ -21,24 +18,30 @@ public class EventParticipationRequestController {
         return ResponseEntity.ok().body(this.eventParticipationRequestService.getEventParticipationRequests());
     }
 
-    @GetMapping("/invite/{eventId}/{userId}")
+    @GetMapping("/participation/me")
+    public ResponseEntity<List<EventParticipationResponseDto>> getMyEventParticipationRequests() {
+        return ResponseEntity.ok().body(this.eventParticipationRequestService.getMyEventParticipationRequests());
+    }
+
+    @PostMapping("/invite/{eventId}/{userId}")
     public ResponseEntity<EventParticipationResponseDto> inviteUserToEvent(
             @PathVariable Long eventId,
             @PathVariable Long userId
     ) {
-        var request = this.eventParticipationRequestService.createContentPublicationRequest(eventId, userId);
+        var request = this.eventParticipationRequestService.createEventParticipationRequest(eventId, userId);
+        System.out.println("REQUESTS ---> " + request);
         if(request == null)
             return ResponseEntity.status(404).build();
         return ResponseEntity.status(201).body(request);
     }
 
-    @GetMapping("/accept/{requestId}")
+    @PostMapping("/accept/{requestId}")
     public ResponseEntity<String> acceptRequest(@PathVariable Long requestId) {
         // TODO: implement
         return ResponseEntity.status(501).body("Not implemented yet");
     }
 
-    @GetMapping("/reject/{requestId}")
+    @PostMapping("/reject/{requestId}")
     public ResponseEntity<String> rejectRequest(@PathVariable Long requestId) {
         // TODO: implement
         return ResponseEntity.status(501).body("Not implemented yet");

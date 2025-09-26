@@ -17,7 +17,7 @@ public class ProductContent extends Content {
     private Date harvestDate;
     private String cultivationMethod;
     @ElementCollection
-    private List<String> certification;
+    private List<String> certifications;
 
 
     public ProductContent() {

@@ -38,5 +38,5 @@ public class ProductContentDto {
     private String cultivationMethod;
 
     @Size(max = 10, message = "You can provide at most 10 certifications")
-    private List<@NotBlank(message = "Certification name cannot be blank") String> certification;
+    private List<@NotBlank(message = "Certification name cannot be blank") String> certifications;
 }
