@@ -22,7 +22,7 @@ public class EventParticipationRequest extends Request {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @NotNull(message="event are required")
+    @NotNull(message="eventId is required")
     @Valid
     private Long eventId;
 

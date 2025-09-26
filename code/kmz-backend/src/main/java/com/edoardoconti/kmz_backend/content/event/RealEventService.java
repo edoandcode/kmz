@@ -1,5 +1,8 @@
 package com.edoardoconti.kmz_backend.content.event;
 
+import com.edoardoconti.kmz_backend.request.event_participation.EventParticipationRequest;
+import com.edoardoconti.kmz_backend.request.event_participation.EventParticipationRequestRepository;
+import com.edoardoconti.kmz_backend.request.event_participation.EventParticipationRequestService;
 import com.edoardoconti.kmz_backend.security.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,13 +16,16 @@ public class RealEventService implements EventService {
     private final EventRepository repository;
     private final EventContentMapper eventContentMapper;
     private final AuthService authService;
+    private final EventParticipationRequestRepository eventParticipationRequestRepository;
 
     @Override
     public EventContentDto uploadEvent(EventContentDto eventContentDto) {
         var event = this.eventContentMapper.toEntity(eventContentDto);
         var currentUser = this.authService.getCurrentUser();
         event.setAuthorId(currentUser.getId());
+        event.setGuestsIds(List.of());
         this.repository.save(event);
+        this.createParticipationRequestsForEachGuest(event, eventContentDto.getGuestsIds());
         return this.eventContentMapper.toDto(event);
     }
 
@@ -55,5 +61,14 @@ public class RealEventService implements EventService {
                 .findFirst()
                 .map(this.eventContentMapper::toDto)
                 .orElse(null);
+    }
+
+
+    //  private methods
+
+    private void createParticipationRequestsForEachGuest(EventContent event, Iterable<Long> guestsIds) {
+        for(Long guestId : guestsIds) {
+            this.eventParticipationRequestRepository.save(new EventParticipationRequest(event.getId(), event.getAuthorId(), guestId));
+        }
     }
 }
