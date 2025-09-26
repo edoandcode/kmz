@@ -16,12 +16,6 @@ public class UserRegistrationRequestService extends RequestService {
     private final UserRegistrationRequestRepository userRegistrationRequestRepository;
     private final UserService userService;
 
-    public void createUserRegistrationRequests(User user, Iterable<UserRole> roles) {
-        for(var role : roles) {
-            var request = new UserRegistrationRequest(user, role);
-            this.userRegistrationRequestRepository.save(request);
-        }
-    }
 
     public List<UserRegistrationResponseDto> getUserRegistrationRequests() {
         var requests = this.userRegistrationRequestRepository.findAll();

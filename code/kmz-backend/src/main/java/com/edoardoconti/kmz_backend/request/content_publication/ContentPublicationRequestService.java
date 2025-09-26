@@ -1,14 +1,17 @@
 package com.edoardoconti.kmz_backend.request.content_publication;
 
 import com.edoardoconti.kmz_backend.content.ContentService;
+import com.edoardoconti.kmz_backend.feed.FeedService;
 import com.edoardoconti.kmz_backend.request.RequestRepository;
 import com.edoardoconti.kmz_backend.request.RequestService;
 import com.edoardoconti.kmz_backend.security.AuthService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @AllArgsConstructor
 @Service
@@ -16,14 +19,21 @@ public class ContentPublicationRequestService extends RequestService {
     private final AuthService authService;
     private final ContentPublicationRequestRepository contentPublicationRequestRepository;
     private final ContentService contentService;
+    private final FeedService feedService;
+
 
 
 
     public ContentPublicationResponseDto createContentPublicationRequest(Long contentId) {
+        var content = this.contentService.getContent(contentId);
+        if(content == null)
+            return null;
+        var currentuser = this.authService.getCurrentUser();
+        if (!content.getAuthorId().equals(currentuser.getId()))
+            return null;
         var currentUser = this.authService.getCurrentUser();
         var request = new ContentPublicationRequest(currentUser.getId(), contentId);
         this.contentPublicationRequestRepository.save(request);
-        var content = this.contentService.getContent(contentId);
         return ContentPublicationMapper.toDto(request, content);
     }
 
@@ -52,6 +62,11 @@ public class ContentPublicationRequestService extends RequestService {
             throw new IllegalArgumentException("Request not found");
         var approvedRequest = this.getApprovedRequest(request, message);
         this.contentPublicationRequestRepository.save(approvedRequest);
+        var content = this.contentService.getContent(request.getContentId());
+        if(content == null)
+            throw new IllegalArgumentException("Content not found");
+        this.feedService.publishContent(content);
+
     }
 
     @Override

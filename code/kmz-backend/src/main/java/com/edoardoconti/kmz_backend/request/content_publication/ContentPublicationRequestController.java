@@ -19,10 +19,6 @@ import java.util.List;
 @RequestMapping("/requests/contents")
 public class ContentPublicationRequestController {
     private final ContentPublicationRequestService contentPublicationRequestService;
-    private final ContentService contentService;
-    private final AuthService authService;
-    private final FeedService feedService;
-
 
     @GetMapping("/publication")
     public List<ContentPublicationResponseDto> getContentPublicationRequests(
@@ -43,13 +39,9 @@ public class ContentPublicationRequestController {
 
     @PostMapping("/publish/{contentId}")
     private ResponseEntity<ContentPublicationResponseDto> requestPublication(@PathVariable Long contentId) {
-        var content = this.contentService.getContent(contentId);
-        if(content == null)
-            return ResponseEntity.status(404).build();
-        var currentuser = this.authService.getCurrentUser();
-        if (!content.getAuthorId().equals(currentuser.getId()))
-            return ResponseEntity.status(403).build();
         var request = this.contentPublicationRequestService.createContentPublicationRequest(contentId);
+        if(request == null)
+            return ResponseEntity.status(404).build();
         return ResponseEntity.status(201).body(request);
     }
 
@@ -57,13 +49,7 @@ public class ContentPublicationRequestController {
     @PostMapping("/approve/{requestId}")
     public ResponseEntity<String> approveRequest(@PathVariable Long requestId, @RequestBody(required = false) String message) {
         try {
-            var request = this.contentPublicationRequestService.getContentPublicationRequest(requestId);
-            if (request == null)
-                return ResponseEntity.badRequest().body("Request not found.");
-            var content = request.getContent();
-            if(content == null)
-                return ResponseEntity.badRequest().body("Content not found.");
-            this.feedService.publishContent(content);
+
             this.contentPublicationRequestService.approveRequest(requestId, message);
             return ResponseEntity.ok().body("Request approved successfully.");
         } catch (Exception ex) {
