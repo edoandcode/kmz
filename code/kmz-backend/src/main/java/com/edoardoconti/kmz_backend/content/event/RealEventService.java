@@ -63,6 +63,20 @@ public class RealEventService implements EventService {
                 .orElse(null);
     }
 
+    @Override
+    public EventContent addGuest(Long eventId, Long guestId) {
+        var event = this.repository.findById(eventId).orElse(null);
+        if(event == null)
+            return null;
+        var guestsIds = event.getGuestsIds();
+        if(!guestsIds.contains(guestId)) {
+            guestsIds.add(guestId);
+            event.setGuestsIds(guestsIds);
+            this.repository.save(event);
+        }
+        return event;
+    }
+
 
     //  private methods
 
