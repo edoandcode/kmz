@@ -1,5 +1,7 @@
 package com.edoardoconti.kmz_backend.content;
 
+import com.edoardoconti.kmz_backend.feed.FeedService;
+import com.edoardoconti.kmz_backend.security.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,4 +20,6 @@ public class ContentService {
     public Content getContent(Long id) {
         return this.contentRepository.findById(id).orElse(null);
     }
+
+
 }

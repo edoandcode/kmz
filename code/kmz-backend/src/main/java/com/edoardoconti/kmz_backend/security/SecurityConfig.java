@@ -136,6 +136,11 @@ public class SecurityConfig {
                     auth.requestMatchers(HttpMethod.POST, "/products")
                             .hasRole(UserRole.PRODUCER.name());
 
+                    // - DELETE /products/{id}: only PRODUCER can delete their own products
+                    auth.requestMatchers(HttpMethod.DELETE, "/products/**")
+                            .hasRole(UserRole.PRODUCER.name());
+
+
                     // Processes
                     // - GET /processes only CURATOR and ADMINISTRATOR can access all events created
                     auth.requestMatchers(HttpMethod.GET, "/processes")

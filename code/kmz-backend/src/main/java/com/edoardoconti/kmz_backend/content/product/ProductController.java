@@ -1,5 +1,6 @@
 package com.edoardoconti.kmz_backend.content.product;
 
+import com.edoardoconti.kmz_backend.content.Content;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -39,5 +40,13 @@ public class ProductController {
         var savedProduct = this.productService.uploadProduct(productContentDto);
         // contentRequestService.addRequest(savedProduct.getAuthorId(), savedProduct.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(savedProduct);
+    }
+
+    @DeleteMapping("/products/{id}")
+    public ResponseEntity<ProductContentDto> deleteProduct(@PathVariable Long id) {
+        var deletedContent = this.productService.deleteProduct(id);
+        if(deletedContent == null)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(deletedContent);
     }
 }

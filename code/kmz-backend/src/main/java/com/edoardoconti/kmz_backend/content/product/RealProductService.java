@@ -1,5 +1,8 @@
 package com.edoardoconti.kmz_backend.content.product;
 
+import com.edoardoconti.kmz_backend.content.Content;
+import com.edoardoconti.kmz_backend.content.ContentService;
+import com.edoardoconti.kmz_backend.feed.FeedService;
 import com.edoardoconti.kmz_backend.security.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,6 +16,7 @@ public class RealProductService implements ProductService{
     private final ProductRepository repository;
     private final ProductContentMapper productContentMapper;
     private final AuthService authService;
+    private final FeedService feedService;
 
     @Override
     public ProductContentDto uploadProduct(ProductContentDto productContentDto) {
@@ -55,5 +59,19 @@ public class RealProductService implements ProductService{
                 .findFirst()
                 .map(this.productContentMapper::toDto)
                 .orElse(null);
+    }
+
+    @Override
+    public ProductContentDto deleteProduct(Long id) {
+        var product = this.repository.findById(id).orElse(null);
+        var dto = this.productContentMapper.toDto(product);
+        if(product == null)
+            return null;
+        var currentUser = this.authService.getCurrentUser();
+        if(!product.getAuthorId().equals(currentUser.getId()))
+            return null;
+        this.feedService.unpublishContent(product.getId());
+        this.repository.delete(product);
+        return dto;
     }
 }
