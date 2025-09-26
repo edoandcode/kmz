@@ -29,21 +29,28 @@ public class EventParticipationRequestController {
             @PathVariable Long userId
     ) {
         var request = this.eventParticipationRequestService.createEventParticipationRequest(eventId, userId);
-        System.out.println("REQUESTS ---> " + request);
         if(request == null)
             return ResponseEntity.status(404).build();
         return ResponseEntity.status(201).body(request);
     }
 
     @PostMapping("/accept/{requestId}")
-    public ResponseEntity<String> acceptRequest(@PathVariable Long requestId) {
-        // TODO: implement
-        return ResponseEntity.status(501).body("Not implemented yet");
+    public ResponseEntity<String> acceptRequest(@PathVariable Long requestId, @RequestBody(required = false) String message) {
+        try {
+            this.eventParticipationRequestService.approveRequest(requestId, message);
+            return ResponseEntity.ok().body("Request approved successfully.");
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body("Failed to approve request: " + ex.getMessage());
+        }
     }
 
     @PostMapping("/reject/{requestId}")
-    public ResponseEntity<String> rejectRequest(@PathVariable Long requestId) {
-        // TODO: implement
-        return ResponseEntity.status(501).body("Not implemented yet");
+    public ResponseEntity<String> rejectRequest(@PathVariable Long requestId, @RequestBody(required = false) String message) {
+        try {
+            this.eventParticipationRequestService.rejectRequest(requestId, message);
+            return ResponseEntity.ok().body("Request approved successfully.");
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body("Failed to approve request: " + ex.getMessage());
+        }
     }
 }

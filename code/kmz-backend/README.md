@@ -46,8 +46,11 @@ java -jar target/kmz-backend-0.0.1-SNAPSHOT.jar
 
 ## TODO
 
-- Feed for content publication
-- Complete curator approval logic
 - Implement Marketplace
 - Create processed products and offer packages
 - Manage locations
+- Fine tuned error handling
+- Add unit and integration tests
+- Add package of products
+- Add ProcessedProduct entity
+- ...

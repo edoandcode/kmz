@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @AllArgsConstructor
 @Service
@@ -59,12 +60,28 @@ public class EventParticipationRequestService extends RequestService {
 
 
     @Override
-    public void approveRequest(Long requestId, String message) {
-
+    public void approveRequest(Long requestId, String message)  throws RuntimeException {
+        var request = this.eventParticipationRequestRepository.findById(requestId).orElse(null);
+        var currentUser = this.authService.getCurrentUser();
+        System.out.println("REQUEST TO BE APPROVED --> " + request);
+        if(request == null)
+            throw new IllegalArgumentException("Request not found");
+        if(!currentUser.getId().equals(request.getGuestId()))
+            throw new IllegalArgumentException("You can only approve requests for yourself");
+        this.eventService.addGuest(request.getEventId(), request.getGuestId());
+        var approvedRequest = this.getApprovedRequest(request, message);
+        this.eventParticipationRequestRepository.save(approvedRequest);
     }
 
     @Override
-    public void rejectRequest(Long requestId, String message) {
-
+    public void rejectRequest(Long requestId, String message) throws RuntimeException {
+        var request = this.eventParticipationRequestRepository.findById(requestId).orElse(null);
+        var currentUser = this.authService.getCurrentUser();
+        if(request == null)
+            throw new IllegalArgumentException("Request not found");
+        if(!currentUser.getId().equals(request.getGuestId()))
+            throw new IllegalArgumentException("You can only approve requests for yourself");
+        var rejectedRequest = this.getRejectedRequest(request, message);
+        this.eventParticipationRequestRepository.save(rejectedRequest);
     }
 }

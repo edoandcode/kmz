@@ -101,6 +101,12 @@ public class SecurityConfig {
                     auth.requestMatchers(HttpMethod.POST, "/requests/events/invite/**")
                             .hasAnyRole(UserRole.FACILITATOR.name());
 
+                    auth.requestMatchers(HttpMethod.POST, "/requests/events/accept/**")
+                            .hasAnyRole(UserRole.GENERIC_USER.name());
+
+                    auth.requestMatchers(HttpMethod.POST, "/requests/events/reject/**")
+                            .hasAnyRole(UserRole.GENERIC_USER.name());
+
                     // -------- USERS ------------
                     
                     // User registration is open
@@ -108,7 +114,7 @@ public class SecurityConfig {
 
                     // GET /users/** : only ADMINISTRATOR can visualize registered users
                     auth.requestMatchers(HttpMethod.GET, "/users/**")
-                            .hasAnyRole(UserRole.ADMINISTRATOR.name(), UserRole.CURATOR.name());
+                            .hasAnyRole(UserRole.ADMINISTRATOR.name(), UserRole.FACILITATOR.name());
 
                     // ---------- AUTH  ------------
 
