@@ -7,8 +7,8 @@ const API = {
     FEED: 'public/contents',
     /*SYSTEM STATUS*/
     SYSTEM_STATUS: 'system/status',
-
-
+    /*USER*/
+    SETUP_SUPERADMIN: 'users/setup-admin',
 }
 
 
