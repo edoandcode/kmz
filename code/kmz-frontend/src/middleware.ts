@@ -1,5 +1,4 @@
-import { stackMiddleware } from "@edoandcode/utils-next/middleware";
-import type { MiddlewareItem } from "@edoandcode/utils-next/middleware";
+import { stackMiddleware, type MiddlewareItem } from "@edoandcode/utils-next/middleware";
 import superAdminSetup from "@/middleware/superAdminSetup";
 
 

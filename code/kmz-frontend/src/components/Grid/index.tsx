@@ -1,10 +1,11 @@
 import type { FC } from 'react';
+import { Grid as UiKitGrid } from '@edoandcode/ui-kit-grid';
 import { clsx } from 'clsx';
-import { Grid as UiKitGrid } from "@edoandcode/ui-kit-grid";
-import type { GridProps, ColProps } from '@edoandcode/ui-kit-grid';
-import defaultGridConfig from './../../../ui-kit-grid-config.js';
+
+import defaultGridConfig from '../../../ui-kit-grid-config.mjs';
 import GridDebug from './GridDebug';
 
+import type { GridProps, ColProps } from '@edoandcode/ui-kit-grid';
 interface GridComponentProps extends Omit<GridProps, 'config'> {
     boxed?: boolean;
     config?: GridProps['config'];
