@@ -1,6 +1,8 @@
-import React, { CSSProperties } from 'react'
-import Image from 'next/image'
-import clsx from 'clsx'
+'use client'
+import React, { CSSProperties } from 'react';
+
+import clsx from 'clsx';
+import Image from 'next/image';
 
 interface LogoProps {
     size?: CSSProperties['width']

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import { getFeed } from "@/services/api";
-import PageWrapper from "@/components/PageWrapper";
-import { notFound } from "next/navigation";
+import { notFound } from 'next/navigation';
 
+import PageWrapper from '@/components/PageWrapper';
+
+import { get } from '@/services/api';
+import { API } from '@/settings/api';
 
 export const metadata: Metadata = {
     title: "KMZ - Home Page",
@@ -11,7 +13,7 @@ export const metadata: Metadata = {
 
 export default async function Home() {
 
-    const feedData = await getFeed();
+    const feedData = await get(`${API.FEED}`);
 
     if (!feedData)
         return notFound();

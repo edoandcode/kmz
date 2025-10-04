@@ -1,7 +1,6 @@
-import { API } from '@/settings/api'
+import { API } from '@/settings/api';
 
-
-type FetchApiOptions = RequestInit
+export type FetchApiOptions = RequestInit
 
 /**
  * Fetches data from the API.
