@@ -8,4 +8,5 @@ public interface ProcessService {
     ProcessContentDto getProcess(Long id);
     List<ProcessContentDto> getMyProcesses();
     ProcessContentDto getMyProcess(Long id);
+    ProcessContentDto deleteProcess(Long id);
 }

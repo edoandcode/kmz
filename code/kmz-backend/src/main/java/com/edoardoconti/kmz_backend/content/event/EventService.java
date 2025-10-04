@@ -8,5 +8,6 @@ public interface EventService {
     EventContentDto getEvent(Long id);
     List<EventContentDto> getMyEvents();
     EventContentDto getMyEvent(Long id);
-    EventContent addGuest(Long eventId, Long guestId);
+    void addGuest(Long eventId, Long guestId);
+    EventContentDto deleteEvent(Long id);
 }

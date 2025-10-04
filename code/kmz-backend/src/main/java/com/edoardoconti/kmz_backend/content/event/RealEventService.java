@@ -1,5 +1,6 @@
 package com.edoardoconti.kmz_backend.content.event;
 
+import com.edoardoconti.kmz_backend.feed.FeedService;
 import com.edoardoconti.kmz_backend.request.event_participation.EventParticipationRequest;
 import com.edoardoconti.kmz_backend.request.event_participation.EventParticipationRequestRepository;
 import com.edoardoconti.kmz_backend.request.event_participation.EventParticipationRequestService;
@@ -17,6 +18,7 @@ public class RealEventService implements EventService {
     private final EventContentMapper eventContentMapper;
     private final AuthService authService;
     private final EventParticipationRequestRepository eventParticipationRequestRepository;
+    private final FeedService  feedService;
 
     @Override
     public EventContentDto uploadEvent(EventContentDto eventContentDto) {
@@ -64,17 +66,30 @@ public class RealEventService implements EventService {
     }
 
     @Override
-    public EventContent addGuest(Long eventId, Long guestId) {
+    public void addGuest(Long eventId, Long guestId) {
         var event = this.repository.findById(eventId).orElse(null);
         if(event == null)
-            return null;
+            return;
         var guestsIds = event.getGuestsIds();
         if(!guestsIds.contains(guestId)) {
             guestsIds.add(guestId);
             event.setGuestsIds(guestsIds);
             this.repository.save(event);
         }
-        return event;
+    }
+
+    @Override
+    public EventContentDto deleteEvent(Long id) {
+        var event = this.repository.findById(id).orElse(null);
+        var dto = this.eventContentMapper.toDto(event);
+        if(event == null)
+            return null;
+        var currentUser = this.authService.getCurrentUser();
+        if(!event.getAuthorId().equals(currentUser.getId()))
+            return null;
+        this.feedService.unpublishContent(event.getId());
+        this.repository.delete(event);
+        return dto;
     }
 
 

@@ -42,6 +42,14 @@ public class ProcessController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedProcess);
     }
 
+    @DeleteMapping("/processes/{id}")
+    public ResponseEntity<ProcessContentDto> deleteProcess(@PathVariable Long id) {
+        var deletedContent = this.processService.deleteProcess(id);
+        if (deletedContent == null)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(deletedContent);
+    }
+
 
 
 
