@@ -2,6 +2,7 @@
 import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 
 import FormErrorMessage from '@/components/FormErrorMessage';
 import { Button } from '@/components/ui/button';
@@ -15,6 +16,7 @@ import {
 } from '@/components/ui/select';
 
 import { post } from '@/services/api';
+import { ROUTES } from '@/settings/routes';
 import { UserRole } from '@/types/api/data-types';
 import { signUpSchema } from '@/validation/user/schema';
 
@@ -24,12 +26,13 @@ import type { SignUpSchema } from '@/validation/user/schema';
 
 
 
-
 interface SignUpFormProps {
     isSuperAdminSetup?: boolean;
 }
 
-export function SignUpForm({ isSuperAdminSetup = false }: SignUpFormProps) {
+export function SignupForm({ isSuperAdminSetup = false }: SignUpFormProps) {
+
+    const router = useRouter();
 
     const { register, handleSubmit, formState: { errors } } = useForm<SignUpSchema>({
         resolver: zodResolver(signUpSchema)
@@ -49,7 +52,9 @@ export function SignUpForm({ isSuperAdminSetup = false }: SignUpFormProps) {
 
 
         try {
-            const userDto: UserDto = await post<UserDto>('/users/setup-admin', { data: registerUserData });
+            const userDto: UserDto = await post<UserDto>('/users/setup-admin', registerUserData);
+
+            router.push(`/${ROUTES.DASHBOARD}`);
 
             console.log('userDto', userDto);
 
@@ -169,4 +174,4 @@ export function SignUpForm({ isSuperAdminSetup = false }: SignUpFormProps) {
     )
 }
 
-export default SignUpForm
+export default SignupForm

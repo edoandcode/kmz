@@ -27,7 +27,7 @@ export const get = async <T>(endpoint: string, options?: FetchApiOptions): Promi
  * @param options - Optional fetch options.
  * @returns The response data from the API or an error.
  */
-export const post = async <T>(endpoint: string, body: { data: unknown }, options?: FetchApiOptions): Promise<T> => {
+export const post = async <T>(endpoint: string, body: unknown, options?: FetchApiOptions): Promise<T> => {
     return fetchApi<T>(endpoint, {
         method: 'POST',
         body: JSON.stringify(body),

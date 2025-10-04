@@ -2,7 +2,7 @@ import React from 'react';
 
 import clsx from 'clsx';
 
-import SignUpForm from '../SignupForm';
+import SignupForm from '../SignupForm';
 
 const SignupPage = () => {
     return (
@@ -11,7 +11,7 @@ const SignupPage = () => {
             "bg-neutral-100 dark:bg-neutral-900"
 
         )}>
-            <SignUpForm isSuperAdminSetup={true} />
+            <SignupForm isSuperAdminSetup={true} />
         </div>
     )
 }
