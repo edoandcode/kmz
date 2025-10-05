@@ -1,6 +1,3 @@
-
-import { API } from '@/settings/api';
-
 import { fetchApi } from './http';
 
 import type { FetchApiOptions } from './http';

@@ -7,6 +7,10 @@ const API = {
     FEED: 'public/contents',
     /*SYSTEM STATUS*/
     SYSTEM_STATUS: 'system/status',
+    /*AUTH*/
+    LOGIN: 'auth/login',
+    REFRESH: 'auth/refresh',
+    ME: 'auth/me',
     /*USER*/
     SETUP_SUPERADMIN: 'users/setup-admin',
 }

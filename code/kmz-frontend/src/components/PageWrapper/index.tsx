@@ -1,5 +1,6 @@
+import React, { ComponentPropsWithoutRef, ElementType, ReactNode } from 'react';
+
 import clsx from 'clsx';
-import React, { ReactNode, ElementType, ComponentPropsWithoutRef } from 'react';
 
 type PageWrapperProps<T extends ElementType = 'main'> = {
     children: ReactNode;

@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/select';
 
 import { post } from '@/services/api';
+import { API } from '@/settings/api';
 import { ROUTES } from '@/settings/routes';
 import { UserRole } from '@/types/api/data-types';
 import { signUpSchema } from '@/validation/user/schema';
@@ -23,9 +24,6 @@ import { signUpSchema } from '@/validation/user/schema';
 import type { UserDto } from '@/types/api/data-types';
 import type { RegisterUserDto } from '@/types/api/data-types';
 import type { SignUpSchema } from '@/validation/user/schema';
-
-
-
 interface SignUpFormProps {
     isSuperAdminSetup?: boolean;
 }
@@ -52,9 +50,9 @@ export function SignupForm({ isSuperAdminSetup = false }: SignUpFormProps) {
 
 
         try {
-            const userDto: UserDto = await post<UserDto>('/users/setup-admin', registerUserData);
+            const userDto: UserDto = await post<UserDto>(`/${API.SETUP_SUPERADMIN}`, registerUserData);
 
-            router.push(`/${ROUTES.DASHBOARD}`);
+            router.push(`/${ROUTES.LOGIN}`);
 
             console.log('userDto', userDto);
 
