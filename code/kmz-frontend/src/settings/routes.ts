@@ -6,7 +6,7 @@ const ROUTES = {
     SIGNUP: 'signup',
     LOGIN: 'login',
     DASHBOARD: 'dashboard',
-    FEED: '/',
+    HOME: '/',
 }
 
 

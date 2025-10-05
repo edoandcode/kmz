@@ -14,7 +14,7 @@ const middlewareStack = [
     },
     {
         matcher: function (pathname) {
-            const publicRoutes = [ROUTES.LOGIN, ROUTES.SIGNUP_SUPERADMIN, ROUTES.SIGNUP, ROUTES.FEED];
+            const publicRoutes = [ROUTES.LOGIN, ROUTES.SIGNUP_SUPERADMIN, ROUTES.SIGNUP, ROUTES.HOME];
             return (!publicRoutes.includes(pathname.replace('/', '')) && pathname !== '/') && !pathname.startsWith('/api/auth');
         },
         fn: authMiddleware
