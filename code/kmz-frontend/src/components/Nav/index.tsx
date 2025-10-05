@@ -12,9 +12,6 @@ const Nav = () => {
 
     const { data: session } = useSession();
 
-
-    console.log('session', session)
-
     return (
         <div>
             {session?.user.firstName}
