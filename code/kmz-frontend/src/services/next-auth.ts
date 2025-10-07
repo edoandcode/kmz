@@ -1,6 +1,7 @@
 import NextAuth from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import { cookies } from 'next/headers';
 
 import { get } from '@/services/api';
 import { API } from '@/settings/api';
@@ -9,8 +10,6 @@ import type { NextAuthConfig } from 'next-auth';
 
 import type { UserDto } from '@/types/api/data-types';
 import type { Session } from 'next-auth';
-
-
 export const authOptions: NextAuthConfig = {
     session: { strategy: "jwt" },
 
@@ -24,7 +23,7 @@ export const authOptions: NextAuthConfig = {
             async authorize(credentials) {
                 const { email, password } = credentials;
 
-                console.log('Authorize', { email, password });
+                console.log('AUTHORIZE', { email, password });
 
                 const response = await fetch(`${API.ENDPOINT}/auth/login`, {
                     method: "POST",
@@ -50,26 +49,27 @@ export const authOptions: NextAuthConfig = {
 
     callbacks: {
         async jwt({ token, user, account }) {
-            console.log('jwt', { token, user, account });
+            console.log('JWT', { token, user, account });
 
             if (user) token.accessToken = user.token
             return token
         },
 
         async session({ session, token }: { session: Session; token: JWT }) {
-            console.log("session", { session, token });
+            console.log("SESSION", { session, token });
 
             const systemResponse = await get<{ superAdminExists: boolean }>(`${API.SYSTEM_STATUS}`)
 
             if (!systemResponse.superAdminExists)
                 return session;
 
-            const user = await get<UserDto>(`${API.ENDPOINT}/auth/me`, {
+            const user = await get<UserDto>(`/auth/me`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token.accessToken}`,
                 },
             });
+
 
             if (!user) {
                 console.error("Login failed");
