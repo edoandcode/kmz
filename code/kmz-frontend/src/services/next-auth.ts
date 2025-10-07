@@ -1,9 +1,14 @@
 import NextAuth from 'next-auth';
+import { JWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
+import { get } from '@/services/api';
 import { API } from '@/settings/api';
 
 import type { NextAuthConfig } from 'next-auth';
+
+import type { UserDto } from '@/types/api/data-types';
+import type { Session } from 'next-auth';
 
 
 export const authOptions: NextAuthConfig = {
@@ -18,6 +23,8 @@ export const authOptions: NextAuthConfig = {
             },
             async authorize(credentials) {
                 const { email, password } = credentials;
+
+                console.log('Authorize', { email, password });
 
                 const response = await fetch(`${API.ENDPOINT}/auth/login`, {
                     method: "POST",
@@ -49,26 +56,27 @@ export const authOptions: NextAuthConfig = {
             return token
         },
 
-        async session({ session, token }) {
+        async session({ session, token }: { session: Session; token: JWT }) {
             console.log("session", { session, token });
 
+            const systemResponse = await get<{ superAdminExists: boolean }>(`${API.SYSTEM_STATUS}`)
 
-            const response = await fetch(`${API.ENDPOINT}/auth/me`, {
-                method: "GET",
+            if (!systemResponse.superAdminExists)
+                return session;
+
+            const user = await get<UserDto>(`${API.ENDPOINT}/auth/me`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token.accessToken}`,
                 },
             });
 
-            if (!response.ok) {
+            if (!user) {
                 console.error("Login failed");
                 return session;
             }
 
-            const data = await response.json();
-
-            session.user = data;
+            session.user = user;
 
             return session;
         },

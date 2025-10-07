@@ -23,9 +23,9 @@ const MemberArea = () => {
 
         )}>
             {session?.user.firstName ? (
-                <span className="font-medium">{session.user.firstName}</span>
+                <span className="font-medium text-green-500">{session.user.firstName}</span>
             ) : null}
-            {session ? (
+            {Object.keys(session?.user || {}).length ? (
                 <>
                     <Button
                         variant="outline"

@@ -7,13 +7,20 @@ import authMiddleware from './middleware/auth';
 
 import type { MiddlewareItem } from '@edoandcode/utils-next/middleware';
 
+
 const middlewareStack = [
     {
-        matcher: /^(.*)$/,
+        matcher: (pathname) => {
+            if (pathname.startsWith('/api/auth')) return false;
+            return true;
+
+        },
         fn: superAdminSetupMiddleware
     },
     {
         matcher: function (pathname) {
+
+            console.log('pathname', pathname);
             const publicRoutes = [ROUTES.LOGIN, ROUTES.SIGNUP_SUPERADMIN, ROUTES.SIGNUP, ROUTES.HOME];
             return (!publicRoutes.includes(pathname.replace('/', '')) && pathname !== '/') && !pathname.startsWith('/api/auth');
         },
