@@ -28,15 +28,10 @@ public class AuthController {
 
        var loginResponse = this.authService.login(userLoginRequestDto);
 
-       var cookie = new Cookie("refreshToken", loginResponse.getRefreshToken().toString());
-       cookie.setHttpOnly(true);
-       cookie.setPath("/auth/refresh");
-       cookie.setMaxAge(this.jwtConfig.getRefreshTokenExpiration());
-       cookie.setSecure(true);
+       var accessToken = loginResponse.getAccessToken().toString();
+       var refreshToken = loginResponse.getRefreshToken().toString();
 
-       httpServletResponse.addCookie(cookie);
-
-       return ResponseEntity.ok(new JwtResponseDto(loginResponse.getAccessToken().toString()));
+       return ResponseEntity.ok(new JwtResponseDto(accessToken, refreshToken));
     }
 
     @GetMapping("/me")
