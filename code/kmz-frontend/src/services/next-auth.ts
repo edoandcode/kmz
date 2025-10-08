@@ -1,9 +1,9 @@
+import { jwtDecode } from 'jwt-decode';
 import NextAuth from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { cookies } from 'next/headers';
 
-import { get } from '@/services/api';
+import { get, post } from '@/services/api';
 import { API } from '@/settings/api';
 
 import type { NextAuthConfig } from 'next-auth';
@@ -25,23 +25,16 @@ export const authOptions: NextAuthConfig = {
 
                 console.log('AUTHORIZE', { email, password });
 
-                const response = await fetch(`${API.ENDPOINT}/auth/login`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ email, password }),
-                });
+                const userTokens = await post<{ accessToken: string; refreshToken: string }>(`${API.ENDPOINT}/auth/login`, { email, password });
 
-                if (!response.ok) {
+                if (!userTokens) {
                     console.error("Login failed");
                     return null;
                 }
 
-                const data = await response.json();
-
                 return {
-                    token: data.token
+                    accessToken: userTokens.accessToken,
+                    refreshToken: userTokens.refreshToken
                 }
             },
         }),
@@ -51,8 +44,56 @@ export const authOptions: NextAuthConfig = {
         async jwt({ token, user, account }) {
             console.log('JWT', { token, user, account });
 
-            if (user) token.accessToken = user.token
-            return token
+
+            let decodedAccessToken
+
+            if (user && account) {
+                decodedAccessToken = jwtDecode<{ exp: number, iat: number }>(user.accessToken);
+                return ({
+                    user: {
+                        accessToken: user.accessToken,
+                        refreshToken: user.refreshToken,
+                        iat: decodedAccessToken?.iat,
+                        exp: decodedAccessToken?.exp,
+                    }
+                })
+            }
+
+            decodedAccessToken = jwtDecode<{ exp: number, iat: number }>(token.user.accessToken);
+
+            if (decodedAccessToken.exp * 1000 > Date.now())
+                return token
+
+
+            // here I should implement refresh token logic
+            try {
+
+                if (!token.user.refreshToken)
+                    throw new Error('No refresh token available');
+
+                console.log('REFRESHING TOKEN', token.user.refreshToken);
+
+                const data = await post<{ accessToken: string }>('/auth/refresh', { refreshToken: token.user.refreshToken });
+
+                console.log('REFRESHED TOKEN', data);
+
+                decodedAccessToken = jwtDecode<{ exp: number, iat: number }>(data.accessToken);
+
+                // return new token object preserving user info from previous token
+                return {
+                    user: {
+                        ...token.user,
+                        accessToken: data.accessToken,
+                        refreshToken: token.user.refreshToken,
+                        iat: decodedAccessToken?.iat,
+                        exp: decodedAccessToken?.exp,
+                    }
+                };
+            } catch (error) {
+                console.error('Error refreshing token:', error);
+                return { ...token, error: 'RefreshAccessTokenError' };
+            }
+
         },
 
         async session({ session, token }: { session: Session; token: JWT }) {
@@ -66,7 +107,7 @@ export const authOptions: NextAuthConfig = {
             const user = await get<UserDto>(`/auth/me`, {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token.accessToken}`,
+                    Authorization: `Bearer ${token.user.accessToken}`,
                 },
             });
 
@@ -76,7 +117,10 @@ export const authOptions: NextAuthConfig = {
                 return session;
             }
 
-            session.user = user;
+            session.user = {
+                ...user,
+                ...token.user
+            }
 
             return session;
         },

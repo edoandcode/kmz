@@ -22,7 +22,7 @@ const Grid: FC<GridComponentProps> & { Col: FC<ColProps> } = ({
         <UiKitGrid
             config={config}
             className={clsx(
-                "3xl:max-w-[1920px] 3xl:mx-auto",
+                "2xl:max-w-[1620px] 2xl:mx-auto",
                 boxed && "max-w-[1180px] lg:mx-auto",
                 className
             )}

@@ -13,7 +13,6 @@ const middlewareStack = [
         matcher: (pathname) => {
             if (pathname.startsWith('/api/auth')) return false;
             return true;
-
         },
         fn: superAdminSetupMiddleware
     },

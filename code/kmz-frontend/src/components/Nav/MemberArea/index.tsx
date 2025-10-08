@@ -16,6 +16,7 @@ const MemberArea = () => {
     console.log('Session status:', status);
     console.log('Session data:', session);
 
+
     return (
         <div className={clsx(
             'flex gap-5 items-center',
