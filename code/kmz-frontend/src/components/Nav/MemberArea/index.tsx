@@ -24,8 +24,9 @@ const MemberArea = () => {
             ' border-neutral-300 ',
             'border-t-solid border-t-1',
             'pt-5',
+            'md:border-t-0',
             'md:border-l-solid md:border-l-1 ',
-            'md:pl-5'
+            'md:pl-5 md:pt-0'
         )}>
             {session?.user.firstName ? (
                 <Link

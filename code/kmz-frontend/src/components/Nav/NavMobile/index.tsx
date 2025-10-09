@@ -13,7 +13,7 @@ const NavMobile = ({ items, activePath }: { items: NavItem[], activePath: string
     const $trigger = useRef<HTMLButtonElement>(null);
 
     useEffect(() => {
-        if ($trigger.current)
+        if ($trigger.current && $trigger.current.dataset.state === 'open')
             $trigger.current.click()
     }, [activePath])
 
@@ -32,7 +32,7 @@ const NavMobile = ({ items, activePath }: { items: NavItem[], activePath: string
                 </SheetTrigger>
                 <SheetContent
                     className={clsx(
-                        ' bg-secondary z-10001',
+                        'bg-secondary z-10001',
                         'pt-[var(--header-height)]',
                         'px-5'
                     )}
