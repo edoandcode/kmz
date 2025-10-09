@@ -33,7 +33,7 @@ const MemberArea = () => {
                     href={`/${ROUTES.DASHBOARD}`}
                     className={clsx(
                         "flex gap-3 items-center",
-                        "font-medium text-green-500"
+                        "font-medium text-primary"
                     )}>
                     <CircleUserRound></CircleUserRound>{session.user.firstName}
                 </Link>
