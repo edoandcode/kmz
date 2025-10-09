@@ -6,6 +6,8 @@ const ROUTES = {
     SIGNUP: 'signup',
     LOGIN: 'login',
     DASHBOARD: 'dashboard',
+    DASHBOARD_REQUESTS: 'dashboard/requests',
+    DASHBOARD_CONTENTS: 'dashboard/contents',
     HOME: '/',
 }
 
