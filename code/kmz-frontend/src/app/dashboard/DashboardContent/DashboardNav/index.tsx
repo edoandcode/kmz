@@ -51,10 +51,11 @@ const DashboardNav = () => {
             )}>
                 {items.map(item => (
                     <li key={item.path}>
-                        <Link href={`/${item.path}`} className={clsx(
-                            "flex gap-4 items-center",
-                            "font-medium text-lg"
-                        )}>
+                        <Link
+                            href={`/${item.path}`} className={clsx(
+                                "flex gap-4 items-center",
+                                "font-medium text-lg"
+                            )}>
                             {item.icon}
                             <span>{item.label}</span>
                         </Link>

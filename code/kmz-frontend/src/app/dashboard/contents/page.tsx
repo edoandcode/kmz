@@ -1,11 +1,13 @@
 import React from 'react';
 
-import CreateContentButtons from './CreateContentButtons';
+import CreateContent from './CreateContent';
 
 const DashboardMyContents = () => {
+
+
     return (
         <div>
-            <CreateContentButtons></CreateContentButtons>
+            <CreateContent></CreateContent>
         </div>
     )
 }
