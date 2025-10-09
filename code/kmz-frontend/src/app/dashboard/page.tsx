@@ -1,15 +1,18 @@
 'use client'
 import React from 'react';
 
-import DashboardContent from './Content';
+import PageWrapper from '@/components/PageWrapper';
+
+import DashboardContent from './DashboardContent';
 
 const DashboardPage = () => {
 
 
     return (
-        <div className="pt-[var(--header-height)]">
+        <PageWrapper>
             <DashboardContent />
-        </div>
+        </PageWrapper>
+
     )
 }
 

@@ -4,6 +4,8 @@ import { useSession } from 'next-auth/react';
 
 import Grid from '@/components/Grid';
 
+import DashboardNav from './DashboardNav';
+
 const DashboardContent = () => {
     const { status, data: session } = useSession();
 
@@ -16,8 +18,7 @@ const DashboardContent = () => {
                 <Grid.Col
                     span={4}
                 >
-                    <h1 className="text-2xl font-bold">Dashboard</h1>
-                    <p>{session?.user?.roles?.join(', ') || 'No roles assigned'}</p>
+                    <DashboardNav></DashboardNav>
                 </Grid.Col>
             </Grid>
         </div>
