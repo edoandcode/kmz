@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 import FormErrorMessage from '@/components/FormErrorMessage';
 import { Button } from '@/components/ui/button';
@@ -38,26 +39,41 @@ export function SignupForm({ isSuperAdminSetup = false }: SignUpFormProps) {
 
 
     const onSubmit = async (data: SignUpSchema) => {
-        console.log(data);
-
-        const registerUserData: RegisterUserDto = {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            email: data.email,
-            password: data.password,
-            roles: isSuperAdminSetup ? Object.values(UserRole) : data.roles ? [data.roles] : []
-        }
-
-
         try {
-            const userDto: UserDto = await post<UserDto>(`/${API.SETUP_SUPERADMIN}`, registerUserData);
+            const registerUserData: RegisterUserDto = {
+                firstName: data.firstName,
+                lastName: data.lastName,
+                email: data.email,
+                password: data.password,
+                roles: isSuperAdminSetup ? Object.values(UserRole) : data.roles ? [data.roles] : []
+            }
 
-            router.push(`/${ROUTES.LOGIN}`);
+            const endpoint = isSuperAdminSetup ? `/${API.SETUP_SUPERADMIN}` : `/${API.SIGN_UP}`;
 
-            console.log('userDto', userDto);
+            await post<UserDto>(endpoint, registerUserData);
 
+            toast.success("Registration successful! You can now log in.");
+
+
+            router.push(`/${ROUTES.LOGIN}`)
         } catch (error) {
-            console.log(error);
+            console.error("Signup error:", error);
+
+            const message =
+                error instanceof Error
+                    ? error.message
+                    : "We encountered a server problem. Please try again later.";
+
+            // Custom messages
+            if (message.includes("already taken")) {
+                toast.error("This email or username is already in use.");
+            } else if (message.includes("password")) {
+                toast.error("Password does not meet the required criteria.");
+            } else if (message.includes("Invalid JSON")) {
+                toast.error("Unexpected response from server. Please try again later.");
+            } else {
+                toast.error("We encountered a server problem. Please try again later.");
+            }
         }
     }
 

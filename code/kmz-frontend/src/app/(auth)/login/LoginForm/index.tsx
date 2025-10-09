@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 import FormErrorMessage from '@/components/FormErrorMessage';
 import { Button } from '@/components/ui/button';
@@ -33,24 +34,41 @@ export function LoginForm() {
     const onSubmit = async (data: LoginSchema) => {
         console.log(data);
 
-        const registerUserData = {
-            email: data.email,
-            password: data.password,
-        }
+        try {
 
-        const result = await signIn("credentials", {
-            redirect: false,
-            ...registerUserData
-        })
+            const registerUserData = {
+                email: data.email,
+                password: data.password,
+            }
 
-        console.log('result', result)
+            const result = await signIn("credentials", {
+                redirect: false,
+                ...registerUserData
+            })
 
-        if (result?.error) {
-            console.error(result.error)
-        } else {
+            if (!result) return;
+
+            console.log('result', result)
+
+
+            if (result.error) {
+                if (result.error === "CredentialsSignin" || result.error === "Configuration") {
+                    // User provided invalid email/password
+                    toast.error("Invalid email or password");
+                } else {
+                    // Generic connection / server error
+                    toast.error("Connection error, please try again later.");
+                }
+                return;
+            }
+
             router.push(`/${ROUTES.DASHBOARD}`);
-            console.log("Login successful")
+        } catch (error) {
+            console.error("Login error:", error);
         }
+
+
+
     }
 
 

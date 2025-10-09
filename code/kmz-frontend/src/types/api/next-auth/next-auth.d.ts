@@ -30,3 +30,9 @@ declare module "next-auth/jwt" {
         }
     }
 }
+
+
+export type ApiError = Error & {
+    status?: number;
+    details?: unknown;
+};

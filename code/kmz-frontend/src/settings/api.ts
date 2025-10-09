@@ -13,6 +13,7 @@ const API = {
     ME: 'auth/me',
     /*USER*/
     SETUP_SUPERADMIN: 'users/setup-admin',
+    SIGN_UP: 'users',
 }
 
 

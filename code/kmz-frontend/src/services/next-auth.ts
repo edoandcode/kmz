@@ -10,6 +10,9 @@ import type { NextAuthConfig } from 'next-auth';
 
 import type { UserDto } from '@/types/api/data-types';
 import type { Session } from 'next-auth';
+
+import type { ApiError } from '@/types/api/next-auth/next-auth';
+
 export const authOptions: NextAuthConfig = {
     session: { strategy: "jwt" },
 
@@ -25,16 +28,41 @@ export const authOptions: NextAuthConfig = {
 
                 console.log('AUTHORIZE', { email, password });
 
-                const userTokens = await post<{ accessToken: string; refreshToken: string }>(`/${API.LOGIN}`, { email, password });
+                try {
+                    const userTokens = await post<{ accessToken: string; refreshToken: string }>(`/${API.LOGIN}`, { email, password });
 
-                if (!userTokens) {
-                    console.error("Login failed");
-                    return null;
-                }
+                    if (!userTokens) {
+                        console.error("Login failed");
+                        return null;
+                    }
 
-                return {
-                    accessToken: userTokens.accessToken,
-                    refreshToken: userTokens.refreshToken
+                    return {
+                        accessToken: userTokens.accessToken,
+                        refreshToken: userTokens.refreshToken
+                    }
+                } catch (err) {
+                    const error: ApiError =
+                        err instanceof Error ? err : new Error('Unexpected error during login');
+
+                    console.error('[Authorize Error]', {
+                        message: error.message,
+                        status: error.status,
+                        details: error.details,
+                    });
+
+                    // Handle invalid credentials (backend 400 or 401)
+                    if (error.status === 400 || error.status === 401) {
+                        console.warn('Invalid credentials');
+                        return null; // NextAuth will automatically show "CredentialsSignin"
+                    }
+
+                    // Handle network error or unreachable server
+                    if (error instanceof TypeError) {
+                        throw new Error('Unable to reach authentication server');
+                    }
+
+                    // Handle any other unexpected error, preserving detailed message
+                    throw new Error(error.message || 'Unexpected error during login');
                 }
             },
         }),
@@ -89,9 +117,26 @@ export const authOptions: NextAuthConfig = {
                         exp: decodedAccessToken?.exp,
                     }
                 };
-            } catch (error) {
-                console.error('Error refreshing token:', error);
-                return { ...token, error: 'RefreshAccessTokenError' };
+            } catch (err: unknown) {
+                console.error('Error refreshing token:', err);
+
+                const error: ApiError = err instanceof Error ? err : new Error('Unknown error');
+
+                console.error('[JWT Refresh Error]', {
+                    message: error.message,
+                    status: error.status,
+                    details: error.details,
+                });
+
+                return {
+                    ...token,
+                    error: {
+                        type: 'RefreshAccessTokenError' as const,
+                        message: error.message || 'Failed to refresh access token',
+                        status: error.status ?? null,
+                        details: error.details ?? null,
+                    },
+                };
             }
 
         },
