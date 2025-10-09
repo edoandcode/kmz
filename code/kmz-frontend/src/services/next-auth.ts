@@ -25,7 +25,7 @@ export const authOptions: NextAuthConfig = {
 
                 console.log('AUTHORIZE', { email, password });
 
-                const userTokens = await post<{ accessToken: string; refreshToken: string }>(`${API.ENDPOINT}/auth/login`, { email, password });
+                const userTokens = await post<{ accessToken: string; refreshToken: string }>(`/${API.LOGIN}`, { email, password });
 
                 if (!userTokens) {
                     console.error("Login failed");

@@ -2,6 +2,7 @@
 import React from 'react';
 
 import { clsx } from 'clsx';
+import { CircleUserRound } from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 
@@ -19,12 +20,22 @@ const MemberArea = () => {
 
     return (
         <div className={clsx(
-            'flex gap-5 items-center',
-            ' border-neutral-300 border-l-solid border-l-1 pl-5'
-
+            'flex gap-5 items-center justify-between',
+            ' border-neutral-300 ',
+            'border-t-solid border-t-1',
+            'pt-5',
+            'md:border-l-solid md:border-l-1 ',
+            'md:pl-5'
         )}>
             {session?.user.firstName ? (
-                <span className="font-medium text-green-500">{session.user.firstName}</span>
+                <Link
+                    href={`/${ROUTES.DASHBOARD}`}
+                    className={clsx(
+                        "flex gap-3 items-center",
+                        "font-medium text-green-500"
+                    )}>
+                    <CircleUserRound></CircleUserRound>{session.user.firstName}
+                </Link>
             ) : null}
             {Object.keys(session?.user || {}).length ? (
                 <>

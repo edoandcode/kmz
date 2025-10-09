@@ -2,18 +2,24 @@
 import React from 'react';
 
 import { clsx } from 'clsx';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { APP_LABELS } from '@/settings/app-labels';
 import { ROUTES } from '@/settings/routes';
 
-import MemberArea from './MemberArea';
+import NavDesktop from './NavDesktop';
+import NavMobile from './NavMobile';
+
+export type NavItem = {
+    label: string;
+    route: string;
+}
+
 
 const Nav = () => {
     const pathname = usePathname();
 
-    const naveItems = [
+    const navItems: NavItem[] = [
         { label: APP_LABELS.HOME, route: ROUTES.HOME },
         { label: APP_LABELS.DASHBOARD, route: ROUTES.DASHBOARD },
     ];
@@ -22,16 +28,8 @@ const Nav = () => {
         <nav className={clsx(
             'flex gap-5 items-center '
         )}>
-            <ul className={clsx(
-                'flex gap-7 list-none m-0 p-0'
-            )}>
-                {naveItems.map((item) => (
-                    <li key={item.route} className={clsx({ 'font-medium': pathname === item.route || pathname === `/${item.route}` })}>
-                        <Link href={`/${item.route}`}>{item.label}</Link>
-                    </li>
-                ))}
-            </ul>
-            <MemberArea />
+            <NavDesktop items={navItems} activePath={pathname} />
+            <NavMobile items={navItems} activePath={pathname} />
         </nav >
     )
 }
