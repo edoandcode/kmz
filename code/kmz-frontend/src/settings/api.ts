@@ -16,6 +16,8 @@ const API = {
     SIGN_UP: 'users',
     /*PRODUCTS */
     PRODUCTS: 'products',
+    /*EVENTS */
+    EVENTS: 'events',
 }
 
 

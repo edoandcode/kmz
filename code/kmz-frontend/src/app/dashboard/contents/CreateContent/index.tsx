@@ -8,6 +8,7 @@ import { Dialog } from '@/components/ui/dialog';
 import { ContentType } from '@/types/api/data-types';
 
 import CreateContentButtons from './CreateContentButtons';
+import EventDialogContent from './EventDialogContent';
 import ProductDialogContent from './ProductDialogContent';
 
 const CreateContent = ({ session }: { session: Session | null }) => {
@@ -20,6 +21,9 @@ const CreateContent = ({ session }: { session: Session | null }) => {
                 <CreateContentButtons setContentType={setCurrentContentType} />
                 {currentContentType === ContentType.PRODUCT ? (
                     <ProductDialogContent session={session} />
+                ) : null}
+                {currentContentType === ContentType.EVENT ? (
+                    <EventDialogContent session={session} />
                 ) : null}
             </Dialog>
         </div>
