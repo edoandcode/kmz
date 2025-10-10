@@ -1,19 +1,16 @@
 'use client'
 import React, { useState } from 'react';
 
-import { Button } from '@/components/ui/button';
-import {
-    Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Session, User } from 'next-auth';
+
+import { Dialog } from '@/components/ui/dialog';
 
 import { ContentType } from '@/types/api/data-types';
 
 import CreateContentButtons from './CreateContentButtons';
 import ProductDialogContent from './ProductDialogContent';
 
-const CreateContent = () => {
+const CreateContent = ({ session }: { session: Session | null }) => {
 
     const [currentContentType, setCurrentContentType] = useState<ContentType | null>(null);
 
@@ -22,7 +19,7 @@ const CreateContent = () => {
             <Dialog>
                 <CreateContentButtons setContentType={setCurrentContentType} />
                 {currentContentType === ContentType.PRODUCT ? (
-                    <ProductDialogContent />
+                    <ProductDialogContent session={session} />
                 ) : null}
             </Dialog>
         </div>

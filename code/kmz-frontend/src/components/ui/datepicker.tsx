@@ -9,14 +9,14 @@ import { Calendar } from '@/components/ui/calendar';
 import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
-export function Datepicker({ label, onDateChange }: { label?: string, onDateChange?: (date: Date | null) => void }) {
+export function Datepicker({ label, onChange }: { label?: string, onChange?: (date: Date | null) => void }) {
     const [open, setOpen] = React.useState(false)
     const [date, setDate] = React.useState<Date | undefined>(undefined)
 
     React.useEffect(() => {
-        if (typeof onDateChange === "function")
-            onDateChange(date || null)
-    }, [date, onDateChange])
+        if (typeof onChange === "function")
+            onChange(date || null)
+    }, [date, onChange])
 
     return (
         <div className="flex flex-col gap-3">

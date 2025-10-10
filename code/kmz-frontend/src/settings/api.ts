@@ -14,6 +14,8 @@ const API = {
     /*USER*/
     SETUP_SUPERADMIN: 'users/setup-admin',
     SIGN_UP: 'users',
+    /*PRODUCTS */
+    PRODUCTS: 'products',
 }
 
 

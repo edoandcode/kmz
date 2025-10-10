@@ -21,17 +21,40 @@ export async function fetchApi<T = unknown>(
     const url = new URL(`${API.BASE_URL}/${path}`)
 
 
-    const res = await fetch(url.href, {
-        ...options,
-        headers: {
-            ...options.headers,
-        },
-    })
+    try {
 
-    if (!res.ok) {
-        throw new Error(`Fetch error: ${res.status} ${res.statusText}`)
+        const res = await fetch(url.href, {
+            ...options,
+            headers: {
+                ...options.headers,
+            },
+        })
+
+        if (!res.ok) {
+            let errorMsg = "Unexpected error";
+
+            try {
+                const errorBody = await res.json();
+                errorMsg = errorBody.message || JSON.stringify(errorBody);
+            } catch {
+                // fallback se non è JSON
+                errorMsg = `HTTP ${res.status}`;
+            }
+
+            throw new Error(errorMsg);
+        }
+
+        try {
+            const data = await res.json()
+            return data as T
+        } catch {
+            throw new Error("Invalid JSON response");
+        }
+    } catch (err) {
+        if (err instanceof Error) throw err;
+        throw new Error("Network error or invalid response");
     }
 
-    const data = await res.json()
-    return data as T
+
+
 }

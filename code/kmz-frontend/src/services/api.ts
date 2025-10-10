@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import { fetchApi } from './http';
 
 import type { FetchApiOptions } from './http';
@@ -32,7 +34,7 @@ export const post = async <T>(endpoint: string, body: unknown, options?: FetchAp
             'Content-Type': 'application/json',
             ...options?.headers,
         },
-        ...options,
+        ..._.omit(options, ['headers']),
     });
 }
 
