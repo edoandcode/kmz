@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { CircleQuestionMark, SquareChartGantt } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 import { APP_LABELS } from '@/settings/app-labels';
 import { ROUTES } from '@/settings/routes';
@@ -38,6 +39,8 @@ const DashboardNav = () => {
 
     const { data: session } = useSession();
 
+    const pathname = usePathname();
+
     const userRoles = session?.user?.roles
 
     if (!userRoles) return null
@@ -54,7 +57,8 @@ const DashboardNav = () => {
                         <Link
                             href={`/${item.path}`} className={clsx(
                                 "flex gap-4 items-center",
-                                "font-medium text-lg"
+                                "font-medium text-lg",
+                                { 'text-primary': pathname === `/${item.path}` }
                             )}>
                             {item.icon}
                             <span>{item.label}</span>
