@@ -25,7 +25,7 @@ import type { EventSchema } from '@/validation/contents/event/schema';
 const EventDialogContent = ({ session }: { session: Session | null }) => {
 
     const { handleSubmit, register, formState: { errors }, control } = useForm<EventSchema>({
-        resolver: zodResolver(eventSchema)
+        resolver: zodResolver(eventSchema),
     })
 
     const onSubmit = async (data: EventSchema) => {
@@ -110,10 +110,14 @@ const EventDialogContent = ({ session }: { session: Session | null }) => {
                     <DialogClose asChild>
                         <Button variant="outline">Cancel</Button>
                     </DialogClose>
-                    <Button type="submit" form="event-form">Save changes</Button>
+                    <Button
+                        variant="secondary"
+                        type="submit"
+                        form="event-form"
+                    >Save changes</Button>
                 </DialogFooter>
             </DialogContent>
-        </form>
+        </form >
     )
 }
 

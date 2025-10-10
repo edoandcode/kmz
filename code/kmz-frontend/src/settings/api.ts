@@ -18,6 +18,8 @@ const API = {
     PRODUCTS: 'products',
     /*EVENTS */
     EVENTS: 'events',
+    /*PROCESS */
+    PROCESS: 'processes',
 }
 
 

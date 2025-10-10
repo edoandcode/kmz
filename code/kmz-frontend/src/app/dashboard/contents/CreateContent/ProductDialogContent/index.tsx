@@ -135,7 +135,11 @@ const ProductDialogContent = ({ session }: { session: Session | null }) => {
                     <DialogClose asChild>
                         <Button variant="outline">Cancel</Button>
                     </DialogClose>
-                    <Button type="submit" form="product-form">Save changes</Button>
+                    <Button
+                        variant="secondary"
+                        type="submit"
+                        form="product-form"
+                    >Save changes</Button>
                 </DialogFooter>
             </DialogContent>
         </form>

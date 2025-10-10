@@ -9,6 +9,7 @@ import { ContentType } from '@/types/api/data-types';
 
 import CreateContentButtons from './CreateContentButtons';
 import EventDialogContent from './EventDialogContent';
+import ProcessDialogContent from './ProcessDialogContent';
 import ProductDialogContent from './ProductDialogContent';
 
 const CreateContent = ({ session }: { session: Session | null }) => {
@@ -24,6 +25,9 @@ const CreateContent = ({ session }: { session: Session | null }) => {
                 ) : null}
                 {currentContentType === ContentType.EVENT ? (
                     <EventDialogContent session={session} />
+                ) : null}
+                {currentContentType === ContentType.PROCESS ? (
+                    <ProcessDialogContent session={session} />
                 ) : null}
             </Dialog>
         </div>

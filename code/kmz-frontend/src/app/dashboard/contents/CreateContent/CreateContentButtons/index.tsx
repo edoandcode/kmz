@@ -24,10 +24,10 @@ const CreateContentButtons = ({ setContentType }: { setContentType: (type: Conte
                     return (
                         <DialogTrigger asChild key={role}>
                             <Button
-                                variant="default"
+                                variant="secondary"
                                 onClick={() => setContentType(ContentType.PRODUCT)}
                             >
-                                CREATE NEW PRODUCT
+                                Create new product
                             </Button>
                         </DialogTrigger>
                     );
@@ -35,10 +35,10 @@ const CreateContentButtons = ({ setContentType }: { setContentType: (type: Conte
                     return (
                         <DialogTrigger asChild key={role}>
                             <Button
-                                variant="default"
+                                variant="secondary"
                                 onClick={() => setContentType(ContentType.PROCESS)}
                             >
-                                CREATE NEW PROCESS
+                                Create new process
                             </Button>
                         </DialogTrigger>
                     )
@@ -46,10 +46,10 @@ const CreateContentButtons = ({ setContentType }: { setContentType: (type: Conte
                     return (
                         <DialogTrigger asChild key={role}>
                             <Button
-                                variant="default"
+                                variant="secondary"
                                 onClick={() => setContentType(ContentType.EVENT)}
                             >
-                                CREATE NEW EVENT
+                                Create new event
                             </Button>
                         </DialogTrigger>
                     )
