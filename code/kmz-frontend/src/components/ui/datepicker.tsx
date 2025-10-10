@@ -28,7 +28,7 @@ export function Datepicker({ label, onChange }: { label?: string, onChange?: (da
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                     <Button
-                        variant="outline"
+                        variant="outline_default"
                         id="date"
                         className="w-48 justify-between font-normal"
                     >

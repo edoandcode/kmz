@@ -108,10 +108,10 @@ const EventDialogContent = ({ session }: { session: Session | null }) => {
                 </div>
                 <DialogFooter>
                     <DialogClose asChild>
-                        <Button variant="outline">Cancel</Button>
+                        <Button variant="outline_primary">Cancel</Button>
                     </DialogClose>
                     <Button
-                        variant="secondary"
+                        variant="primary"
                         type="submit"
                         form="event-form"
                     >Save changes</Button>

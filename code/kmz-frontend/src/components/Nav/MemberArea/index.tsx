@@ -17,6 +17,10 @@ const MemberArea = () => {
     console.log('Session status:', status);
     console.log('Session data:', session);
 
+    if (!session)
+        return null;
+
+
 
     return (
         <div className={clsx(
@@ -28,7 +32,7 @@ const MemberArea = () => {
             'md:border-l-solid md:border-l-1 ',
             'md:pl-5 md:pt-0'
         )}>
-            {session?.user.firstName ? (
+            {session?.user?.firstName ? (
                 <Link
                     href={`/${ROUTES.DASHBOARD}`}
                     className={clsx(
@@ -41,7 +45,7 @@ const MemberArea = () => {
             {Object.keys(session?.user || {}).length ? (
                 <>
                     <Button
-                        variant="outline"
+                        variant="primary"
                         size="sm"
                         onClick={() => {
                             console.log('Logging out')
@@ -51,7 +55,7 @@ const MemberArea = () => {
                 </>
             ) : (
                 <Button
-                    variant="outline"
+                    variant="default"
                     asChild
                 >
                     <Link href={`/${ROUTES.LOGIN}`}>
