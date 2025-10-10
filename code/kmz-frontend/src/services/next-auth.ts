@@ -11,7 +11,7 @@ import type { NextAuthConfig } from 'next-auth';
 import type { UserDto } from '@/types/api/data-types';
 import type { Session } from 'next-auth';
 
-import type { ApiError } from '@/types/api/next-auth/next-auth';
+import type { ApiError } from '@/types/next-auth/next-auth';
 
 export const authOptions: NextAuthConfig = {
     session: { strategy: "jwt" },
@@ -162,9 +162,12 @@ export const authOptions: NextAuthConfig = {
                 return session;
             }
 
+            const { refreshToken, ...rest } = token.user
+
+
             session.user = {
                 ...user,
-                ...token.user
+                ...rest
             }
 
             return session;

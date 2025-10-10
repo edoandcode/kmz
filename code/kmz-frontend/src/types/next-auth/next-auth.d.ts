@@ -1,5 +1,5 @@
 import type { DefaultSession, DefaultUser } from 'next-auth';
-import { UserDto } from '../data-types';
+import { UserDto } from '../api/data-types';
 
 // 👇 Converts this file into an ES module to prevent it from being treated as a global script.
 // This avoids conflicts with global declarations.
@@ -15,7 +15,6 @@ declare module "next-auth" {
     interface Session extends DefaultSession {
         user: UserDto & {
             accessToken: string
-            refreshToken?: string
         } | null;
     }
 }
