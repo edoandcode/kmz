@@ -1,9 +1,17 @@
 import React from 'react';
 
-const DashboardMyRequests = () => {
+import { auth } from '@/services/next-auth';
+
+import RequestList from './RequestList';
+
+const DashboardMyRequestsPage = async () => {
+    const session = await auth();
+
     return (
-        <div>DashboardMyRequests</div>
+        <div>
+            <RequestList session={session}></RequestList>
+        </div>
     )
 }
 
-export default DashboardMyRequests
+export default DashboardMyRequestsPage

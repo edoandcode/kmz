@@ -1,16 +1,39 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
+import { Session } from 'next-auth';
+import { toast } from 'sonner';
+
+import KeyValueItem from '@/components/KeyValueItem';
 import { Button } from '@/components/ui/button';
 import {
     Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle
 } from '@/components/ui/card';
 
-import type { ProductSchema } from '@/validation/contents/product/schema';
-const ProductCard = ({ product }: { product: ProductSchema }) => {
+import { post } from '@/services/api';
+import { API } from '@/settings/api';
+import { ProductContent } from '@/types/api/content/types';
+import { ContentPublicationResponseDto } from '@/types/api/request/types';
 
-    const handlePublicationRequest = () => {
+const ProductCard = ({ product, session }: { product: ProductContent, session: Session | null }) => {
+
+    const handlePublicationRequest = useCallback(async () => {
         // Handle publication request
-    }
+
+        console.log('sesssion', session);
+
+        try {
+            const response = await post<ContentPublicationResponseDto>(`/${API.REQUEST_PUBLISH_CONTENT}/${product.id}`, {}, {
+                headers: {
+                    Authorization: `Bearer ${session?.user?.accessToken}`
+                }
+            })
+            console.log('Publication request response:', response);
+            toast.success('Publication request created successfully');
+        } catch (error) {
+            console.error('Error creating publication request:', error);
+            toast.error('Error creating publication request');
+        }
+    }, [session, product])
 
     return (
         <Card className='basis-[calc(50%-1rem)] h-full'>
@@ -24,13 +47,14 @@ const ProductCard = ({ product }: { product: ProductSchema }) => {
                 <p className='font-medium '>{'Metodo di Coltivazione:'}</p>
                 <CardDescription>{product.cultivationMethod}</CardDescription>
                 <div className="flex flex-col gap-2 mt-4 text-sm">
-                    <p className='font-medium'>{'Data di semina: '}<span className='font-normal'>{new Date(product.sowingDate).toLocaleDateString()}</span></p>
-                    <p className='font-medium'>{'Data di raccolta: '}<span className='font-normal'>{new Date(product.harvestDate).toLocaleDateString()}</span></p>
+                    <KeyValueItem label={'Data di semina'} value={new Date(product.sowingDate).toLocaleDateString()} />
+                    <KeyValueItem label={'Data di raccolta'} value={new Date(product.harvestDate).toLocaleDateString()} />
                 </div>
             </CardContent>
             <CardFooter>
                 <Button
                     variant='primary'
+                    onClick={handlePublicationRequest}
                 >
                     {'Richiesta di pubblicazione'}
                 </Button>

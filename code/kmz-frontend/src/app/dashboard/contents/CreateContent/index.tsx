@@ -5,7 +5,7 @@ import { Session, User } from 'next-auth';
 
 import { Dialog } from '@/components/ui/dialog';
 
-import { ContentType } from '@/types/api/data-types';
+import { ContentType } from '@/types/api/content/types';
 
 import CreateContentButtons from './CreateContentButtons';
 import EventDialogContent from './EventDialogContent';

@@ -19,11 +19,11 @@ import {
 import { post } from '@/services/api';
 import { API } from '@/settings/api';
 import { ROUTES } from '@/settings/routes';
-import { UserRole } from '@/types/api/data-types';
+import { UserRole } from '@/types/api/user/types';
 import { signUpSchema } from '@/validation/user/schema';
 
-import type { UserDto } from '@/types/api/data-types';
-import type { RegisterUserDto } from '@/types/api/data-types';
+import type { UserDto } from "@/types/api/user/types";
+import type { RegisterUserDto } from "@/types/api/user/types";
 import type { SignUpSchema } from '@/validation/user/schema';
 interface SignUpFormProps {
     isSuperAdminSetup?: boolean;

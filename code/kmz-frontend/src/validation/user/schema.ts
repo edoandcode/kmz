@@ -1,6 +1,6 @@
 import z from 'zod';
 
-import { UserRole } from '@/types/api/data-types';
+import { UserRole } from '@/types/api/user/types';
 
 export const signUpSchema = z.object({
     firstName: z.string().min(3, 'First name must be at least 3 characters long'),

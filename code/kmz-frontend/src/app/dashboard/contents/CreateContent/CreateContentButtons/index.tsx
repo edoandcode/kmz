@@ -8,7 +8,8 @@ import { useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import { DialogTrigger } from '@/components/ui/dialog';
 
-import { ContentType, UserRole } from '@/types/api/data-types';
+import { ContentType } from '@/types/api/content/types';
+import { UserRole } from '@/types/api/user/types';
 
 const roleContentMap: Partial<Record<UserRole, { contentType: ContentType, label: string }>> = {
     [UserRole.PRODUCER]: { contentType: ContentType.PRODUCT, label: 'Create new product' },

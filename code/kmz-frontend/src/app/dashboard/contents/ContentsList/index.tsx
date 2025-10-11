@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Session } from 'next-auth';
 
-import { UserRole } from '@/types/api/data-types';
+import { UserRole } from '@/types/api/user/types';
 
 import EventList from './Events';
 import ProcessList from './Processes';

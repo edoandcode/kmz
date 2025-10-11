@@ -8,7 +8,7 @@ import { API } from '@/settings/api';
 
 import type { NextAuthConfig } from 'next-auth';
 
-import type { UserDto } from '@/types/api/data-types';
+import type { UserDto } from "@/types/api/user/types";
 import type { Session } from 'next-auth';
 
 import type { ApiError } from '@/types/next-auth/next-auth';

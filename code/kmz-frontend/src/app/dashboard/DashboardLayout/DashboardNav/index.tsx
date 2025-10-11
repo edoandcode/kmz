@@ -9,7 +9,7 @@ import { usePathname } from 'next/navigation';
 
 import { APP_LABELS } from '@/settings/app-labels';
 import { ROUTES } from '@/settings/routes';
-import { UserRole } from '@/types/api/data-types';
+import { UserRole } from '@/types/api/user/types';
 
 type MenuItem = {
     label: string

@@ -1,4 +1,3 @@
-
 /// USER
 export enum UserRole {
     ADMINISTRATOR = 'ADMINISTRATOR',
@@ -23,12 +22,4 @@ export interface UserDto {
     firstName: string;
     lastName: string;
     roles?: UserRole[];
-}
-
-
-// CONTENT
-export enum ContentType {
-    PRODUCT = 'PRODUCT',
-    PROCESS = 'PROCESS',
-    EVENT = 'EVENT'
 }

@@ -6,12 +6,12 @@ import useSWR from 'swr';
 
 import { get } from '@/services/api';
 import { API } from '@/settings/api';
-import { ProductSchema } from '@/validation/contents/product/schema';
+import { ProductContent } from '@/types/api/content/types';
 
 import ProductCard from './ProductCard';
 
 const fetcher = (url: string, token?: string) =>
-    get<ProductSchema[]>(url, {
+    get<ProductContent[]>(url, {
         headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -38,7 +38,11 @@ const ProductList = ({ session }: { session: Session | null }) => {
     return (
         <div className="flex gap-4 flex-wrap align-stretch justify-items-stretch">
             {products.map((product, index) => (
-                <ProductCard key={product.name + index} product={product} />
+                <ProductCard
+                    key={product.name + index}
+                    product={product}
+                    session={session}
+                />
             ))}
         </div>
     )

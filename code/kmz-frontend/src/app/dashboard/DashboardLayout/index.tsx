@@ -19,12 +19,14 @@ const DashboardLayout = ({ children }: PropsWithChildren) => {
         <PageWrapper>
             <Grid>
                 <Grid.Col
-                    span={3}
+                    span={12}
+                    span-md={3}
                 >
                     <DashboardNav></DashboardNav>
                 </Grid.Col>
                 <Grid.Col
-                    span={9}
+                    span={12}
+                    span-md={9}
                 >
                     {children}
                 </Grid.Col>

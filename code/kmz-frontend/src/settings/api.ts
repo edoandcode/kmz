@@ -21,6 +21,9 @@ const API = {
     EVENTS: 'events',
     /*PROCESS */
     PROCESS: 'processes',
+    /*REQUESTS CONTENTS */
+    REQUEST_MY_REQUESTS: 'requests/contents/publication',
+    REQUEST_PUBLISH_CONTENT: 'requests/contents/publish',
 }
 
 
