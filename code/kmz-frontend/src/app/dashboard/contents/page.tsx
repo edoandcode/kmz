@@ -1,7 +1,10 @@
 import React from 'react';
 
+import { clsx } from 'clsx';
+
 import { auth } from '@/services/next-auth';
 
+import ContentsList from './ContentsList';
 import CreateContent from './CreateContent';
 
 const DashboardMyContents = async () => {
@@ -10,8 +13,11 @@ const DashboardMyContents = async () => {
     console.log('session dashboard', session);
 
     return (
-        <div>
+        <div className={clsx(
+            "flex flex-col gap-6"
+        )}>
             <CreateContent session={session}></CreateContent>
+            <ContentsList session={session}></ContentsList>
         </div>
     )
 }

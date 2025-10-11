@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import clsx from 'clsx';
 import { useSession } from 'next-auth/react';
@@ -10,6 +10,13 @@ import { DialogTrigger } from '@/components/ui/dialog';
 
 import { ContentType, UserRole } from '@/types/api/data-types';
 
+const roleContentMap: Partial<Record<UserRole, { contentType: ContentType, label: string }>> = {
+    [UserRole.PRODUCER]: { contentType: ContentType.PRODUCT, label: 'Create new product' },
+    [UserRole.PROCESSOR]: { contentType: ContentType.PROCESS, label: 'Create new process' },
+    [UserRole.FACILITATOR]: { contentType: ContentType.EVENT, label: 'Create new event' },
+};
+
+
 const CreateContentButtons = ({ setContentType }: { setContentType: (type: ContentType) => void }) => {
 
     const { data: session } = useSession();
@@ -17,55 +24,23 @@ const CreateContentButtons = ({ setContentType }: { setContentType: (type: Conte
     const userRoles = session?.user?.roles as UserRole[]
 
 
-    const buttons = useMemo(() => {
-        return userRoles.map(role => {
-            switch (role) {
-                case UserRole.PRODUCER:
-                    return (
-                        <DialogTrigger asChild key={role}>
-                            <Button
-                                variant="outline_primary"
-                                onClick={() => setContentType(ContentType.PRODUCT)}
-                            >
-                                Create new product
-                            </Button>
-                        </DialogTrigger>
-                    );
-                case UserRole.PROCESSOR:
-                    return (
-                        <DialogTrigger asChild key={role}>
-                            <Button
-                                variant="outline_primary"
-                                onClick={() => setContentType(ContentType.PROCESS)}
-                            >
-                                Create new process
-                            </Button>
-                        </DialogTrigger>
-                    )
-                case UserRole.FACILITATOR:
-                    return (
-                        <DialogTrigger asChild key={role}>
-                            <Button
-                                variant="outline_primary"
-                                onClick={() => setContentType(ContentType.EVENT)}
-                            >
-                                Create new event
-                            </Button>
-                        </DialogTrigger>
-                    )
-                default:
-                    return null
-            }
-        });
-    }, [userRoles])
-
-
-
     return (
         <div className={clsx(
             "flex gap-3 justify-end"
         )}>
-            {buttons}
+            {userRoles?.filter((role) => !!roleContentMap[role]).map(role => {
+                const content = roleContentMap[role]!;
+                return (
+                    <DialogTrigger asChild key={role}>
+                        <Button
+                            variant="outline_primary"
+                            onClick={() => setContentType(content.contentType)}
+                        >
+                            {content.label}
+                        </Button>
+                    </DialogTrigger>
+                )
+            })}
         </div>
     )
 }
