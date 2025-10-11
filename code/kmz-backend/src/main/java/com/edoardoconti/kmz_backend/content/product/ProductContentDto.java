@@ -19,7 +19,7 @@ import java.util.List;
 public class ProductContentDto {
     private Long id; // inherited from Content (assuming Content has an ID field)
 
-    private Long authorId; // MUST BE INJECTED AUTOMATICALLY AL CONTENT CREATION
+    private Long authorId; // MUST BE INJECTED AUTOMATICALLY ON CONTENT CREATION
 
     @NotBlank(message = "Name is required")
     @Size(max = 100, message = "Name must be at most 100 characters")
@@ -31,7 +31,7 @@ public class ProductContentDto {
     @PastOrPresent(message = "Sowing date cannot be in the future")
     private Date sowingDate;
 
-    @PastOrPresent(message = "Sowing date cannot be in the future")
+    @PastOrPresent(message = "Harvest date cannot be in the future")
     private Date harvestDate;
 
     @Size(max = 500, message = "Cultivation method must be at most 500 characters")
