@@ -9,7 +9,7 @@ import Nav from '@/components/Nav';
 const Header = () => {
     return (
         <header className={clsx(
-            "w-full fixed top-0 left-0 z-10 h-[var(--header-height)] flex items-center border-b border-b-neutral-100 shadow-md",
+            "w-full fixed top-0 left-0 z-10 h-[var(--header-height)] flex items-center border-b border-b-neutral-100 shadow-md bg-background",
         )}>
             <Grid >
                 <Grid.Col span={3}>

@@ -1,12 +1,17 @@
 import React from 'react';
 
+import { Button } from '@/components/ui/button';
 import {
     Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle
 } from '@/components/ui/card';
 
 import type { ProductSchema } from '@/validation/contents/product/schema';
-
 const ProductCard = ({ product }: { product: ProductSchema }) => {
+
+    const handlePublicationRequest = () => {
+        // Handle publication request
+    }
+
     return (
         <Card className='basis-[calc(50%-1rem)] h-full'>
             <CardHeader>
@@ -24,7 +29,11 @@ const ProductCard = ({ product }: { product: ProductSchema }) => {
                 </div>
             </CardContent>
             <CardFooter>
-                <div>Footer</div>
+                <Button
+                    variant='primary'
+                >
+                    {'Richiesta di pubblicazione'}
+                </Button>
             </CardFooter>
         </Card>
     )

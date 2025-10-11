@@ -9,9 +9,9 @@ import ProcessList from './Processes';
 import ProductList from './Products';
 
 const roleContentMap: Partial<Record<UserRole, { component: React.ElementType, label: string }>> = {
-    [UserRole.PRODUCER]: { component: ProductList, label: 'Products' },
-    [UserRole.PROCESSOR]: { component: ProcessList, label: 'Processes' },
-    [UserRole.FACILITATOR]: { component: EventList, label: 'Events' },
+    [UserRole.PRODUCER]: { component: ProductList, label: 'I miei prodotti' },
+    [UserRole.PROCESSOR]: { component: ProcessList, label: 'I miei processi' },
+    [UserRole.FACILITATOR]: { component: EventList, label: 'Eventi organizzati' },
 };
 
 const ContentsList = ({ session }: { session: Session | null }) => {
