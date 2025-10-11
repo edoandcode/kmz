@@ -1,13 +1,13 @@
 import React, { PropsWithChildren } from 'react';
 
-import DashboardContent from './DashboardContent';
+import DashboardLayoutContent from './DashboardLayout';
 
 const DashboardLayout = ({ children }: PropsWithChildren) => {
     return (
         <div>
-            <DashboardContent>
+            <DashboardLayoutContent>
                 {children}
-            </DashboardContent>
+            </DashboardLayoutContent>
         </div>
     )
 }

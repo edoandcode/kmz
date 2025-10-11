@@ -6,24 +6,25 @@ import { useSession } from 'next-auth/react';
 import Grid from '@/components/Grid';
 import PageWrapper from '@/components/PageWrapper';
 
+import DashboardLayoutSkeleton from './DashboardLayoutSkeleton';
 import DashboardNav from './DashboardNav';
 
-const DashboardContent = ({ children }: PropsWithChildren) => {
-    const { status, data: session } = useSession();
+const DashboardLayout = ({ children }: PropsWithChildren) => {
+    const { status, } = useSession();
 
     if (status === 'loading')
-        return <div>Loading...</div>
+        return <DashboardLayoutSkeleton></DashboardLayoutSkeleton>
 
     return (
         <PageWrapper>
             <Grid>
                 <Grid.Col
-                    span={4}
+                    span={3}
                 >
                     <DashboardNav></DashboardNav>
                 </Grid.Col>
                 <Grid.Col
-                    span={8}
+                    span={9}
                 >
                     {children}
                 </Grid.Col>
@@ -32,4 +33,4 @@ const DashboardContent = ({ children }: PropsWithChildren) => {
     )
 }
 
-export default DashboardContent
+export default DashboardLayout
