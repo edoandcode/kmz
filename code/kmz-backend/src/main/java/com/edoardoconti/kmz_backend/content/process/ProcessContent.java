@@ -15,6 +15,7 @@ import java.util.List;
 public class ProcessContent extends Content {
     private String name;
     private String description;
+    @ElementCollection
     private List<String> certifications;
 
     public ProcessContent() {

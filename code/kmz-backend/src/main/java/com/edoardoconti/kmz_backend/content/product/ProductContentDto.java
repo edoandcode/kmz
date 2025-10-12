@@ -12,9 +12,7 @@ import java.util.List;
  * DTO for transferring ProductContent data without exposing JPA entities.
  */
 @Data
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class ProductContentDto {
     private Long id; // inherited from Content (assuming Content has an ID field)
 

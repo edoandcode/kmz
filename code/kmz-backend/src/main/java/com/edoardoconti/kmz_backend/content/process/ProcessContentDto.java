@@ -12,9 +12,7 @@ import java.util.List;
  * DTO for transferring ProcessContent data without exposing JPA entities.
  */
 @Data
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class ProcessContentDto {
 
     private Long id; // inherited from Content (assuming Content has an ID field)

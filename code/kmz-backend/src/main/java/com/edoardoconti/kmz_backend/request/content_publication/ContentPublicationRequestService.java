@@ -29,6 +29,8 @@ public class ContentPublicationRequestService extends RequestService {
         var content = this.contentService.getContent(contentId);
         if(content == null)
             return null;
+        if(content.getStatus().equals(ContentStatus.PENDING) || content.getStatus().equals(ContentStatus.PUBLISHED))
+            return null;
         var currentuser = this.authService.getCurrentUser();
         if (!content.getAuthorId().equals(currentuser.getId()))
             return null;

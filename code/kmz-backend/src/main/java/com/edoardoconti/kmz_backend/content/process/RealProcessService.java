@@ -22,8 +22,8 @@ public class RealProcessService implements ProcessService{
     @Override
     public ProcessContentDto uploadProcess(ProcessContentDto processContentDto) {
         var process = this.processContentMapper.toEntity(processContentDto);
-        process.setStatus(ContentStatus.DRAFT);
         var currentUser = this.authService.getCurrentUser();
+        process.setStatus(ContentStatus.DRAFT);
         process.setAuthorId(currentUser.getId());
         this.repository.save(process);
         return this.processContentMapper.toDto(process);
