@@ -18,7 +18,7 @@ const ContentPublications = async ({ session }: { session: Session | null }) => 
 
 
     return (
-        <div className='flex flex-col gap-3'>
+        <div className='flex gap-4 flex-wrap align-stretch justify-items-stretch'>
             {publicationRequests?.map((request: ContentPublicationResponseDto) => {
                 return (
                     <ContentPublicationCard key={request.id} request={request} />

@@ -8,21 +8,23 @@ import { get } from '@/services/api';
 import { API } from '@/settings/api';
 import { ProductContent } from '@/types/api/content/types';
 
-import ProductCard from './ProductCard';
+import ContentCard from '../ContentCard';
 
 const fetcher = (url: string, token?: string) =>
     get<ProductContent[]>(url, {
         headers: { Authorization: `Bearer ${token}` },
     });
 
-const ProductList = ({ session }: { session: Session | null }) => {
+const Products = ({ session }: { session: Session | null }) => {
 
     const { data: products, error, isLoading } = useSWR(
         session ? [`/${API.MY_PRODUCTS}`, session?.user?.accessToken] : null,
         ([url, token]) => fetcher(url, token),
         {
             revalidateOnFocus: true,
-            refreshInterval: 10000, // Refresh every 10 seconds
+            revalidateOnReconnect: true,
+            shouldRetryOnError: true,
+            refreshInterval: 1000, // Refresh every 1 second
         }
     );
 
@@ -38,9 +40,9 @@ const ProductList = ({ session }: { session: Session | null }) => {
     return (
         <div className="flex gap-4 flex-wrap align-stretch justify-items-stretch">
             {products.map((product, index) => (
-                <ProductCard
+                <ContentCard
                     key={product.name + index}
-                    product={product}
+                    content={product}
                     session={session}
                 />
             ))}
@@ -48,4 +50,4 @@ const ProductList = ({ session }: { session: Session | null }) => {
     )
 }
 
-export default ProductList
+export default Products

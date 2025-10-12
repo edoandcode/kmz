@@ -6,11 +6,20 @@ export enum ContentType {
 }
 
 
+export enum ContentStatus {
+    DRAFT = 'DRAFT',
+    PENDING = 'PENDING',
+    PUBLISHED = 'PUBLISHED',
+    REJECTED = 'REJECTED'
+}
+
 export type Content = {
     id: number;
     type: ContentType;
     authorId: number;
+    status: ContentStatus;
 }
+
 
 
 // PRODUCT
@@ -22,4 +31,22 @@ export interface ProductContent extends Content {
     harvestDate: Date;
     cultivationMethod?: string;
     certifications?: string[];
+}
+
+
+// PROCESS
+
+export interface ProcessContent extends Content {
+    name: string;
+    description?: string;
+    certifications?: string[];
+}
+
+
+// EVENTS
+
+export interface EventContent extends Content {
+    name: string;
+    date: Date;
+    location: string;
 }

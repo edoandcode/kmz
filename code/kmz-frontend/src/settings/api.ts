@@ -19,8 +19,10 @@ const API = {
     MY_PRODUCTS: 'products/me',
     /*EVENTS */
     EVENTS: 'events',
+    MY_EVENTS: 'events/me',
     /*PROCESS */
     PROCESS: 'processes',
+    MY_PROCESSES: 'processes/me',
     /*REQUESTS CONTENTS */
     REQUEST_MY_REQUESTS: 'requests/contents/publication',
     REQUEST_PUBLISH_CONTENT: 'requests/contents/publish',

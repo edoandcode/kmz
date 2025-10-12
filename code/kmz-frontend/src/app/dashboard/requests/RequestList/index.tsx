@@ -7,7 +7,7 @@ import type { Session } from 'next-auth';
 const RequestList = ({ session }: { session: Session | null }) => {
     return (
         <div>
-            <h2 className="text-2xl font-medium mb-4">Richieste di pubblicazione</h2>
+            <h2 className="text-2xl font-medium mb-4">Richieste di pubblicazione inviate</h2>
             <ContentPublications session={session}></ContentPublications>
         </div>
     )
