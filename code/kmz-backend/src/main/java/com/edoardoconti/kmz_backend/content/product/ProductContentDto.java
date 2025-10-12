@@ -1,10 +1,9 @@
 package com.edoardoconti.kmz_backend.content.product;
+import com.edoardoconti.kmz_backend.content.ContentStatus;
+import com.edoardoconti.kmz_backend.content.ContentType;
 import jakarta.validation.constraints.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
@@ -19,7 +18,10 @@ import java.util.List;
 public class ProductContentDto {
     private Long id; // inherited from Content (assuming Content has an ID field)
 
-    private Long authorId; // MUST BE INJECTED AUTOMATICALLY ON CONTENT CREATION
+    private Long authorId;
+
+    private ContentType type = ContentType.PRODUCT;
+    private ContentStatus status;
 
     @NotBlank(message = "Name is required")
     @Size(max = 100, message = "Name must be at most 100 characters")

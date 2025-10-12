@@ -1,5 +1,7 @@
 package com.edoardoconti.kmz_backend.content.process;
 
+import com.edoardoconti.kmz_backend.content.ContentStatus;
+import com.edoardoconti.kmz_backend.content.ContentType;
 import com.edoardoconti.kmz_backend.feed.FeedService;
 import com.edoardoconti.kmz_backend.security.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ public class RealProcessService implements ProcessService{
     @Override
     public ProcessContentDto uploadProcess(ProcessContentDto processContentDto) {
         var process = this.processContentMapper.toEntity(processContentDto);
+        process.setStatus(ContentStatus.DRAFT);
         var currentUser = this.authService.getCurrentUser();
         process.setAuthorId(currentUser.getId());
         this.repository.save(process);

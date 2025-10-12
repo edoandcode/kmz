@@ -1,12 +1,10 @@
 package com.edoardoconti.kmz_backend.content.event;
 
+import com.edoardoconti.kmz_backend.content.ContentStatus;
 import com.edoardoconti.kmz_backend.content.ContentType;
 import jakarta.validation.constraints.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
@@ -18,11 +16,14 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EventContentDto {
+public class EventContentDto  {
 
     private Long id; // inherited from Content (assuming Content has an ID field)
 
     private Long authorId;
+
+    private ContentType type = ContentType.EVENT;
+    private ContentStatus status;
 
     @NotBlank(message = "Name is required")
     @Size(max = 100, message = "Name must be at most 100 characters")

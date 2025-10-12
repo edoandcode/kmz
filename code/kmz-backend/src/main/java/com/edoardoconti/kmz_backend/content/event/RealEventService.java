@@ -1,5 +1,7 @@
 package com.edoardoconti.kmz_backend.content.event;
 
+import com.edoardoconti.kmz_backend.content.ContentStatus;
+import com.edoardoconti.kmz_backend.content.ContentType;
 import com.edoardoconti.kmz_backend.feed.FeedService;
 import com.edoardoconti.kmz_backend.request.event_participation.EventParticipationRequest;
 import com.edoardoconti.kmz_backend.request.event_participation.EventParticipationRequestRepository;
@@ -23,6 +25,7 @@ public class RealEventService implements EventService {
     @Override
     public EventContentDto uploadEvent(EventContentDto eventContentDto) {
         var event = this.eventContentMapper.toEntity(eventContentDto);
+        event.setStatus(ContentStatus.DRAFT);
         var currentUser = this.authService.getCurrentUser();
         event.setAuthorId(currentUser.getId());
         event.setGuestsIds(List.of());

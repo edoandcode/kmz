@@ -1,11 +1,10 @@
 package com.edoardoconti.kmz_backend.content.process;
 
+import com.edoardoconti.kmz_backend.content.ContentStatus;
+import com.edoardoconti.kmz_backend.content.ContentType;
 import jakarta.validation.constraints.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -21,6 +20,9 @@ public class ProcessContentDto {
     private Long id; // inherited from Content (assuming Content has an ID field)
 
     private Long authorId;
+
+    private ContentType type = ContentType.PROCESS;
+    private ContentStatus status;
 
     @NotBlank(message = "Name is required")
     @Size(max = 100, message = "Name must be at most 100 characters")

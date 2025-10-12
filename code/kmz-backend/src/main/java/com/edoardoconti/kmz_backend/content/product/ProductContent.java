@@ -1,5 +1,6 @@
 package com.edoardoconti.kmz_backend.content.product;
 import com.edoardoconti.kmz_backend.content.Content;
+import com.edoardoconti.kmz_backend.content.ContentStatus;
 import com.edoardoconti.kmz_backend.content.ContentType;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -18,7 +19,6 @@ public class ProductContent extends Content {
     private String cultivationMethod;
     @ElementCollection
     private List<String> certifications;
-
 
     public ProductContent() {
         super(ContentType.PRODUCT);

@@ -1,6 +1,7 @@
 package com.edoardoconti.kmz_backend.request.content_publication;
 
 import com.edoardoconti.kmz_backend.content.ContentService;
+import com.edoardoconti.kmz_backend.content.ContentStatus;
 import com.edoardoconti.kmz_backend.feed.FeedService;
 import com.edoardoconti.kmz_backend.request.RequestRepository;
 import com.edoardoconti.kmz_backend.request.RequestService;
@@ -34,6 +35,7 @@ public class ContentPublicationRequestService extends RequestService {
         var currentUser = this.authService.getCurrentUser();
         var request = new ContentPublicationRequest(currentUser.getId(), contentId);
         this.contentPublicationRequestRepository.save(request);
+        this.contentService.setContentStatus(contentId, ContentStatus.PENDING);
         return ContentPublicationMapper.toDto(request, content);
     }
 

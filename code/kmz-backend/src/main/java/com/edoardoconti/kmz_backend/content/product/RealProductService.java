@@ -2,6 +2,8 @@ package com.edoardoconti.kmz_backend.content.product;
 
 import com.edoardoconti.kmz_backend.content.Content;
 import com.edoardoconti.kmz_backend.content.ContentService;
+import com.edoardoconti.kmz_backend.content.ContentStatus;
+import com.edoardoconti.kmz_backend.content.ContentType;
 import com.edoardoconti.kmz_backend.feed.FeedService;
 import com.edoardoconti.kmz_backend.security.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ public class RealProductService implements ProductService{
     public ProductContentDto uploadProduct(ProductContentDto productContentDto) {
         var product = this.productContentMapper.toEntity(productContentDto);
         var currentUser = this.authService.getCurrentUser();
+        product.setStatus(ContentStatus.DRAFT);
         product.setAuthorId(currentUser.getId());
         this.repository.save(product);
         return this.productContentMapper.toDto(product);

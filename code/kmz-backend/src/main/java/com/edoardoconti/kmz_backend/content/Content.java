@@ -22,8 +22,11 @@ abstract public class Content {
 
     private Long authorId;
 
+    @Enumerated(EnumType.STRING)
+    private ContentStatus status;
 
     public Content(ContentType type) {
         this.type = type;
+        this.status = ContentStatus.DRAFT;
     }
 }
