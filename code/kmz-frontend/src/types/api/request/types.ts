@@ -25,3 +25,21 @@ export interface ContentPublicationResponseDto {
     requesterId: number;
     type: RequestType;
 }
+
+
+export interface UserRegistrationResponseDto {
+    id: number;
+    userId: number;
+    userFirstName: string;
+    userLastName: string;
+    userEmail: string;
+    requestedRole: string;
+    createdAt: Date;
+    processedAt: Date;
+    status: RequestStatus;
+    message: string;
+    requesterId: number;
+    recipientId: number;
+    type: RequestType;
+
+}

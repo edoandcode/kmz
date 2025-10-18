@@ -10,6 +10,8 @@ const APP_LABELS: AppLabels = {
     HOME: 'Home',
     MY_REQUESTS: 'Le mie richieste',
     MY_CONTENTS: 'I miei contenuti',
+    CONTENTS_PUBLICATION_REQUESTS_SENT: 'Richieste di pubblicazione inviate',
+    USER_REGISTRATION: 'Registrazione utente',
 }
 
 export { APP_LABELS };

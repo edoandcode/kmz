@@ -24,8 +24,10 @@ const API = {
     PROCESS: 'processes',
     MY_PROCESSES: 'processes/me',
     /*REQUESTS CONTENTS */
-    REQUEST_MY_REQUESTS: 'requests/contents/publication',
-    REQUEST_PUBLISH_CONTENT: 'requests/contents/publish',
+    REQUEST_CONTENTS_MY_REQUESTS: 'requests/contents/publication',
+    REQUEST_CONTENTS_PUBLISH_CONTENT: 'requests/contents/publish',
+    /*REQUESTS USER REGISTRATION*/
+    REQUEST_MY_USER_REGISTRATION: 'requests/users/registration/me',
 }
 
 

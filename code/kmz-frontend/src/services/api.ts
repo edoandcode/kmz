@@ -12,6 +12,7 @@ import type { FetchApiOptions } from './http';
  * @returns The response data from the API or an error.
  */
 export const get = async <T>(endpoint: string, options?: FetchApiOptions): Promise<T> => {
+    console.log(`GET ${endpoint}`, options);
     return fetchApi<T>(endpoint, {
         method: 'GET',
         ...options,

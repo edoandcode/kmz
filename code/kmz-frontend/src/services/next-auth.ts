@@ -26,7 +26,7 @@ export const authOptions: NextAuthConfig = {
             async authorize(credentials) {
                 const { email, password } = credentials;
 
-                console.log('AUTHORIZE', { email, password });
+                //  console.log('AUTHORIZE', { email, password });
 
                 try {
                     const userTokens = await post<{ accessToken: string; refreshToken: string }>(`/${API.LOGIN}`, { email, password });
@@ -70,7 +70,7 @@ export const authOptions: NextAuthConfig = {
 
     callbacks: {
         async jwt({ token, user, account }) {
-            console.log('JWT', { token, user, account });
+            // console.log('JWT', { token, user, account });
 
 
             let decodedAccessToken
@@ -142,7 +142,7 @@ export const authOptions: NextAuthConfig = {
         },
 
         async session({ session, token }: { session: Session; token: JWT }) {
-            console.log("SESSION", { session, token });
+            // console.log("SESSION", { session, token });
 
             const systemResponse = await get<{ superAdminExists: boolean }>(`${API.SYSTEM_STATUS}`)
 

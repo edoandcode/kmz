@@ -1,32 +1,44 @@
-import { stackMiddleware } from '@edoandcode/utils-next/middleware';
+import { NextResponse } from 'next/server';
 
 import superAdminSetupMiddleware from '@/middleware/superAdminSetup';
 import { ROUTES } from '@/settings/routes';
 
 import authMiddleware from './middleware/auth';
 
-import type { MiddlewareItem } from '@edoandcode/utils-next/middleware';
+import type { NextRequest } from 'next/server';
 
+export async function middleware(req: NextRequest) {
+    const { pathname } = req.nextUrl;
 
-const middlewareStack = [
-    {
-        matcher: (pathname) => {
-            if (pathname.startsWith('/api/auth')) return false;
-            return true;
-        },
-        fn: superAdminSetupMiddleware
-    },
-    {
-        matcher: function (pathname) {
-            const publicRoutes = [ROUTES.LOGIN, ROUTES.SIGNUP_SUPERADMIN, ROUTES.SIGNUP, ROUTES.HOME];
-            return (!publicRoutes.includes(pathname.replace('/', '')) && pathname !== '/') && !pathname.startsWith('/api/auth');
-        },
-        fn: authMiddleware
+    // Skip Next.js internals and static assets
+    if (pathname.startsWith('/_next') || pathname === '/favicon.ico') {
+        return NextResponse.next();
     }
-] as MiddlewareItem[];
 
+    // Public routes that don't require authentication
+    const publicRoutes = [ROUTES.LOGIN, ROUTES.SIGNUP_SUPERADMIN, ROUTES.SIGNUP, ROUTES.HOME];
 
-export const middleware = stackMiddleware(middlewareStack);
+    const isPublicRoute =
+        (pathname === '/' || publicRoutes.includes(pathname.replace('/', ''))) ||
+        pathname.startsWith('/api/auth');
+
+    let res: NextResponse | undefined;
+
+    // Apply auth middleware only on non-public routes
+    if (!isPublicRoute) {
+        res = await authMiddleware(req);
+        if (res) return res;
+    }
+
+    // Apply superAdminSetup middleware on all routes except /api/auth
+    if (!pathname.startsWith('/api/auth')) {
+        res = await superAdminSetupMiddleware(req);
+        if (res) return res;
+    }
+
+    // Continue request if no middleware returned a response
+    return NextResponse.next();
+}
 
 export const config = {
     matcher: ['/((?!_next|favicon\\.ico).*)'],

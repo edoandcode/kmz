@@ -1,13 +1,12 @@
 import React from 'react';
 
 import CardContentRenderer from '@/components/CardContentRenderer';
-import KeyValueItem from '@/components/KeyValueItem';
 import RequestStatusBadge from '@/components/RequestStatus';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 
 import { ContentType } from '@/types/api/content/types';
-import { ContentPublicationResponseDto, RequestType } from '@/types/api/request/types';
+import { ContentPublicationResponseDto } from '@/types/api/request/types';
 
 /* const contentTypeMap: Partial<Record<RequestType, { label: string }>> = {
     CONTENT_PUBLICATION: { label: 'CONTENT PUBLICATION' },

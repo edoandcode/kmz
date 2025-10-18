@@ -1,5 +1,5 @@
 'use client'
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
@@ -33,7 +33,7 @@ export function SignupForm({ isSuperAdminSetup = false }: SignUpFormProps) {
 
     const router = useRouter();
 
-    const { register, handleSubmit, formState: { errors } } = useForm<SignUpSchema>({
+    const { register, handleSubmit, formState: { errors }, control } = useForm<SignUpSchema>({
         resolver: zodResolver(signUpSchema)
     });
 
@@ -157,21 +157,35 @@ export function SignupForm({ isSuperAdminSetup = false }: SignUpFormProps) {
                                 <FormErrorMessage>{errors.confirmPassword.message}</FormErrorMessage>
                             ) : null}
                         </div>
-                        {!isSuperAdminSetup ? (
-                            <div className="grid gap-2">
+                        {!isSuperAdminSetup && (
+                            <div className="grid gap-2 relative">
                                 <Label htmlFor="role">Role</Label>
-                                <Select>
-                                    <SelectTrigger id="role">
-                                        <SelectValue placeholder="Select a role" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {Object.values(UserRole).map((role) => (
-                                            <SelectItem key={role} value={role}>{role}</SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
+                                <Controller
+                                    name="roles"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Select
+                                            onValueChange={field.onChange}
+                                            value={field.value || ''}
+                                        >
+                                            <SelectTrigger id="role">
+                                                <SelectValue placeholder="Select a role" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {Object.values(UserRole).map((role) => (
+                                                    <SelectItem key={role} value={role}>
+                                                        {role}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                    )}
+                                />
+                                {errors.roles && (
+                                    <FormErrorMessage>{errors.roles.message}</FormErrorMessage>
+                                )}
                             </div>
-                        ) : null}
+                        )}
                     </div>
                 </form>
             </CardContent>

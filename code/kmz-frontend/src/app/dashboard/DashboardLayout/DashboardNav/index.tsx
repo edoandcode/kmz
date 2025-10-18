@@ -23,7 +23,7 @@ const MENU_ITEMS: MenuItem[] = [
     {
         label: APP_LABELS.MY_REQUESTS,
         path: ROUTES.DASHBOARD_REQUESTS,
-        roles: [UserRole.ADMINISTRATOR, UserRole.FACILITATOR, UserRole.PROCESSOR, UserRole.PRODUCER, UserRole.CURATOR],
+        roles: [UserRole.GENERIC_USER],
         icon: <CircleQuestionMark></CircleQuestionMark>
     },
     {

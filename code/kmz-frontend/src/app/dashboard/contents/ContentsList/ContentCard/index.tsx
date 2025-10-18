@@ -20,7 +20,7 @@ const ContentCard = ({ content, session }: { content: Content, session: Session 
         console.log('sesssion', session);
 
         try {
-            const response = await post<ContentPublicationResponseDto>(`/${API.REQUEST_PUBLISH_CONTENT}/${content.id}`, {}, {
+            const response = await post<ContentPublicationResponseDto>(`/${API.REQUEST_CONTENTS_PUBLISH_CONTENT}/${content.id}`, {}, {
                 headers: {
                     Authorization: `Bearer ${session?.user?.accessToken}`
                 }
