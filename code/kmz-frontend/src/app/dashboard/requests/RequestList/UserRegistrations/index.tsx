@@ -9,13 +9,13 @@ import { UserRegistrationResponseDto } from '@/types/api/request/types';
 import RequestGroupWrapper from '../../RequestGroupWrapper';
 import UserRegistrationCard from './UserRegistrationCard';
 
-const UserRegistrations = async ({ session }: { session: Session | null }) => {
+const UserRegistrations = async ({ session, canProcess }: { session: Session | null, canProcess: boolean }) => {
 
     let publicationRequests: UserRegistrationResponseDto[] = [];
 
     try {
-
-        publicationRequests = await get<UserRegistrationResponseDto[]>(`/${API.REQUEST_MY_USER_REGISTRATION}`, {
+        const endpoint = canProcess ? `/${API.REQUESTS_USER_REGISTRATION}` : `/${API.REQUESTS_USER_REGISTRATION_MY}`;
+        publicationRequests = await get<UserRegistrationResponseDto[]>(endpoint, {
             headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
         });
     } catch (error) {
@@ -28,7 +28,11 @@ const UserRegistrations = async ({ session }: { session: Session | null }) => {
         <RequestGroupWrapper>
             {publicationRequests?.map((request: UserRegistrationResponseDto) => {
                 return (
-                    <UserRegistrationCard key={request.id} request={request} />
+                    <UserRegistrationCard
+                        key={request.id}
+                        request={request}
+                        canProcess={canProcess}
+                    />
                 )
             })}
         </RequestGroupWrapper>

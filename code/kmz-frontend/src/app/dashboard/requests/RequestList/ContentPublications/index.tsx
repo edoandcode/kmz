@@ -9,14 +9,14 @@ import { ContentPublicationResponseDto } from '@/types/api/request/types';
 import RequestGroupWrapper from '../../RequestGroupWrapper';
 import ContentPublicationCard from './ContentPublicationCard';
 
-const ContentPublications = async ({ session }: { session: Session | null }) => {
+const ContentPublications = async ({ session, canProcess }: { session: Session | null, canProcess: boolean }) => {
 
 
     let publicationRequests: ContentPublicationResponseDto[] = [];
 
     try {
-
-        publicationRequests = await get<ContentPublicationResponseDto[]>(`/${API.REQUEST_CONTENTS_MY_REQUESTS}`, {
+        const endpoint = canProcess ? `/${API.REQUESTS_CONTENTS_PUBLICATION}` : `/${API.REQUEST_CONTENTS_PUBLICATION_MY}`;
+        publicationRequests = await get<ContentPublicationResponseDto[]>(endpoint, {
             headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
         });
     } catch (error) {
@@ -28,7 +28,11 @@ const ContentPublications = async ({ session }: { session: Session | null }) => 
         <RequestGroupWrapper>
             {publicationRequests?.map((request: ContentPublicationResponseDto) => {
                 return (
-                    <ContentPublicationCard key={request.id} request={request} />
+                    <ContentPublicationCard
+                        key={request.id}
+                        request={request}
+                        canProcess={canProcess}
+                    />
                 )
             })}
         </RequestGroupWrapper>

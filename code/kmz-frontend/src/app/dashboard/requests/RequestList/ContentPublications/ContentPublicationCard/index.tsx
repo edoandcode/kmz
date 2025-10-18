@@ -8,6 +8,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { ContentType } from '@/types/api/content/types';
 import { ContentPublicationResponseDto } from '@/types/api/request/types';
 
+import RequestCardWrapper from '../../../RequestCardWrapper';
+
 /* const contentTypeMap: Partial<Record<RequestType, { label: string }>> = {
     CONTENT_PUBLICATION: { label: 'CONTENT PUBLICATION' },
 } */
@@ -18,23 +20,14 @@ const contentTypeMap: Partial<Record<ContentType, { label: string }>> = {
     EVENT: { label: 'EVENTO' },
 }
 
-const ContentPublicationCard = ({ request }: { request: ContentPublicationResponseDto }) => {
+const ContentPublicationCard = ({ request, canProcess }: { request: ContentPublicationResponseDto, canProcess: boolean }) => {
     return (
-        <Card className='basis-[calc(50%-1rem)] h-full' >
-            <CardContent>
-                <div className='flex gap-3'>
-                    <RequestStatusBadge status={request.status} />
-                    <Badge variant="outline">{contentTypeMap[request.content.type]?.label}</Badge>
-                </div>
-                <div className="flex flex-col gap-1 mt-2">
-                </div>
-            </CardContent>
-            <CardContent>
-                <Card className="bg-background">
-                    <CardContentRenderer content={request.content} />
-                </Card>
-            </CardContent>
-        </Card>
+        <RequestCardWrapper
+            request={request}
+            canProcess={canProcess}
+        >
+            <CardContentRenderer content={request.content} />
+        </RequestCardWrapper>
     )
 }
 
