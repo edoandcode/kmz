@@ -1,28 +1,52 @@
 'use client'
 import React from 'react';
 
+import { useSession } from 'next-auth/react';
+
 import CardContentRenderer from '@/components/CardContentRenderer';
 
-import { ContentType } from '@/types/api/content/types';
+import { post } from '@/services/api';
+import { API } from '@/settings/api';
 import { ContentPublicationResponseDto } from '@/types/api/request/types';
 
 import RequestCardWrapper from '../../../RequestCardWrapper';
 
-/* const contentTypeMap: Partial<Record<RequestType, { label: string }>> = {
-    CONTENT_PUBLICATION: { label: 'CONTENT PUBLICATION' },
-} */
-
-const contentTypeMap: Partial<Record<ContentType, { label: string }>> = {
-    PRODUCT: { label: 'PRODOTTO' },
-    PROCESS: { label: 'PROCESSO' },
-    EVENT: { label: 'EVENTO' },
-}
-
 const ContentPublicationCard = ({ request, canProcess }: { request: ContentPublicationResponseDto, canProcess: boolean }) => {
+
+    const { data: session } = useSession();
+
+    const onApproveRequest = async () => {
+        console.log('token', `Bearer ${session?.user?.accessToken}`);
+        try {
+            await post<unknown>(`${API.REQUEST_CONTENTS_APPROVE_CONTENT}/${request.id}`, null, {
+                headers: {
+                    Authorization: `Bearer ${session?.user?.accessToken}`,
+                },
+            });
+        } catch (error) {
+            console.error('Error approving request:', error);
+        }
+    }
+
+    const onRejectRequest = async () => {
+        try {
+            await post<unknown>(`${API.REQUEST_CONTENTS_REJECT_CONTENT}/${request.id}`, null, {
+                headers: {
+                    Authorization: `Bearer ${session?.user?.accessToken}`,
+                },
+            });
+        } catch (error) {
+            console.error('Error rejecting request:', error);
+        }
+    }
+
+
     return (
         <RequestCardWrapper
             request={request}
             canProcess={canProcess}
+            onApproveRequest={onApproveRequest}
+            onRejectRequest={onRejectRequest}
         >
             <CardContentRenderer content={request.content} />
         </RequestCardWrapper>

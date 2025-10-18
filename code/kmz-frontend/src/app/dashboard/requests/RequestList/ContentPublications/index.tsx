@@ -1,6 +1,9 @@
+'use client'
 import React from 'react';
 
 import { Session } from 'next-auth';
+import { useSession } from 'next-auth/react';
+import useSWR from 'swr';
 
 import { get } from '@/services/api';
 import { API } from '@/settings/api';
@@ -9,19 +12,33 @@ import { ContentPublicationResponseDto } from '@/types/api/request/types';
 import RequestGroupWrapper from '../../RequestGroupWrapper';
 import ContentPublicationCard from './ContentPublicationCard';
 
-const ContentPublications = async ({ session, canProcess }: { session: Session | null, canProcess: boolean }) => {
+const fetcher = (url: string, token?: string) =>
+    get<ContentPublicationResponseDto[]>(url, {
+        headers: { Authorization: `Bearer ${token}` },
+    });
 
 
-    let publicationRequests: ContentPublicationResponseDto[] = [];
+const ContentPublications = ({ canProcess }: { canProcess: boolean }) => {
 
-    try {
-        const endpoint = canProcess ? `/${API.REQUESTS_CONTENTS_PUBLICATION}` : `/${API.REQUEST_CONTENTS_PUBLICATION_MY}`;
-        publicationRequests = await get<ContentPublicationResponseDto[]>(endpoint, {
-            headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
-        });
-    } catch (error) {
-        console.error("Error fetching content publication requests", error);
-    }
+    const { data: session } = useSession();
+
+    const endpoint = canProcess ? `/${API.REQUESTS_CONTENTS_PUBLICATION}` : `/${API.REQUEST_CONTENTS_PUBLICATION_MY}`;
+
+    const { data: publicationRequests, error, isLoading } = useSWR(
+        session ? [endpoint, session?.user?.accessToken] : null,
+        ([url, token]) => fetcher(url, token),
+        {
+            revalidateOnFocus: true,
+            revalidateOnReconnect: true,
+            shouldRetryOnError: true,
+            refreshInterval: 1000, // Refresh every 1 second
+        }
+    );
+
+
+    if (isLoading) return <div>Loading...</div>;
+    if (error) return <div>Error loading publications</div>;
+    if (!publicationRequests || publicationRequests.length === 0) return <div>No publications found</div>;
 
 
     return (

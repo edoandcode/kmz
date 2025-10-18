@@ -1,6 +1,8 @@
+'use client'
 import React from 'react';
 
-import { Session } from 'next-auth';
+import { useSession } from 'next-auth/react';
+import useSWR from 'swr';
 
 import { get } from '@/services/api';
 import { API } from '@/settings/api';
@@ -9,30 +11,43 @@ import { UserRegistrationResponseDto } from '@/types/api/request/types';
 import RequestGroupWrapper from '../../RequestGroupWrapper';
 import UserRegistrationCard from './UserRegistrationCard';
 
-const UserRegistrations = async ({ session, canProcess }: { session: Session | null, canProcess: boolean }) => {
+const fetcher = (url: string, token?: string) =>
+    get<UserRegistrationResponseDto[]>(url, {
+        headers: { Authorization: `Bearer ${token}` },
+    });
 
-    let publicationRequests: UserRegistrationResponseDto[] = [];
+const UserRegistrations = ({ canProcess }: { canProcess: boolean }) => {
 
-    try {
-        const endpoint = canProcess ? `/${API.REQUESTS_USER_REGISTRATION}` : `/${API.REQUESTS_USER_REGISTRATION_MY}`;
-        publicationRequests = await get<UserRegistrationResponseDto[]>(endpoint, {
-            headers: { Authorization: `Bearer ${session?.user?.accessToken}` },
-        });
-    } catch (error) {
-        console.error("Error fetching user registration requests", error);
-    }
 
-    console.log('publicationRequests', publicationRequests);
+    const { data: session } = useSession();
+
+    const endpoint = canProcess ? `/${API.REQUESTS_USER_REGISTRATION}` : `/${API.REQUESTS_USER_REGISTRATION_MY}`;
+
+    const { data: userRegistrationRequests, error, isLoading } = useSWR(
+        session ? [endpoint, session?.user?.accessToken] : null,
+        ([url, token]) => fetcher(url, token),
+        {
+            revalidateOnFocus: true,
+            revalidateOnReconnect: true,
+            shouldRetryOnError: true,
+            refreshInterval: 1000, // Refresh every 1 second
+        }
+    );
+
+
+    if (isLoading) return <div>Loading...</div>;
+    if (error) return <div>Error loading user registrations</div>;
+    if (!userRegistrationRequests || userRegistrationRequests.length === 0) return <div>No user registrations found</div>;
+
 
     return (
         <RequestGroupWrapper>
-            {publicationRequests?.map((request: UserRegistrationResponseDto) => {
+            {userRegistrationRequests?.map((request: UserRegistrationResponseDto) => {
                 return (
                     <UserRegistrationCard
                         key={request.id}
                         request={request}
                         canProcess={canProcess}
-                        session={session}
                     />
                 )
             })}

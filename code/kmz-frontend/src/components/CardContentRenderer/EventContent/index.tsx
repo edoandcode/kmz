@@ -10,13 +10,9 @@ const EventContent = ({ content }: { content: Content }) => {
 
     return (
         <>
-            <CardHeader>
-                <CardTitle>{event.name}</CardTitle>
-            </CardHeader>
-            <CardContent className='text-sm'>
-                <p className='font-medium '>{'Luogo'}</p>
-                <CardDescription>{event.location}</CardDescription>
-            </CardContent>
+            <CardTitle>{event.name}</CardTitle>
+            <p className='font-medium '>{'Luogo'}</p>
+            <CardDescription>{event.location}</CardDescription>
         </>
     )
 }

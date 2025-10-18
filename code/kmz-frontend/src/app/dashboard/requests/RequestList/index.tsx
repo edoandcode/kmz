@@ -25,14 +25,12 @@ const RequestList = ({ session }: { session: Session | null }) => {
             <div>
                 <h2 className="text-2xl font-medium mb-4">{contentPublicationRequestsLabel}</h2>
                 <ContentPublications
-                    session={session}
                     canProcess={isAdmin || isCurator}
                 ></ContentPublications>
             </div>
             <div>
                 <h2 className="text-2xl font-medium mb-4">{userRegistrationRequestsLabel}</h2>
                 <UserRegistrations
-                    session={session}
                     canProcess={isAdmin}
                 ></UserRegistrations>
             </div>

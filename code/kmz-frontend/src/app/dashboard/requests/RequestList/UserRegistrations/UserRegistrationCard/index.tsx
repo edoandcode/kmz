@@ -2,6 +2,7 @@
 import React from 'react';
 
 import { Session } from 'next-auth';
+import { useSession } from 'next-auth/react';
 
 import KeyValueItem from '@/components/KeyValueItem';
 
@@ -11,8 +12,9 @@ import { UserRegistrationResponseDto } from '@/types/api/request/types';
 
 import RequestCardWrapper from '../../../RequestCardWrapper';
 
-const UserRegistrationCard = ({ request, canProcess, session }: { request: UserRegistrationResponseDto, canProcess: boolean, session: Session | null }) => {
+const UserRegistrationCard = ({ request, canProcess }: { request: UserRegistrationResponseDto, canProcess: boolean }) => {
 
+    const { data: session } = useSession();
 
 
     const onApproveRequest = async () => {

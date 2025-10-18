@@ -10,13 +10,9 @@ const ProcessContent = ({ content }: { content: Content }) => {
 
     return (
         <>
-            <CardHeader>
-                <CardTitle>{process.name}</CardTitle>
-            </CardHeader>
-            <CardContent className='text-sm'>
-                <p className='font-medium '>{'Descrizione'}</p>
-                <CardDescription>{process.description}</CardDescription>
-            </CardContent>
+            <CardTitle>{process.name}</CardTitle>
+            <p className='font-medium '>{'Descrizione'}</p>
+            <CardDescription>{process.description}</CardDescription>
         </>
     )
 }

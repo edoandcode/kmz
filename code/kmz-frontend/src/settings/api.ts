@@ -27,6 +27,8 @@ const API = {
     REQUESTS_CONTENTS_PUBLICATION: 'requests/contents/publication',
     REQUEST_CONTENTS_PUBLICATION_MY: 'requests/contents/publication/me',
     REQUEST_CONTENTS_PUBLISH_CONTENT: 'requests/contents/publish',
+    REQUEST_CONTENTS_REJECT_CONTENT: 'requests/contents/reject',
+    REQUEST_CONTENTS_APPROVE_CONTENT: 'requests/contents/approve',
     /*REQUESTS USER REGISTRATION*/
     REQUESTS_USER_REGISTRATION: 'requests/users/registration',
     REQUESTS_USER_REGISTRATION_MY: 'requests/users/registration/me',
