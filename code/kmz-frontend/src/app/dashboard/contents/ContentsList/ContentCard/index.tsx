@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 
 import CardContentRenderer from '@/components/CardContentRenderer';
 import { Button } from '@/components/ui/button';
-import { Card, CardFooter } from '@/components/ui/card';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
 
 import { post } from '@/services/api';
 import { API } from '@/settings/api';
@@ -35,7 +35,9 @@ const ContentCard = ({ content, session }: { content: Content, session: Session 
 
     return (
         <Card className='basis-[calc(50%-1rem)] h-full'>
-            <CardContentRenderer content={content} />
+            <CardContent>
+                <CardContentRenderer content={content} />
+            </CardContent>
             <CardFooter>
                 {content.status === ContentStatus.DRAFT ? (
                     <Button

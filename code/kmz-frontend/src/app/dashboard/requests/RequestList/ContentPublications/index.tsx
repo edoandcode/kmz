@@ -1,7 +1,6 @@
 'use client'
 import React from 'react';
 
-import { Session } from 'next-auth';
 import { useSession } from 'next-auth/react';
 import useSWR from 'swr';
 
@@ -21,6 +20,7 @@ const fetcher = (url: string, token?: string) =>
 const ContentPublications = ({ canProcess }: { canProcess: boolean }) => {
 
     const { data: session } = useSession();
+
 
     const endpoint = canProcess ? `/${API.REQUESTS_CONTENTS_PUBLICATION}` : `/${API.REQUEST_CONTENTS_PUBLICATION_MY}`;
 

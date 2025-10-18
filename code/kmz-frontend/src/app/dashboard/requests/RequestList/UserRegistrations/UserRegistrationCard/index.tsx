@@ -1,7 +1,6 @@
 'use client'
 import React from 'react';
 
-import { Session } from 'next-auth';
 import { useSession } from 'next-auth/react';
 
 import KeyValueItem from '@/components/KeyValueItem';
