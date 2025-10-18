@@ -6,6 +6,4 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ContentPublicationRequestRepository extends JpaRepository<ContentPublicationRequest, Long> {
-    List<ContentPublicationRequest> findByRequesterId(Long requesterId);
-}
+public interface ContentPublicationRequestRepository extends JpaRepository<ContentPublicationRequest, Long> { }

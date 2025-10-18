@@ -40,7 +40,7 @@ public class ContentPublicationRequestController {
     public ResponseEntity<List<ContentPublicationResponseDto>> getContentPublicationRequests() {
         return ResponseEntity.ok().body(this.contentPublicationRequestService.getMyContentPublicationRequests());
     }
-    
+
     @PostMapping("/publish/{contentId}")
     private ResponseEntity<ContentPublicationResponseDto> requestPublication(@PathVariable Long contentId) {
         var request = this.contentPublicationRequestService.createContentPublicationRequest(contentId);

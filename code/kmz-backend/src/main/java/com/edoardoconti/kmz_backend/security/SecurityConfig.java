@@ -89,8 +89,11 @@ public class SecurityConfig {
                     //  -----  REQUESTS ----
 
                     // Restrict all routes to view the requests to ADMINISTRATOR only
-                    auth.requestMatchers("/requests/users/**")
+                    auth.requestMatchers("/requests/users/registration")
                             .hasRole(UserRole.ADMINISTRATOR.name());
+
+                    auth.requestMatchers("/requests/users/registration/me")
+                            .hasRole(UserRole.GENERIC_USER.name());
 
                     // POST /requests/contents/publication : Only ADMINISTRATOR, CURATOR can request publication of a content
                     auth.requestMatchers(HttpMethod.POST, "/requests/contents/publications")

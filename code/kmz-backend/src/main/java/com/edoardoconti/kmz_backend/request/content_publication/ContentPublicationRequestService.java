@@ -53,8 +53,11 @@ public class ContentPublicationRequestService extends RequestService {
 
     public List<ContentPublicationResponseDto> getMyContentPublicationRequests() {
         var currentUser = this.authService.getCurrentUser();
-        var requests = this.contentPublicationRequestRepository.findByRequesterId(currentUser.getId());
-        return requests.stream()
+        var requests = this.contentPublicationRequestRepository.findAll();
+        var myRequests = requests.stream()
+                .filter(r -> r.getRequesterId().equals(currentUser.getId()))
+                .toList();
+        return myRequests.stream()
                 .map(cr -> {
                     var content = this.contentService.getContent(cr.getContentId());
                     return ContentPublicationMapper.toDto(cr, content);

@@ -19,15 +19,20 @@ public class UserRegistrationRequestService extends RequestService {
     private final AuthService authService;
 
 
-    public List<UserRegistrationResponseDto> getMyUserRegistrationRequests() {
-        var currentUser = this.authService.getCurrentUser();
-        var requests = this.userRegistrationRequestRepository.findByRequesterId(currentUser.getId());
-        return requests.stream().map(UserRegistrationMapper::toDto).toList();
-    }
+
 
     public List<UserRegistrationResponseDto> getUserRegistrationRequests() {
         var requests = this.userRegistrationRequestRepository.findAll();
         return requests.stream().map(UserRegistrationMapper::toDto).toList();
+    }
+
+    public List<UserRegistrationResponseDto> getMyUserRegistrationRequests() {
+        var currentUser = this.authService.getCurrentUser();
+        var requests = this.userRegistrationRequestRepository.findAll();
+        var myRequests = requests.stream()
+                .filter(r -> r.getUser().getId().equals(currentUser.getId()))
+                .toList();
+        return myRequests.stream().map(UserRegistrationMapper::toDto).toList();
     }
 
 
