@@ -2,6 +2,7 @@ package com.edoardoconti.kmz_backend.request.user_registration;
 
 import com.edoardoconti.kmz_backend.request.RequestService;
 import com.edoardoconti.kmz_backend.role.UserRole;
+import com.edoardoconti.kmz_backend.security.AuthService;
 import com.edoardoconti.kmz_backend.user.User;
 import com.edoardoconti.kmz_backend.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,14 @@ import java.util.NoSuchElementException;
 public class UserRegistrationRequestService extends RequestService {
     private final UserRegistrationRequestRepository userRegistrationRequestRepository;
     private final UserService userService;
+    private final AuthService authService;
 
+
+    public List<UserRegistrationResponseDto> getMyUserRegistrationRequests() {
+        var currentUser = this.authService.getCurrentUser();
+        var requests = this.userRegistrationRequestRepository.findByRequesterId(currentUser.getId());
+        return requests.stream().map(UserRegistrationMapper::toDto).toList();
+    }
 
     public List<UserRegistrationResponseDto> getUserRegistrationRequests() {
         var requests = this.userRegistrationRequestRepository.findAll();

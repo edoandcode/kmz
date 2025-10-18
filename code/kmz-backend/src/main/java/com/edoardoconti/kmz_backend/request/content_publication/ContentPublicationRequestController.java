@@ -21,7 +21,7 @@ public class ContentPublicationRequestController {
     private final ContentPublicationRequestService contentPublicationRequestService;
 
     @GetMapping("/publication")
-    public List<ContentPublicationResponseDto> getContentPublicationRequests(
+    public ResponseEntity<List<ContentPublicationResponseDto>> getContentPublicationRequests(
             @RequestParam(value = "status", required = false) RequestStatus status,
             @RequestParam(value = "authorId", required = false) Long authorId
     ) {
@@ -33,10 +33,14 @@ public class ContentPublicationRequestController {
                 var content = r.getContent();
                 return content != null && content.getAuthorId().equals(authorId);
             }).toList();
-        return contentRequests;
+        return ResponseEntity.ok().body(contentRequests);
     }
 
-
+    @GetMapping("/publication/me")
+    public ResponseEntity<List<ContentPublicationResponseDto>> getContentPublicationRequests() {
+        return ResponseEntity.ok().body(this.contentPublicationRequestService.getMyContentPublicationRequests());
+    }
+    
     @PostMapping("/publish/{contentId}")
     private ResponseEntity<ContentPublicationResponseDto> requestPublication(@PathVariable Long contentId) {
         var request = this.contentPublicationRequestService.createContentPublicationRequest(contentId);

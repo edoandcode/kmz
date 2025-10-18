@@ -20,7 +20,7 @@ public class UserRegistrationRequestController {
 
 
     @GetMapping("/registration")
-    public List<UserRegistrationResponseDto> getUserRegistrationRequests(
+    public ResponseEntity<List<UserRegistrationResponseDto>> getUserRegistrationRequests(
             @RequestParam(value = "status", required = false) RequestStatus status,
             @RequestParam(value = "userId", required = false) Long userId
     ) {
@@ -29,7 +29,12 @@ public class UserRegistrationRequestController {
             usersRequests = usersRequests.stream().filter(r -> r.getStatus() == status).toList();
         if (userId != null)
             usersRequests = usersRequests.stream().filter(r -> r.getUserId().equals(userId)).toList();
-        return usersRequests;
+        return ResponseEntity.ok().body(usersRequests);
+    }
+
+    @GetMapping("/registration/me")
+    public ResponseEntity<List<UserRegistrationResponseDto>> getMyUserRegistrationRequests() {
+        return ResponseEntity.ok().body(this.userRegistrationRequestService.getMyUserRegistrationRequests());
     }
 
     @PostMapping("/approve/{requestId}")
