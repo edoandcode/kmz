@@ -30,6 +30,8 @@ const API = {
     /*REQUESTS USER REGISTRATION*/
     REQUESTS_USER_REGISTRATION: 'requests/users/registration',
     REQUESTS_USER_REGISTRATION_MY: 'requests/users/registration/me',
+    REQUESTS_USER_APPROVE: 'requests/users/approve',
+    REQUESTS_USER_REJECT: 'requests/users/reject',
 }
 
 

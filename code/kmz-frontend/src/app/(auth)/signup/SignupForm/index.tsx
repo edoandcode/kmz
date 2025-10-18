@@ -2,6 +2,7 @@
 import { Controller, useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
@@ -18,6 +19,7 @@ import {
 
 import { post } from '@/services/api';
 import { API } from '@/settings/api';
+import { APP_LABELS } from '@/settings/app-labels';
 import { ROUTES } from '@/settings/routes';
 import { UserRole } from '@/types/api/user/types';
 import { signUpSchema } from '@/validation/user/schema';
@@ -86,7 +88,13 @@ export function SignupForm({ isSuperAdminSetup = false }: SignUpFormProps) {
                     Fill in the details below to register a new account
                 </CardDescription>
                 <CardAction>
-                    <Button variant="link">Login</Button>
+                    <Button variant="link">
+                        <Link
+                            href={`/${ROUTES.LOGIN}`}
+                        >
+                            {APP_LABELS.LOGIN}
+                        </Link>
+                    </Button>
                 </CardAction>
             </CardHeader>
             <CardContent>

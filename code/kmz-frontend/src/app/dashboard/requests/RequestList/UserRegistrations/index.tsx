@@ -32,6 +32,7 @@ const UserRegistrations = async ({ session, canProcess }: { session: Session | n
                         key={request.id}
                         request={request}
                         canProcess={canProcess}
+                        session={session}
                     />
                 )
             })}

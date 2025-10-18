@@ -1,9 +1,7 @@
+'use client'
 import React from 'react';
 
 import CardContentRenderer from '@/components/CardContentRenderer';
-import RequestStatusBadge from '@/components/RequestStatus';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
 
 import { ContentType } from '@/types/api/content/types';
 import { ContentPublicationResponseDto } from '@/types/api/request/types';
