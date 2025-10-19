@@ -149,6 +149,20 @@ public class SecurityConfig {
                     auth.requestMatchers(HttpMethod.POST, "/processes")
                             .hasRole(UserRole.PROCESSOR.name());
 
+
+
+                    // ==========================
+                    // ⚙️🏪 PROCESSED PRODUCTS ROUTES
+                    // ==========================
+                    auth.requestMatchers(HttpMethod.GET, "/processed-products")
+                            .hasAnyRole(UserRole.CURATOR.name(), UserRole.ADMINISTRATOR.name());
+                    auth.requestMatchers(HttpMethod.GET, "/processed-products/me/**")
+                            .hasRole(UserRole.PROCESSOR.name());
+                    auth.requestMatchers(HttpMethod.POST, "/processed-products")
+                            .hasRole(UserRole.PROCESSOR.name());
+
+
+
                     // ==========================
                     // 🎟️ EVENT ROUTES
                     // ==========================
