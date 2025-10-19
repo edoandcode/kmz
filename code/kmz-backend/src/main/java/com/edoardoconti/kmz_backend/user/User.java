@@ -42,11 +42,6 @@ public final class User {
         this.roles.add(UserRole.GENERIC_USER);
     }
 
-    public boolean can() {
-        // TODO
-        return true;
-    }
-
     public void addRole(UserRole role) {
         roles.add(role);
     }

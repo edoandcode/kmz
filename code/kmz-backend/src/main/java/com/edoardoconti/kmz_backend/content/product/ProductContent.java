@@ -22,6 +22,4 @@ public class ProductContent extends Content {
     public ProductContent() {
         super(ContentType.PRODUCT);
     }
-
-
 }

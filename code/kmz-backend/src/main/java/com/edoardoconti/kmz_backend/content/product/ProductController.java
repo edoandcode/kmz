@@ -20,6 +20,12 @@ public class ProductController {
         return ResponseEntity.ok(this.productService.getProducts());
     }
 
+    @GetMapping("/products/public")
+    public ResponseEntity<List<ProductContentDto>> getPublicProducts() {
+        return ResponseEntity.ok(this.productService.getProducts());
+    }
+
+
     @GetMapping("/products/{id}")
     public ResponseEntity<ProductContentDto> getProduct(@PathVariable Long id) {
         return ResponseEntity.ok(this.productService.getProduct(id));

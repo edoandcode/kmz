@@ -39,6 +39,15 @@ public class RealProductService implements ProductService{
     }
 
     @Override
+    public List<ProductContentDto> getPublicProducts() {
+        return this.repository.findAll()
+                .stream()
+                .filter(p -> p.getStatus().equals(ContentStatus.PUBLISHED))
+                .map(this.productContentMapper::toDto)
+                .toList();
+    }
+
+    @Override
     public ProductContentDto getProduct(Long id) {
         var product = this.repository.findById(id).orElse(null);
         return this.productContentMapper.toDto(product);

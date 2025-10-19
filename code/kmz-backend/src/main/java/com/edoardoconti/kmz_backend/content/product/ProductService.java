@@ -7,6 +7,7 @@ import java.util.List;
 public interface ProductService {
     ProductContentDto uploadProduct(ProductContentDto productContentDto);
     List<ProductContentDto> getProducts();
+    List<ProductContentDto> getPublicProducts();
     ProductContentDto getProduct(Long id);
     List<ProductContentDto> getMyProducts();
     ProductContentDto getMyProduct(Long id);

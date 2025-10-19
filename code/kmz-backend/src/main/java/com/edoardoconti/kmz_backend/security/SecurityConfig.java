@@ -33,15 +33,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    // Custom UserDetailsService implementation (used to load user data from DB or other source)
+    // === Dependencies ===
     private final UserDetailsService userDetailsService;
-
-    // Custom JWT filter that validates tokens before reaching UsernamePasswordAuthenticationFilter
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    // === Bean Definitions ===
+
     /**
-     * Defines a PasswordEncoder bean for hashing passwords.
-     * BCrypt is strong and adaptive, recommended by Spring Security.
+     * Password encoder using BCrypt (adaptive and secure).
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -49,9 +48,7 @@ public class SecurityConfig {
     }
 
     /**
-     * Exposes AuthenticationManager as a bean.
-     * It delegates authentication to configured providers
-     * (UserDetailsService + PasswordEncoder by default).
+     * Exposes the authentication manager.
      */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
@@ -59,187 +56,161 @@ public class SecurityConfig {
     }
 
     /**
-     * Defines the security filter chain for HTTP requests.
-     * Configures session policy, CSRF, headers, authorization rules,
-     * and integrates the custom JWT authentication filter.
+     * Defines the main security filter chain for HTTP requests.
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-
-
-
         http
-                // Stateless: no HTTP session will be created, JWT will be used instead
-                .sessionManagement(c ->
-                        c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // --- Session & CSRF ---
+                .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                // Disable CSRF as it is unnecessary for stateless REST APIs
                 .csrf(AbstractHttpConfigurer::disable)
 
-                // Allow H2 console (development only) by disabling frame options
-                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+                // --- Headers ---
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)) // Allow H2 console
 
-                // Authorization rules for endpoints
+                // --- Authorization Rules ---
                 .authorizeHttpRequests(auth -> {
-                    // Allow setup route for first admin creation
-                    auth.requestMatchers(HttpMethod.POST, "/users/setup-admin").permitAll();
 
-
-                    //  -----  REQUESTS ----
-
-                    // Restrict all routes to view the requests to ADMINISTRATOR only
-                    auth.requestMatchers("/requests/users/registration")
-                            .hasRole(UserRole.ADMINISTRATOR.name());
-
-                    auth.requestMatchers("/requests/users/registration/me")
-                            .hasRole(UserRole.GENERIC_USER.name());
-
-                    // POST /requests/contents/publication : Only ADMINISTRATOR, CURATOR can request publication of a content
-                    auth.requestMatchers(HttpMethod.POST, "/requests/contents/publications")
-                            .hasAnyRole(UserRole.ADMINISTRATOR.name(), UserRole.CURATOR.name());
-
-                    // POST /requests/contents/publish/** : Only PRODUCER, PROCESSOR, FACILITATOR can request publication of a content
-                    auth.requestMatchers(HttpMethod.POST, "/requests/contents/publish/**")
-                            .hasAnyRole(UserRole.PRODUCER.name(), UserRole.PROCESSOR.name(), UserRole.FACILITATOR.name());
-
-                    // POST /requests/contents/approve/** and /requests/contents/reject/** : Only CURATOR can approve or reject content publication requests
-                    auth.requestMatchers(HttpMethod.POST, "/requests/contents/approve/**",
-                            "/requests/contents/reject/**")
-                            .hasAnyRole(UserRole.CURATOR.name());
-
-                    // GET /requests/contents/publication : only ADMINISTRATOR can access all event participation requests
-                    auth.requestMatchers(HttpMethod.GET, "/requests/events/participation")
-                            .hasAnyRole(UserRole.ADMINISTRATOR.name());
-
-                    // GET requests/events/invite/** : only FACILITATOR can invite users to events
-                    auth.requestMatchers(HttpMethod.POST, "/requests/events/invite/**")
-                            .hasAnyRole(UserRole.FACILITATOR.name());
-
-                    auth.requestMatchers(HttpMethod.POST, "/requests/events/accept/**")
-                            .hasAnyRole(UserRole.GENERIC_USER.name());
-
-                    auth.requestMatchers(HttpMethod.POST, "/requests/events/reject/**")
-                            .hasAnyRole(UserRole.GENERIC_USER.name());
-
-                    // -------- USERS ------------
-                    
-                    // User registration is open
-                    auth.requestMatchers(HttpMethod.POST, "/users").permitAll();
-
-                    // GET /users/** : only ADMINISTRATOR can visualize registered users
-                    auth.requestMatchers(HttpMethod.GET, "/users/**")
-                            .hasAnyRole(UserRole.ADMINISTRATOR.name(), UserRole.FACILITATOR.name());
-
-                    // ---------- AUTH  ------------
-
-                    // Login & refresh endpoints are public
+                    // ==========================
+                    // 🔐 AUTHENTICATION ROUTES
+                    // ==========================
                     auth.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
                     auth.requestMatchers(HttpMethod.POST, "/auth/refresh").permitAll();
 
-                    // --------- CONTENT ENDPOINTS ---------
-                    // Products
-                    // - GET /products only CURATOR and ADMINISTRATOR can access all events created
+                    // ==========================
+                    // 👤 USER ROUTES
+                    // ==========================
+                    // Setup first admin (public)
+                    auth.requestMatchers(HttpMethod.POST, "/users/setup-admin").permitAll();
+
+                    // Public registration
+                    auth.requestMatchers(HttpMethod.POST, "/users").permitAll();
+
+                    // Restricted access to user list and profiles
+                    auth.requestMatchers(HttpMethod.GET, "/users/**")
+                            .hasAnyRole(UserRole.ADMINISTRATOR.name(), UserRole.FACILITATOR.name());
+
+                    // ==========================
+                    // 📨 REQUEST ROUTES
+                    // ==========================
+                    // User registration requests
+                    auth.requestMatchers("/requests/users/registration")
+                            .hasRole(UserRole.ADMINISTRATOR.name());
+                    auth.requestMatchers("/requests/users/registration/me")
+                            .hasRole(UserRole.GENERIC_USER.name());
+
+                    // Content publication requests
+                    auth.requestMatchers(HttpMethod.POST, "/requests/contents/publications")
+                            .hasAnyRole(UserRole.ADMINISTRATOR.name(), UserRole.CURATOR.name());
+
+                    // Producers / processors / facilitators can request publication
+                    auth.requestMatchers(HttpMethod.POST, "/requests/contents/publish/**")
+                            .hasAnyRole(UserRole.PRODUCER.name(), UserRole.PROCESSOR.name(), UserRole.FACILITATOR.name());
+
+                    // Curators can approve/reject publication requests
+                    auth.requestMatchers(HttpMethod.POST, "/requests/contents/approve/**", "/requests/contents/reject/**")
+                            .hasRole(UserRole.CURATOR.name());
+
+                    // Event participation requests
+                    auth.requestMatchers(HttpMethod.GET, "/requests/events/participation")
+                            .hasRole(UserRole.ADMINISTRATOR.name());
+
+                    // Event invitation / acceptance / rejection
+                    auth.requestMatchers(HttpMethod.POST, "/requests/events/invite/**")
+                            .hasRole(UserRole.FACILITATOR.name());
+                    auth.requestMatchers(HttpMethod.POST, "/requests/events/accept/**")
+                            .hasRole(UserRole.GENERIC_USER.name());
+                    auth.requestMatchers(HttpMethod.POST, "/requests/events/reject/**")
+                            .hasRole(UserRole.GENERIC_USER.name());
+
+                    // ==========================
+                    // 🏪 PRODUCT ROUTES
+                    // ==========================
                     auth.requestMatchers(HttpMethod.GET, "/products")
                             .hasAnyRole(UserRole.CURATOR.name(), UserRole.ADMINISTRATOR.name());
-
-                    // - GET /products/me/** accessible by PRODUCER to view their own products
+                    auth.requestMatchers(HttpMethod.GET, "/products/public")
+                            .hasAnyRole(UserRole.PROCESSOR.name(), UserRole.ADMINISTRATOR.name());
                     auth.requestMatchers(HttpMethod.GET, "/products/me/**")
-                            .hasAnyRole(UserRole.PRODUCER.name());
-
-                    // - POST /products: only PRODUCER can upload products
+                            .hasRole(UserRole.PRODUCER.name());
                     auth.requestMatchers(HttpMethod.POST, "/products")
                             .hasRole(UserRole.PRODUCER.name());
-
-                    // - DELETE /products/{id}: only PRODUCER can delete their own products
                     auth.requestMatchers(HttpMethod.DELETE, "/products/**")
                             .hasRole(UserRole.PRODUCER.name());
 
-
-                    // Processes
-                    // - GET /processes only CURATOR and ADMINISTRATOR can access all events created
+                    // ==========================
+                    // ⚙️ PROCESS ROUTES
+                    // ==========================
                     auth.requestMatchers(HttpMethod.GET, "/processes")
                             .hasAnyRole(UserRole.CURATOR.name(), UserRole.ADMINISTRATOR.name());
-
-                    // - GET /processes/me/** accessible by PROCESSOR to view their own processes
                     auth.requestMatchers(HttpMethod.GET, "/processes/me/**")
-                            .hasAnyRole(UserRole.PROCESSOR.name());
-
-                    // - POST /processes: only PROCESSOR
+                            .hasRole(UserRole.PROCESSOR.name());
                     auth.requestMatchers(HttpMethod.POST, "/processes")
                             .hasRole(UserRole.PROCESSOR.name());
 
-                    // Events
-                    // - GET /events only CURATOR and ADMINISTRATOR can access all events created
+                    // ==========================
+                    // 🎟️ EVENT ROUTES
+                    // ==========================
                     auth.requestMatchers(HttpMethod.GET, "/events")
                             .hasAnyRole(UserRole.CURATOR.name(), UserRole.ADMINISTRATOR.name());
-
-                    // - GET /events/me/** accessible by FACILITATOR to view their own events
                     auth.requestMatchers(HttpMethod.GET, "/events/me/**")
-                            .hasAnyRole(UserRole.FACILITATOR.name());
-
-                    // - POST /events: only FACILITATOR can upload events
+                            .hasRole(UserRole.FACILITATOR.name());
                     auth.requestMatchers(HttpMethod.POST, "/events")
                             .hasRole(UserRole.FACILITATOR.name());
 
-                    // ----------  FEED ------------
-                    // - GET /public/contents anyone can access public contents
+                    // ==========================
+                    // 🌍 PUBLIC ROUTES
+                    // ==========================
                     auth.requestMatchers(HttpMethod.GET, "/public/contents/**").permitAll();
-
-                    // ---------- SYSTEM --------------
-                    // - GET /system/status anyone can access system status
                     auth.requestMatchers(HttpMethod.GET, "/system/status").permitAll();
 
-
-                    // ------- DB CONSOLE ---
-
-                    // H2 console for development
+                    // ==========================
+                    // 🧩 DEV & DOCS
+                    // ==========================
+                    // H2 console (for dev only)
                     auth.requestMatchers("/h2-console", "/h2-console/**").permitAll();
 
-                    // ------- SWAGGER UI -----------
-
-                    // Permits Swagger UI
-                    auth.requestMatchers( "/v3/api-docs/**",
+                    // Swagger / OpenAPI docs
+                    auth.requestMatchers(
+                            "/v3/api-docs/**",
                             "/swagger-ui/**",
                             "/swagger-ui.html",
                             "/swagger-ui/index.html"
                     ).permitAll();
 
-
-                    // All other requests require authentication by default
+                    // ==========================
+                    // 🔒 DEFAULT RULE
+                    // ==========================
                     auth.anyRequest().authenticated();
-
                 })
 
-                // Insert JWT filter before Spring's default username/password filter
-                // This ensures token validation happens early in the filter chain
+                // --- JWT Filter Integration ---
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                // Return UNAUTHORIZED status by default if the client try to access a protected endpoint
+
+                // --- Exception Handling ---
                 .exceptionHandling(c -> {
                     c.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
-                    c.accessDeniedHandler((
-                            HttpServletRequest httpServletRequest,
-                            HttpServletResponse httpServletResponse,
-                            AccessDeniedException accessDeniedException
-                        ) -> {
-                        httpServletResponse.setStatus(HttpStatus.FORBIDDEN.value());
-                    });
+                    c.accessDeniedHandler((HttpServletRequest req, HttpServletResponse res, AccessDeniedException ex) ->
+                            res.setStatus(HttpStatus.FORBIDDEN.value()));
                 });
 
-        // Return the built SecurityFilterChain
         return http.build();
     }
 
+    /**
+     * Configures CORS to allow the frontend (e.g., localhost:3000).
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // il tuo frontend
+        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(true); // se usi cookie / auth
+        configuration.setAllowCredentials(true);
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
 }

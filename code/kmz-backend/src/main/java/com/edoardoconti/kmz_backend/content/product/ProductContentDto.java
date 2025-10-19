@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * DTO for transferring ProductContent data without exposing JPA entities.
+ * DTO for transferring ProcessedProductContent data without exposing JPA entities.
  */
 @Data
 @NoArgsConstructor
