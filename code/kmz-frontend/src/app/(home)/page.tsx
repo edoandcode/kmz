@@ -39,7 +39,7 @@ export default async function Home() {
     return (
         <PageWrapper className="flex flex-col gap-8">
             {products?.length ? (
-                <Grid>
+                <Grid className="gap-y-[var(--gap)]">
                     <Grid.Col span={12}>
                         <h2 className="text-4xl mb-4">{APP_LABELS.PRODUCTS}</h2>
                     </Grid.Col>
@@ -57,7 +57,7 @@ export default async function Home() {
                 </Grid>
             ) : null}
             {events?.length ? (
-                <Grid>
+                <Grid className="gap-y-[var(--gap)]">
                     <Grid.Col span={12}>
                         <h2 className="text-4xl mb-4">{APP_LABELS.EVENTS}</h2>
                     </Grid.Col>

@@ -14,14 +14,13 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import ValuesPicker from '@/components/ui/valuepicker';
 
 import { post } from '@/services/api';
 import { API } from '@/settings/api';
 import { eventSchema } from '@/validation/contents/event/schema';
 
 import type { EventSchema } from '@/validation/contents/event/schema';
-
-
 const EventDialogContent = ({ session }: { session: Session | null }) => {
 
     const { handleSubmit, register, formState: { errors }, control } = useForm<EventSchema>({
@@ -126,6 +125,15 @@ const EventDialogContent = ({ session }: { session: Session | null }) => {
                         form="event-form"
                     >Save changes</Button>
                 </DialogFooter>
+                <ValuesPicker
+                    label="Event Values"
+                    values={[
+                        "Mario",
+                        "Paolo",
+                        "Jacopo"
+                    ]}
+                    onChange={(value) => console.log(value)}
+                />
             </DialogContent>
         </form >
     )
