@@ -36,15 +36,6 @@ public class ProcessedProductContentDto {
     @Size(max = 500, message = "Description must be at most 500 characters")
     private String description;
 
-    @PastOrPresent(message = "Sowing date cannot be in the future")
-    private Date sowingDate;
-
-    @PastOrPresent(message = "Harvest date cannot be in the future")
-    private Date harvestDate;
-
-    @Size(max = 500, message = "Cultivation method must be at most 500 characters")
-    private String cultivationMethod;
-
     @NotNull(message = "Processes list cannot be null")
     @Size(min = 1, max = 10, message = "You must provide between 1 and 10 processes")
     private List<@Valid ProcessContentDto> processes;

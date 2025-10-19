@@ -17,9 +17,7 @@ import java.util.List;
 public class ProcessedProductContent extends Content {
     private String name;
     private String description;
-    private Date sowingDate;
-    private Date harvestDate;
-    private String cultivationMethod;
+
     @ElementCollection
     private List<String> certifications;
 
