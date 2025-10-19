@@ -15,6 +15,10 @@ export type NavItem = {
     route: string;
 }
 
+function isActiveRoute(activePath: string, route: string): boolean {
+    return (activePath.includes(route) && route !== ROUTES.HOME) || activePath === route;
+}
+
 
 const Nav = () => {
     const pathname = usePathname();
@@ -34,4 +38,5 @@ const Nav = () => {
     )
 }
 
+export { isActiveRoute }
 export default Nav

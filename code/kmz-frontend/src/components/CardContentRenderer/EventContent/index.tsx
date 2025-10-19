@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import KeyValueItem from '@/components/KeyValueItem';
+import { CardDescription, CardTitle } from '@/components/ui/card';
 
 import { Content, EventContent as EventContentType } from '@/types/api/content/types';
 
@@ -11,8 +12,9 @@ const EventContent = ({ content }: { content: Content }) => {
     return (
         <>
             <CardTitle>{event.name}</CardTitle>
-            <p className='font-medium '>{'Luogo'}</p>
-            <CardDescription>{event.location}</CardDescription>
+            <CardDescription>{event.description}</CardDescription>
+            <KeyValueItem label='Data' value={new Date(event.date).toLocaleDateString()} />
+            <KeyValueItem label='Luogo' value={event.location} />
         </>
     )
 }

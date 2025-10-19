@@ -4,6 +4,7 @@ import { ReactElement } from 'react';
 import { ColProps } from '@edoandcode/ui-kit-grid';
 import { notFound } from 'next/navigation';
 
+import FeedItemRenderer from '@/components/FeedItemRenderer';
 import Grid from '@/components/Grid';
 import PageWrapper from '@/components/PageWrapper';
 
@@ -36,7 +37,7 @@ export default async function Home() {
 
 
     return (
-        <PageWrapper>
+        <PageWrapper className="flex flex-col gap-8">
             {products?.length ? (
                 <Grid>
                     <Grid.Col span={12}>
@@ -49,10 +50,7 @@ export default async function Home() {
                                 span={12}
                                 span-md={6}
                             >
-                                <div className="p-4 border rounded">
-                                    <h3>{productItem.content.name}</h3>
-                                    <p>Published at: {new Date(productItem.publishedAt).toLocaleDateString()}</p>
-                                </div>
+                                <FeedItemRenderer item={productItem}></FeedItemRenderer>
                             </Grid.Col>
                         )
                     })}
@@ -70,10 +68,7 @@ export default async function Home() {
                                 span={12}
                                 span-md={6}
                             >
-                                <div className="p-4 border rounded">
-                                    <h3>{eventItem.content.name}</h3>
-                                    <p>Published at: {new Date(eventItem.publishedAt).toLocaleDateString()}</p>
-                                </div>
+                                <FeedItemRenderer item={eventItem}></FeedItemRenderer>
                             </Grid.Col>
                         )
                     })}

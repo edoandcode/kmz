@@ -48,5 +48,6 @@ export interface ProcessContent extends Content {
 export interface EventContent extends Content {
     name: string;
     date: Date;
+    description: string;
     location: string;
 }

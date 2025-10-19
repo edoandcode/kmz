@@ -7,7 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 
 import { APP_LABELS } from '@/settings/app-labels';
 import {
-    ContentPublicationResponseDto, UserRegistrationResponseDto
+    ContentPublicationResponseDto, RequestStatus, UserRegistrationResponseDto
 } from '@/types/api/request/types';
 
 interface RequestCardWrapperProps {
@@ -24,7 +24,7 @@ const RequestCardWrapper = ({ request, canProcess, children, onApproveRequest, o
             <CardContent>
                 <div className='flex gap-3 justify-between'>
                     <RequestStatusBadge status={request.status} />
-                    {canProcess ? (
+                    {canProcess && request.status === RequestStatus.PENDING ? (
                         <div className='flex gap-2'>
                             <Button
                                 variant="outline_primary"

@@ -33,6 +33,7 @@ const EventDialogContent = ({ session }: { session: Session | null }) => {
 
         const eventDto = {
             name: data.name,
+            description: data.description,
             location: data.location,
             date: data.date ? data.date.toLocaleDateString('en-CA') : null,
             guestsIds: data.guestsIds || [],
@@ -80,6 +81,15 @@ const EventDialogContent = ({ session }: { session: Session | null }) => {
                             {...register("name")}
                         />
                         <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+                    </div>
+                    <div className="grid gap-3 relative">
+                        <Label htmlFor="description">Description</Label>
+                        <Input
+                            id="description"
+                            defaultValue="Descrizione Evento"
+                            {...register("description")}
+                        />
+                        <FormErrorMessage>{errors.description?.message}</FormErrorMessage>
                     </div>
                     <div className="grid gap-3 relative">
                         <Label htmlFor="location">Location</Label>

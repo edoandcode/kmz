@@ -4,9 +4,9 @@ import clsx from 'clsx';
 import { Menu } from 'lucide-react';
 import Link from 'next/link';
 
+import { isActiveRoute, NavItem } from '@/components/Nav';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
-import { NavItem } from '../';
 import MemberArea from '../MemberArea';
 
 const NavMobile = ({ items, activePath }: { items: NavItem[], activePath: string }) => {
@@ -42,7 +42,7 @@ const NavMobile = ({ items, activePath }: { items: NavItem[], activePath: string
                         'flex flex-col gap-5 list-none m-0 p-0 mb-5'
                     )}>
                         {items.map((item) => (
-                            <li key={item.route} className={clsx({ 'font-medium': activePath === item.route || activePath === `/${item.route}` })}>
+                            <li key={item.route} className={clsx({ 'font-medium': isActiveRoute(activePath, item.route) })}>
                                 <Link href={`/${item.route}`}>{item.label}</Link>
                             </li>
                         ))}
