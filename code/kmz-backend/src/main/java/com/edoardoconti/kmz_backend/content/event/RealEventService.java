@@ -7,6 +7,9 @@ import com.edoardoconti.kmz_backend.request.event_participation.EventParticipati
 import com.edoardoconti.kmz_backend.request.event_participation.EventParticipationRequestRepository;
 import com.edoardoconti.kmz_backend.request.event_participation.EventParticipationRequestService;
 import com.edoardoconti.kmz_backend.security.AuthService;
+import com.edoardoconti.kmz_backend.user.User;
+import com.edoardoconti.kmz_backend.user.UserMapper;
+import com.edoardoconti.kmz_backend.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,8 @@ public class RealEventService implements EventService {
     private final EventContentMapper eventContentMapper;
     private final AuthService authService;
     private final EventParticipationRequestRepository eventParticipationRequestRepository;
+    private final UserService userService;
+    private final UserMapper userMapper;
     private final FeedService  feedService;
 
     @Override
@@ -28,9 +33,9 @@ public class RealEventService implements EventService {
         event.setStatus(ContentStatus.DRAFT);
         var currentUser = this.authService.getCurrentUser();
         event.setAuthorId(currentUser.getId());
-        event.setGuestsIds(List.of());
+        event.setGuests(List.of());
         this.repository.save(event);
-        this.createParticipationRequestsForEachGuest(event, eventContentDto.getGuestsIds());
+        this.createParticipationRequestsForEachGuest(event, eventContentDto.getGuests());
         return this.eventContentMapper.toDto(event);
     }
 
@@ -73,10 +78,14 @@ public class RealEventService implements EventService {
         var event = this.repository.findById(eventId).orElse(null);
         if(event == null)
             return;
-        var guestsIds = event.getGuestsIds();
-        if(!guestsIds.contains(guestId)) {
-            guestsIds.add(guestId);
-            event.setGuestsIds(guestsIds);
+        var guests = event.getGuests();
+        if(guests.stream()
+                .noneMatch(g -> g.getId().equals(guestId))) {
+            var guest = this.userService.getUser(guestId);
+            if(guest == null)
+                return;
+            guests.add(this.userMapper.toEntity(guest));
+            event.setGuests(guests);
             this.repository.save(event);
         }
     }
@@ -98,9 +107,9 @@ public class RealEventService implements EventService {
 
     //  private methods
 
-    private void createParticipationRequestsForEachGuest(EventContent event, Iterable<Long> guestsIds) {
-        for(Long guestId : guestsIds) {
-            this.eventParticipationRequestRepository.save(new EventParticipationRequest(event.getId(), event.getAuthorId(), guestId));
+    private void createParticipationRequestsForEachGuest(EventContent event, Iterable<User> guests) {
+        for(User guest : guests) {
+            this.eventParticipationRequestRepository.save(new EventParticipationRequest(event.getId(), event.getAuthorId(), guest.getId()));
         }
     }
 }
