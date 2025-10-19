@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class EventContent extends Content {
             joinColumns = @JoinColumn(name = "events_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private List<User> guests;
+    private List<User> guests = new ArrayList<>();
 
 
     public EventContent(){
