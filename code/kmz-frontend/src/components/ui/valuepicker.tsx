@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import { Trash2 } from 'lucide-react';
+
 import { Button } from './button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './select';
 
@@ -56,19 +58,20 @@ const ValuesPicker = ({
                             </SelectContent>
                         </Select>
                         <Button
-                            variant="destructive"
-                            size={"sm"}
+                            variant="default"
+                            size={"icon-sm"}
                             onClick={() => {
                                 setPickedValues(prev => prev.filter((_, i) => i !== index));
                                 setValuesCounter(prev => Math.max(0, prev - 1));
                             }}
                         >
-                            Remove
+                            <Trash2 size={16} />
                         </Button>
                     </div>
                 ))}
             </div>
             <Button
+                variant={"outline_default"}
                 size={"sm"}
                 onClick={() => setValuesCounter(valuesCounter + 1)}
             >{valueLabel}</Button>
