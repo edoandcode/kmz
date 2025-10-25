@@ -1,9 +1,11 @@
-import React from 'react';
+'use client'
+import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Session } from 'next-auth';
 import { toast } from 'sonner';
+import useSWR from 'swr';
 
 import FormErrorMessage from '@/components/FormErrorMessage';
 import { Button } from '@/components/ui/button';
@@ -15,12 +17,35 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import ValuesPicker from '@/components/ui/valuepicker';
 
-import { post } from '@/services/api';
-import { API } from '@/settings/api';
+import { get, post } from '@/services/api';
+import { API, API_REFRESH_INTERVAL } from '@/settings/api';
+import { UserDto } from '@/types/api/user/types';
 import { eventSchema } from '@/validation/contents/event/schema';
 
 import type { EventSchema } from '@/validation/contents/event/schema';
+// user fetcher
+const fetcher = (url: string, token?: string) =>
+    get<UserDto[]>(url, {
+        headers: { Authorization: `Bearer ${token}` },
+    });
+
 const EventDialogContent = ({ session }: { session: Session | null }) => {
+
+    const { data: users, error, isLoading } = useSWR(
+        session ? [`/${API.USERS}`, session?.user?.accessToken] : null,
+        ([url, token]) => fetcher(url, token),
+        {
+            revalidateOnFocus: true,
+            revalidateOnReconnect: true,
+            shouldRetryOnError: true,
+            refreshInterval: API_REFRESH_INTERVAL, // Refresh every 15 seconds
+        }
+    );
+
+    useEffect(() => {
+        console.log('users', users);
+    }, [users])
+
 
     const { handleSubmit, register, formState: { errors }, control } = useForm<EventSchema>({
         resolver: zodResolver(eventSchema),
@@ -34,7 +59,7 @@ const EventDialogContent = ({ session }: { session: Session | null }) => {
             description: data.description,
             location: data.location,
             date: data.date ? data.date.toLocaleDateString('en-CA') : null,
-            guests: data.guests || [],
+            guests: data.guests.map(email => users?.find(u => u.email === email)).filter(u => u !== undefined) as UserDto[],
         }
 
         console.log("Event DTO:", eventDto);
@@ -121,12 +146,7 @@ const EventDialogContent = ({ session }: { session: Session | null }) => {
                                 name="guests"
                                 render={({ field }) => (
                                     <ValuesPicker
-                                        label="Event Guests"
-                                        values={[
-                                            "Mario",
-                                            "Paolo",
-                                            "Jacopo"
-                                        ]}
+                                        values={users?.map(u => u.email) || []}
                                         {...field}
                                     />
                                 )}

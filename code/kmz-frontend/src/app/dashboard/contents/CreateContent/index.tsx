@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 
 import { Session, User } from 'next-auth';
+import { useSession } from 'next-auth/react';
 
 import { Dialog } from '@/components/ui/dialog';
 
@@ -12,7 +13,9 @@ import EventDialogContent from './EventDialogContent';
 import ProcessDialogContent from './ProcessDialogContent';
 import ProductDialogContent from './ProductDialogContent';
 
-const CreateContent = ({ session }: { session: Session | null }) => {
+const CreateContent = () => {
+
+    const { data: session } = useSession();
 
     const [currentContentType, setCurrentContentType] = useState<ContentType | null>(null);
 

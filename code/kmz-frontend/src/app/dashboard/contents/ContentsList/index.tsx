@@ -1,6 +1,8 @@
+'use client'
 import React from 'react';
 
 import { Session } from 'next-auth';
+import { useSession } from 'next-auth/react';
 
 import { UserRole } from '@/types/api/user/types';
 
@@ -14,7 +16,9 @@ const roleContentMap: Partial<Record<UserRole, { component: React.ElementType, l
     [UserRole.FACILITATOR]: { component: EventList, label: 'Eventi organizzati' },
 };
 
-const ContentsList = ({ session }: { session: Session | null }) => {
+const ContentsList = () => {
+
+    const { data: session } = useSession()
 
     const userRoles = session?.user?.roles as UserRole[];
 

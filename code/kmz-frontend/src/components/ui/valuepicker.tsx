@@ -4,7 +4,7 @@ import { Button } from './button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './select';
 
 interface ValuePickerProps {
-    label: string;
+    label?: string;
     values: string[];
     onChange: (value: string[]) => void;
     valueLabel?: string;
@@ -57,6 +57,7 @@ const ValuesPicker = ({
                         </Select>
                         <Button
                             variant="destructive"
+                            size={"sm"}
                             onClick={() => {
                                 setPickedValues(prev => prev.filter((_, i) => i !== index));
                                 setValuesCounter(prev => Math.max(0, prev - 1));
@@ -67,7 +68,10 @@ const ValuesPicker = ({
                     </div>
                 ))}
             </div>
-            <Button onClick={() => setValuesCounter(valuesCounter + 1)}>{valueLabel}</Button>
+            <Button
+                size={"sm"}
+                onClick={() => setValuesCounter(valuesCounter + 1)}
+            >{valueLabel}</Button>
         </div>
     )
 }

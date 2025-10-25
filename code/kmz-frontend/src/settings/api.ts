@@ -34,6 +34,8 @@ const API = {
     REQUESTS_USER_REGISTRATION_MY: 'requests/users/registration/me',
     REQUESTS_USER_APPROVE: 'requests/users/approve',
     REQUESTS_USER_REJECT: 'requests/users/reject',
+    /*USERS*/
+    USERS: 'users',
 }
 
 const API_REFRESH_INTERVAL = parseInt(process.env.NEXT_PUBLIC_FETCH_REFRESH_INTERVAL || '15000'); // Default to 15 seconds if not set

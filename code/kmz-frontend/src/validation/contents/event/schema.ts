@@ -7,7 +7,7 @@ export const eventSchema = z.object({
     description: z.string().min(1, { message: "Description is required" }),
     location: z.string().min(1, { message: "Location is required" }),
     date: z.date(),
-    guests: z.array(userSchema),
+    guests: z.array(z.email()).min(1),
 
 });
 
