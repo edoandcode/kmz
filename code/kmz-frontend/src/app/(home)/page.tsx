@@ -11,7 +11,9 @@ import PageWrapper from '@/components/PageWrapper';
 import { get } from '@/services/api';
 import { API } from '@/settings/api';
 import { APP_LABELS } from '@/settings/app-labels';
-import { ContentType, EventContent, ProductContent } from '@/types/api/content/types';
+import {
+    ContentType, EventContent, ProcessedProductContent, ProductContent
+} from '@/types/api/content/types';
 import { FeedItem } from '@/types/api/feed/types';
 
 export const metadata: Metadata = {
@@ -34,6 +36,7 @@ export default async function Home() {
     //const processes = feedData.filter((item: FeedItem) => item.content.type === ContentType.PROCESS);
     const products = feedData.filter((item: FeedItem) => item.content.type === ContentType.PRODUCT).map(item => ({ ...item, content: item.content as ProductContent }));
     const events = feedData.filter((item: FeedItem) => item.content.type === ContentType.EVENT).map(item => ({ ...item, content: item.content as EventContent }));
+    const processedProducts = feedData.filter((item: FeedItem) => item.content.type === ContentType.PROCESSED_PRODUCT).map(item => ({ ...item, content: item.content as ProcessedProductContent }));
 
 
     return (
@@ -69,6 +72,24 @@ export default async function Home() {
                                 span-md={6}
                             >
                                 <FeedItemRenderer item={eventItem}></FeedItemRenderer>
+                            </Grid.Col>
+                        )
+                    })}
+                </Grid>
+            ) : null}
+            {processedProducts?.length ? (
+                <Grid className="gap-y-[var(--gap)]">
+                    <Grid.Col span={12}>
+                        <h2 className="text-4xl mb-4">{APP_LABELS.PROCESSED_PRODUCTS}</h2>
+                    </Grid.Col>
+                    {processedProducts.map((processedProductItem) => {
+                        return (
+                            <Grid.Col
+                                key={processedProductItem.id}
+                                span={12}
+                                span-md={6}
+                            >
+                                <FeedItemRenderer item={processedProductItem}></FeedItemRenderer>
                             </Grid.Col>
                         )
                     })}

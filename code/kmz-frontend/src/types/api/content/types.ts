@@ -4,7 +4,8 @@ import { UserDto } from '../user/types';
 export enum ContentType {
     PRODUCT = 'PRODUCT',
     PROCESS = 'PROCESS',
-    EVENT = 'EVENT'
+    EVENT = 'EVENT',
+    PROCESSED_PRODUCT = 'PROCESSED_PRODUCT'
 }
 
 
@@ -23,10 +24,22 @@ export type Content = {
 }
 
 
-
 // PRODUCT
 
 export interface ProductContent extends Content {
+    name: string;
+    description?: string;
+    sowingDate: Date;
+    harvestDate: Date;
+    cultivationMethod?: string;
+    certifications?: string[];
+}
+
+export interface ProductContentDto {
+    id?: number;
+    authorId: number;
+    type: ContentType.PRODUCT;
+    status: ContentStatus;
     name: string;
     description?: string;
     sowingDate: Date;
@@ -44,6 +57,16 @@ export interface ProcessContent extends Content {
     certifications?: string[];
 }
 
+export interface ProcessContentDto {
+    id?: number;
+    authorId: number;
+    type: ContentType.PROCESS;
+    status: ContentStatus;
+    name: string;
+    description?: string;
+    certifications?: string[];
+}
+
 
 // EVENTS
 
@@ -53,4 +76,16 @@ export interface EventContent extends Content {
     description: string;
     location: string;
     guests?: UserDto[]
+}
+
+
+// PROCESSED PRODUCT
+
+export interface ProcessedProductContent extends Content {
+    name: string;
+    description?: string;
+    ingredients: ProductContentDto[];
+    processes: ProcessContentDto[];
+    processingDate: Date;
+    certifications?: string[];
 }

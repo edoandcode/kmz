@@ -1,7 +1,6 @@
 'use client'
 import React, { useState } from 'react';
 
-import { Session, User } from 'next-auth';
 import { useSession } from 'next-auth/react';
 
 import { Dialog } from '@/components/ui/dialog';
@@ -11,6 +10,7 @@ import { ContentType } from '@/types/api/content/types';
 import CreateContentButtons from './CreateContentButtons';
 import EventDialogContent from './EventDialogContent';
 import ProcessDialogContent from './ProcessDialogContent';
+import ProcessedProductDialogContent from './ProcessedProductDialogContent';
 import ProductDialogContent from './ProductDialogContent';
 
 const CreateContent = () => {
@@ -31,6 +31,9 @@ const CreateContent = () => {
                 ) : null}
                 {currentContentType === ContentType.PROCESS ? (
                     <ProcessDialogContent session={session} />
+                ) : null}
+                {currentContentType === ContentType.PROCESSED_PRODUCT ? (
+                    <ProcessedProductDialogContent session={session} />
                 ) : null}
             </Dialog>
         </div>

@@ -23,6 +23,9 @@ const API = {
     /*PROCESS */
     PROCESS: 'processes',
     MY_PROCESSES: 'processes/me',
+    /*PROCESSED PRODUCT */
+    PROCESSED_PRODUCT: 'processed-products',
+    MY_PROCESSED_PRODUCTS: 'processed-products/me',
     /*REQUESTS CONTENTS */
     REQUESTS_CONTENTS_PUBLICATION: 'requests/contents/publication',
     REQUEST_CONTENTS_PUBLICATION_MY: 'requests/contents/publication/me',

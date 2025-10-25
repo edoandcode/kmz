@@ -1,5 +1,4 @@
-'use client'
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -9,31 +8,38 @@ import useSWR from 'swr';
 
 import FormErrorMessage from '@/components/FormErrorMessage';
 import { Button } from '@/components/ui/button';
-import { Datepicker } from '@/components/ui/datepicker';
 import {
     DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import ValuesPicker from '@/components/ui/valuepicker';
 
 import { get, post } from '@/services/api';
 import { API, API_REFRESH_INTERVAL } from '@/settings/api';
-import { UserDto } from '@/types/api/user/types';
-import { eventSchema } from '@/validation/contents/event/schema';
+import { ProcessContentDto, ProductContentDto } from '@/types/api/content/types';
+import { processedProductSchema } from '@/validation/contents/processedProduct/schema';
 
-import type { EventSchema } from '@/validation/contents/event/schema';
-// user fetcher
-const fetcher = (url: string, token?: string) =>
-    get<UserDto[]>(url, {
+import type { ProcessedProductSchema } from '@/validation/contents/processedProduct/schema';
+
+// product fetcher
+const productFetcher = (url: string, token?: string) =>
+    get<ProductContentDto[]>(url, {
         headers: { Authorization: `Bearer ${token}` },
     });
 
-const EventDialogContent = ({ session }: { session: Session | null }) => {
+// process fetcher
+const processFetcher = (url: string, token?: string) =>
+    get<ProcessContentDto[]>(url, {
+        headers: { Authorization: `Bearer ${token}` },
+    });
 
-    const { data: users } = useSWR(
-        session ? [`/${API.USERS}`, session?.user?.accessToken] : null,
-        ([url, token]) => fetcher(url, token),
+const ProcessedProductDialogContent = ({ session }: { session: Session | null }) => {
+
+    const { data: products } = useSWR(
+        session ? [`/${API.PRODUCTS}`, session?.user?.accessToken] : null,
+        ([url, token]) => productFetcher(url, token),
         {
             revalidateOnFocus: true,
             revalidateOnReconnect: true,
@@ -42,43 +48,48 @@ const EventDialogContent = ({ session }: { session: Session | null }) => {
         }
     );
 
-    useEffect(() => {
-        console.log('users', users);
-    }, [users])
+    const { data: processes } = useSWR(
+        session ? [`/${API.MY_PROCESSES}`, session?.user?.accessToken] : null,
+        ([url, token]) => processFetcher(url, token),
+        {
+            revalidateOnFocus: true,
+            revalidateOnReconnect: true,
+            shouldRetryOnError: true,
+            refreshInterval: API_REFRESH_INTERVAL, // Refresh every 15 seconds
+        }
+    );
 
-
-    const { handleSubmit, register, formState: { errors }, control } = useForm<EventSchema>({
-        resolver: zodResolver(eventSchema),
+    const { handleSubmit, register, formState: { errors }, control } = useForm<ProcessedProductSchema>({
+        resolver: zodResolver(processedProductSchema)
     })
 
-    const onSubmit = async (data: EventSchema) => {
-        console.log(data);
+    const onSubmit = async (data: ProcessedProductSchema) => {
+        console.log("Processed Product Data:", data);
 
-        const eventDto = {
+        const processedProductDto = {
             name: data.name,
             description: data.description,
-            location: data.location,
-            date: data.date ? data.date.toLocaleDateString('en-CA') : null,
-            guests: data.guests.map(email => users?.find(u => u.email === email)).filter(u => u !== undefined) as UserDto[],
+            processes: data.processes.map(name => processes?.find((p) => p.name === name)).filter(p => p !== undefined) as ProcessContentDto[],
+            ingredients: data.ingredients.map(name => products?.find((p) => p.name === name)).filter(p => p !== undefined) as ProductContentDto[],
         }
 
-        console.log("Event DTO:", eventDto);
+        console.log("ProcessedProduct DTO:", processedProductDto);
 
         try {
-            const event = await post(`/${API.EVENTS}`, eventDto, {
+            const product = await post(`/${API.PROCESSED_PRODUCT}`, processedProductDto, {
                 headers: {
                     Authorization: `Bearer ${session?.user?.accessToken}`
                 }
             });
 
-            if (event)
-                toast.success("Event created successfully!");
+            if (product)
+                toast.success("Product created successfully!");
             else
-                toast.error("Failed to create event. Please try again.");
+                toast.error("Failed to create product. Please try again.");
 
         } catch (error) {
             if (error instanceof Error)
-                toast.error("Error creating event: " + error.message);
+                toast.error("Error creating product: " + error.message);
             else
                 toast.error("An unexpected error occurred. Please try again later.");
         }
@@ -86,12 +97,12 @@ const EventDialogContent = ({ session }: { session: Session | null }) => {
     }
 
     return (
-        <form id="event-form" onSubmit={handleSubmit(onSubmit)}>
+        <form id="product-form" onSubmit={handleSubmit(onSubmit)}>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Crea Evento</DialogTitle>
+                    <DialogTitle>Crea Prodotto</DialogTitle>
                     <DialogDescription>
-                        {"Inserisci le informazioni dell'evento qui. Clicca salva o pubblica quando hai finito."}
+                        Inserisci le informazioni del prodotto qui. Clicca salva o pubblica quando hai finito.
                     </DialogDescription>
                 </DialogHeader>
                 <p></p>
@@ -100,59 +111,51 @@ const EventDialogContent = ({ session }: { session: Session | null }) => {
                         <Label htmlFor="name">Name</Label>
                         <Input
                             id="name"
-                            defaultValue="Nome Evento"
+                            defaultValue="Nome Prodotto Lavorato"
                             {...register("name")}
                         />
                         <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
                     </div>
                     <div className="grid gap-3 relative">
                         <Label htmlFor="description">Description</Label>
-                        <Input
+                        <Textarea
                             id="description"
-                            defaultValue="Descrizione Evento"
+                            defaultValue="Descrizione Prodotto Lavorato"
                             {...register("description")}
                         />
                         <FormErrorMessage>{errors.description?.message}</FormErrorMessage>
                     </div>
                     <div className="grid gap-3 relative">
-                        <Label htmlFor="location">Location</Label>
-                        <Input
-                            id="location"
-                            defaultValue="Luogo Evento"
-                            {...register("location")}
-                        />
-                        <FormErrorMessage>{errors.location?.message}</FormErrorMessage>
-                    </div>
-                    <div className="grid gap-3 relative">
-                        <Label htmlFor="date">Event Date</Label>
+                        <Label htmlFor="processes">Event Processes</Label>
                         <div className="flex gap-2">
                             <Controller
                                 control={control}
-                                name="date"
-                                render={({ field }) => (
-                                    <Datepicker
-                                        {...field}
-                                    />
-                                )}
-                            />
-                        </div>
-                        <FormErrorMessage>{errors.date?.message}</FormErrorMessage>
-                    </div>
-                    <div className="grid gap-3 relative">
-                        <Label htmlFor="guests">Event Guests</Label>
-                        <div className="flex gap-2">
-                            <Controller
-                                control={control}
-                                name="guests"
+                                name="processes"
                                 render={({ field }) => (
                                     <ValuesPicker
-                                        values={users?.map(u => u.email) || []}
+                                        values={processes?.map(p => p.name) || []}
                                         {...field}
                                     />
                                 )}
                             />
                         </div>
-                        <FormErrorMessage>{errors.guests?.message}</FormErrorMessage>
+                        <FormErrorMessage>{errors.processes?.message}</FormErrorMessage>
+                    </div>
+                    <div className="grid gap-3 relative">
+                        <Label htmlFor="ingredients">Event Ingredients</Label>
+                        <div className="flex gap-2">
+                            <Controller
+                                control={control}
+                                name="ingredients"
+                                render={({ field }) => (
+                                    <ValuesPicker
+                                        values={products?.map(p => p.name) || []}
+                                        {...field}
+                                    />
+                                )}
+                            />
+                        </div>
+                        <FormErrorMessage>{errors.ingredients?.message}</FormErrorMessage>
                     </div>
                 </div>
                 <DialogFooter>
@@ -162,13 +165,12 @@ const EventDialogContent = ({ session }: { session: Session | null }) => {
                     <Button
                         variant="primary"
                         type="submit"
-                        form="event-form"
+                        form="product-form"
                     >Save changes</Button>
                 </DialogFooter>
-
             </DialogContent>
-        </form >
+        </form>
     )
 }
 
-export default EventDialogContent
+export default ProcessedProductDialogContent

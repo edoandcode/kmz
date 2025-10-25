@@ -11,9 +11,10 @@ const ProductContent = ({ content }: { content: Content }) => {
 
     return (
         <>
-            <CardTitle>{product.name}</CardTitle>
-            <p className='font-medium '>{'Descrizione'}</p>
-            <CardDescription>{product.description}</CardDescription>
+            <div className="flex flex-col gap-2 mb-3">
+                <CardTitle>{product.name}</CardTitle>
+                <CardDescription>{product.description}</CardDescription>
+            </div>
             <p className='font-medium '>{'Metodo di Coltivazione'}</p>
             <CardDescription>{product.cultivationMethod}</CardDescription>
             <div className="flex flex-col gap-2 mt-4 text-sm">

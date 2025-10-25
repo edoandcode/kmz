@@ -11,6 +11,7 @@ const APP_LABELS: AppLabels = {
     EVENTS: 'Eventi',
     PRODUCTS: 'Prodotti',
     PROCESSES: 'Processi',
+    PROCESSED_PRODUCTS: 'Prodotti Lavorati',
     MY_REQUESTS: 'Le mie richieste',
     MY_CONTENTS: 'I miei contenuti',
     APPROVE: 'Approva',
