@@ -19,14 +19,8 @@ import java.util.List;
 public class ProcessedProductContentDto {
 
     private Long id; // inherited from Content (assuming Content has an ID field)
-
-    @NotNull(message = "Author ID is required")
     private Long authorId;
-
-    @NotNull(message = "Content type is required")
     private ContentType type = ContentType.PROCESSED_PRODUCT;
-
-    @NotNull(message = "Content status is required")
     private ContentStatus status;
 
     @NotBlank(message = "Name is required")
