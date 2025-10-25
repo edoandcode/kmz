@@ -3,6 +3,7 @@ package com.edoardoconti.kmz_backend.content.event;
 import com.edoardoconti.kmz_backend.content.Content;
 import com.edoardoconti.kmz_backend.content.ContentType;
 import com.edoardoconti.kmz_backend.content.process.ProcessContent;
+import com.edoardoconti.kmz_backend.place.Place;
 import com.edoardoconti.kmz_backend.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -19,7 +20,8 @@ import java.util.List;
 public class EventContent extends Content {
     private String name;
     private String description;
-    private String location;
+    @Embedded
+    private Place place;
     private Date date;
     @ElementCollection
 

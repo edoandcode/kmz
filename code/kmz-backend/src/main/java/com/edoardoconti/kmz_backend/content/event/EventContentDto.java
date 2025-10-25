@@ -2,6 +2,7 @@ package com.edoardoconti.kmz_backend.content.event;
 
 import com.edoardoconti.kmz_backend.content.ContentStatus;
 import com.edoardoconti.kmz_backend.content.ContentType;
+import com.edoardoconti.kmz_backend.place.Place;
 import com.edoardoconti.kmz_backend.user.User;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -33,9 +34,8 @@ public class EventContentDto  {
     @Size(max = 200, message = "Description must be at most 200 characters")
     private String description;
 
-    @NotBlank(message = "Location is required")
-    @Size(max = 200, message = "Location must be at most 200 characters")
-    private String location;
+    @Valid
+    private Place place;
 
     @NotNull(message = "Date is required")
     @FutureOrPresent(message = "Event date cannot be in the past")
