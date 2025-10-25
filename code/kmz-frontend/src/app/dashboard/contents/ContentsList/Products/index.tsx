@@ -5,7 +5,7 @@ import { Session } from 'next-auth';
 import useSWR from 'swr';
 
 import { get } from '@/services/api';
-import { API } from '@/settings/api';
+import { API, API_REFRESH_INTERVAL } from '@/settings/api';
 import { ProductContent } from '@/types/api/content/types';
 
 import ContentCard from '../ContentCard';
@@ -24,7 +24,7 @@ const Products = ({ session }: { session: Session | null }) => {
             revalidateOnFocus: true,
             revalidateOnReconnect: true,
             shouldRetryOnError: true,
-            refreshInterval: 1000, // Refresh every 1 second
+            refreshInterval: API_REFRESH_INTERVAL, // Refresh every 1 second
         }
     );
 

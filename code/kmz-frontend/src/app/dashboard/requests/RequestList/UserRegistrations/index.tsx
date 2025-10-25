@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import useSWR from 'swr';
 
 import { get } from '@/services/api';
-import { API } from '@/settings/api';
+import { API, API_REFRESH_INTERVAL } from '@/settings/api';
 import { UserRegistrationResponseDto } from '@/types/api/request/types';
 
 import RequestGroupWrapper from '../../RequestGroupWrapper';
@@ -30,7 +30,7 @@ const UserRegistrations = ({ canProcess }: { canProcess: boolean }) => {
             revalidateOnFocus: true,
             revalidateOnReconnect: true,
             shouldRetryOnError: true,
-            refreshInterval: 1000, // Refresh every 1 second
+            refreshInterval: API_REFRESH_INTERVAL, // Refresh every 15 seconds
         }
     );
 

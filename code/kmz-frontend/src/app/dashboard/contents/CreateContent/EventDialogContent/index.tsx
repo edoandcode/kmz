@@ -13,7 +13,6 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import ValuesPicker from '@/components/ui/valuepicker';
 
 import { post } from '@/services/api';
@@ -35,7 +34,7 @@ const EventDialogContent = ({ session }: { session: Session | null }) => {
             description: data.description,
             location: data.location,
             date: data.date ? data.date.toLocaleDateString('en-CA') : null,
-            guestsIds: data.guestsIds || [],
+            guests: data.guests || [],
         }
 
         console.log("Event DTO:", eventDto);
@@ -114,6 +113,27 @@ const EventDialogContent = ({ session }: { session: Session | null }) => {
                         </div>
                         <FormErrorMessage>{errors.date?.message}</FormErrorMessage>
                     </div>
+                    <div className="grid gap-3 relative">
+                        <Label htmlFor="guests">Event Guests</Label>
+                        <div className="flex gap-2">
+                            <Controller
+                                control={control}
+                                name="guests"
+                                render={({ field }) => (
+                                    <ValuesPicker
+                                        label="Event Guests"
+                                        values={[
+                                            "Mario",
+                                            "Paolo",
+                                            "Jacopo"
+                                        ]}
+                                        {...field}
+                                    />
+                                )}
+                            />
+                        </div>
+                        <FormErrorMessage>{errors.guests?.message}</FormErrorMessage>
+                    </div>
                 </div>
                 <DialogFooter>
                     <DialogClose asChild>
@@ -125,15 +145,7 @@ const EventDialogContent = ({ session }: { session: Session | null }) => {
                         form="event-form"
                     >Save changes</Button>
                 </DialogFooter>
-                <ValuesPicker
-                    label="Event Values"
-                    values={[
-                        "Mario",
-                        "Paolo",
-                        "Jacopo"
-                    ]}
-                    onChange={(value) => console.log(value)}
-                />
+
             </DialogContent>
         </form >
     )

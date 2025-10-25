@@ -1,3 +1,5 @@
+import { UserDto } from '../user/types';
+
 // CONTENT
 export enum ContentType {
     PRODUCT = 'PRODUCT',
@@ -50,4 +52,5 @@ export interface EventContent extends Content {
     date: Date;
     description: string;
     location: string;
+    guests?: UserDto[]
 }
