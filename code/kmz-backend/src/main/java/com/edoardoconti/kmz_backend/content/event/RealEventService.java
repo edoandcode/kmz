@@ -33,7 +33,6 @@ public class RealEventService implements EventService {
         event.setStatus(ContentStatus.DRAFT);
         var currentUser = this.authService.getCurrentUser();
         event.setAuthorId(currentUser.getId());
-        event.setGuests(List.of());
         this.repository.save(event);
         this.createParticipationRequestsForEachGuest(event, eventContentDto.getGuests());
         return this.eventContentMapper.toDto(event);
