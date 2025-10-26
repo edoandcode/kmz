@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import useSWR from 'swr';
 
 import FormErrorMessage from '@/components/FormErrorMessage';
+import FormPlaceItem from '@/components/FormPlaceItem';
 import { Button } from '@/components/ui/button';
 import { Datepicker } from '@/components/ui/datepicker';
 import {
@@ -57,7 +58,7 @@ const EventDialogContent = ({ session }: { session: Session | null }) => {
         const eventDto = {
             name: data.name,
             description: data.description,
-            location: data.location,
+            place: data.place,
             date: data.date ? data.date.toLocaleDateString('en-CA') : null,
             guests: data.guests.map(email => users?.find(u => u.email === email)).filter(u => u !== undefined) as UserDto[],
         }
@@ -115,13 +116,17 @@ const EventDialogContent = ({ session }: { session: Session | null }) => {
                         <FormErrorMessage>{errors.description?.message}</FormErrorMessage>
                     </div>
                     <div className="grid gap-3 relative">
-                        <Label htmlFor="location">Location</Label>
-                        <Input
-                            id="location"
-                            defaultValue="Luogo Evento"
-                            {...register("location")}
+                        <Label htmlFor="place">Place</Label>
+                        <Controller
+                            control={control}
+                            name="place"
+                            render={({ field }) => (
+                                <FormPlaceItem
+                                    {...field}
+                                />
+                            )}
                         />
-                        <FormErrorMessage>{errors.location?.message}</FormErrorMessage>
+                        <FormErrorMessage>{errors.date?.message}</FormErrorMessage>
                     </div>
                     <div className="grid gap-3 relative">
                         <Label htmlFor="date">Event Date</Label>

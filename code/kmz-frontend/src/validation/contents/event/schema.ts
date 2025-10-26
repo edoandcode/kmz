@@ -1,11 +1,11 @@
 import { z } from 'zod';
 
-import { userSchema } from '@/validation/user/schema';
+import { placeSchema } from '@/validation/place/schema';
 
 export const eventSchema = z.object({
     name: z.string().min(1, { message: "Name is required" }),
     description: z.string().min(1, { message: "Description is required" }),
-    location: z.string().min(1, { message: "Location is required" }),
+    place: placeSchema,
     date: z.date(),
     guests: z.array(z.email()).min(1),
 

@@ -1,3 +1,4 @@
+import { Place } from '../place/types';
 import { UserDto } from '../user/types';
 
 // CONTENT
@@ -46,6 +47,7 @@ export interface ProductContentDto {
     harvestDate: Date;
     cultivationMethod?: string;
     certifications?: string[];
+    cultivationPlace?: Place;
 }
 
 
@@ -65,6 +67,7 @@ export interface ProcessContentDto {
     name: string;
     description?: string;
     certifications?: string[];
+    processingPlace?: Place
 }
 
 
@@ -74,7 +77,7 @@ export interface EventContent extends Content {
     name: string;
     date: Date;
     description: string;
-    location: string;
+    place: Place;
     guests?: UserDto[]
 }
 
