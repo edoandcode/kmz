@@ -18,7 +18,7 @@ const fetcher = (url: string, token?: string) =>
 
 const Events = ({ session }: { session: Session | null }) => {
 
-    const { data: events, error, isLoading } = useSWR(
+    const { data: events, isLoading } = useSWR(
         session ? [`/${API.MY_EVENTS}`, session?.user?.accessToken] : null,
         ([url, token]) => fetcher(url, token),
         {
@@ -31,7 +31,6 @@ const Events = ({ session }: { session: Session | null }) => {
 
 
     if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error loading events</div>;
     if (!events || events.length === 0) return <div>No events found</div>;
 
 

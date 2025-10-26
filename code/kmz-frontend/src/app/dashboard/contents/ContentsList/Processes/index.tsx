@@ -18,7 +18,7 @@ const fetcher = (url: string, token?: string) =>
 
 const Processes = ({ session }: { session: Session | null }) => {
 
-    const { data: processes, error, isLoading } = useSWR(
+    const { data: processes, isLoading } = useSWR(
         session ? [`/${API.MY_PROCESSES}`, session?.user?.accessToken] : null,
         ([url, token]) => fetcher(url, token),
         {
@@ -31,7 +31,6 @@ const Processes = ({ session }: { session: Session | null }) => {
 
 
     if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error loading processes</div>;
     if (!processes || processes.length === 0) return <div>No processes found</div>;
 
 

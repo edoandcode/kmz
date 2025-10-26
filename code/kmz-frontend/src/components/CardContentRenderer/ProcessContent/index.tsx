@@ -25,9 +25,10 @@ const ProcessContent = ({ content }: { content: Content }) => {
             content={() => {
                 return (
                     <>
-                        <CardTitle>{process.name}</CardTitle>
-                        <small className='font-medium '>{'Descrizione'}</small>
-                        <CardDescription>{process.description}</CardDescription>
+                        <div className="flex flex-col gap-2 mb-3">
+                            <CardTitle>{process.name}</CardTitle>
+                            <CardDescription>{process.description}</CardDescription>
+                        </div>
                         <small className='font-medium '>{'Luogo di lavorazione'}</small>
                         <CardDescription>{process.processingPlace?.name}</CardDescription>
                     </>

@@ -17,7 +17,7 @@ const DashboardLayout = ({ children }: PropsWithChildren) => {
 
     return (
         <PageWrapper>
-            <Grid>
+            <Grid className="gap-y-[var(--gap)]">
                 <Grid.Col
                     span={12}
                     span-md={12}

@@ -76,7 +76,7 @@ const ProcessDialogContent = ({ session }: { session: Session | null }) => {
                         <Label htmlFor="name">Name</Label>
                         <Input
                             id="name"
-                            defaultValue="Nome Processo"
+                            placeholder="Nome Processo"
                             {...register("name")}
                         />
                         <FormErrorMessage
@@ -87,7 +87,7 @@ const ProcessDialogContent = ({ session }: { session: Session | null }) => {
                         <Label htmlFor="description">Description</Label>
                         <Textarea
                             id="description"
-                            defaultValue="Descrizione Processo"
+                            placeholder="Descrizione Processo"
                             {...register("description")}
                         />
                         <FormErrorMessage
