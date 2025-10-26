@@ -34,6 +34,7 @@ export interface ProductContent extends Content {
     harvestDate: Date;
     cultivationMethod?: string;
     certifications?: string[];
+    cultivationPlace?: Place;
 }
 
 export interface ProductContentDto {
@@ -57,6 +58,8 @@ export interface ProcessContent extends Content {
     name: string;
     description?: string;
     certifications?: string[];
+    processingPlace?: Place
+
 }
 
 export interface ProcessContentDto {

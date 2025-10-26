@@ -21,7 +21,7 @@ const CreateContent = () => {
 
     return (
         <div>
-            <Dialog>
+            <Dialog >
                 <CreateContentButtons setContentType={setCurrentContentType} />
                 {currentContentType === ContentType.PRODUCT ? (
                     <ProductDialogContent session={session} />

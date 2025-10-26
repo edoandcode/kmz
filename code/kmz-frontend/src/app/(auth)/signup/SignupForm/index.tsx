@@ -112,7 +112,9 @@ export function SignupForm({ isSuperAdminSetup = false }: SignUpFormProps) {
                                 {...register('firstName')}
                             />
                             {errors.firstName ? (
-                                <FormErrorMessage>{errors.firstName.message}</FormErrorMessage>
+                                <FormErrorMessage
+                                    error={errors.firstName}
+                                ></FormErrorMessage>
                             ) : null}
                         </div>
 
@@ -125,10 +127,11 @@ export function SignupForm({ isSuperAdminSetup = false }: SignUpFormProps) {
                                 {...register('lastName')}
                             />
                             {errors.lastName ? (
-                                <FormErrorMessage>{errors.lastName.message}</FormErrorMessage>
+                                <FormErrorMessage
+                                    error={errors.lastName}
+                                ></FormErrorMessage>
                             ) : null}
                         </div>
-
                         <div className="grid gap-2 relative">
                             <Label htmlFor="email">Email</Label>
                             <Input
@@ -138,10 +141,11 @@ export function SignupForm({ isSuperAdminSetup = false }: SignUpFormProps) {
                                 {...register('email')}
                             />
                             {errors.email ? (
-                                <FormErrorMessage>{errors.email.message}</FormErrorMessage>
+                                <FormErrorMessage
+                                    error={errors.email}
+                                ></FormErrorMessage>
                             ) : null}
                         </div>
-
                         <div className="grid gap-2 relative">
                             <Label htmlFor="password">Password</Label>
                             <Input
@@ -150,7 +154,9 @@ export function SignupForm({ isSuperAdminSetup = false }: SignUpFormProps) {
                                 {...register('password')}
                             />
                             {errors.password ? (
-                                <FormErrorMessage>{errors.password.message}</FormErrorMessage>
+                                <FormErrorMessage
+                                    error={errors.password}
+                                ></FormErrorMessage>
                             ) : null}
                         </div>
 
@@ -162,7 +168,9 @@ export function SignupForm({ isSuperAdminSetup = false }: SignUpFormProps) {
                                 {...register('confirmPassword')}
                             />
                             {errors.confirmPassword ? (
-                                <FormErrorMessage>{errors.confirmPassword.message}</FormErrorMessage>
+                                <FormErrorMessage
+                                    error={errors.confirmPassword}
+                                ></FormErrorMessage>
                             ) : null}
                         </div>
                         {!isSuperAdminSetup && (
@@ -190,7 +198,9 @@ export function SignupForm({ isSuperAdminSetup = false }: SignUpFormProps) {
                                     )}
                                 />
                                 {errors.roles && (
-                                    <FormErrorMessage>{errors.roles.message}</FormErrorMessage>
+                                    <FormErrorMessage
+                                        error={errors.roles}
+                                    ></FormErrorMessage>
                                 )}
                             </div>
                         )}

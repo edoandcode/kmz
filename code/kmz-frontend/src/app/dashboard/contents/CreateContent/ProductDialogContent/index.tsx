@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import _ from 'lodash';
 import { Session } from 'next-auth';
 import { toast } from 'sonner';
 
 import FormErrorMessage from '@/components/FormErrorMessage';
+import FormPlaceItem from '@/components/FormPlaceItem';
 import { Button } from '@/components/ui/button';
 import { Datepicker } from '@/components/ui/datepicker';
 import {
@@ -20,13 +22,15 @@ import { API } from '@/settings/api';
 import { productSchema } from '@/validation/contents/product/schema';
 
 import type { ProductSchema } from '@/validation/contents/product/schema';
-
-
 const ProductDialogContent = ({ session }: { session: Session | null }) => {
 
     const { handleSubmit, register, formState: { errors }, control } = useForm<ProductSchema>({
         resolver: zodResolver(productSchema)
     })
+
+    useEffect(() => {
+        console.log('form errors', errors);
+    }, [errors])
 
     const onSubmit = async (data: ProductSchema) => {
         console.log(data);
@@ -37,6 +41,7 @@ const ProductDialogContent = ({ session }: { session: Session | null }) => {
             sowingDate: data.sowingDate ? data.sowingDate.toLocaleDateString('en-CA') : null,
             harvestDate: data.harvestDate ? data.harvestDate.toLocaleDateString('en-CA') : null,
             cultivationMethod: data.cultivationMethod,
+            cultivationPlace: data.cultivationPlace || {},
         }
 
         console.log("Product DTO:", productDto);
@@ -68,7 +73,7 @@ const ProductDialogContent = ({ session }: { session: Session | null }) => {
                 <DialogHeader>
                     <DialogTitle>Crea Prodotto</DialogTitle>
                     <DialogDescription>
-                        Inserisci le informazioni del prodotto qui. Clicca salva o pubblica quando hai finito.
+                        Inserisci le informazioni del prodotto qui. Clicca salva quando hai finito.
                     </DialogDescription>
                 </DialogHeader>
                 <p></p>
@@ -77,19 +82,23 @@ const ProductDialogContent = ({ session }: { session: Session | null }) => {
                         <Label htmlFor="name">Name</Label>
                         <Input
                             id="name"
-                            defaultValue="Nome Prodotto"
+                            placeholder="Nome Prodotto"
                             {...register("name")}
                         />
-                        <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+                        <FormErrorMessage
+                            error={errors.name}
+                        ></FormErrorMessage>
                     </div>
                     <div className="grid gap-3 relative">
                         <Label htmlFor="description">Description</Label>
                         <Textarea
                             id="description"
-                            defaultValue="Descrizione Prodotto"
+                            placeholder="Descrizione Prodotto"
                             {...register("description")}
                         />
-                        <FormErrorMessage>{errors.description?.message}</FormErrorMessage>
+                        <FormErrorMessage
+                            error={errors.description}
+                        ></FormErrorMessage>
                     </div>
                     <div className="grid gap-3 relative">
                         <Label htmlFor="sowing-date">Sowing Date</Label>
@@ -104,7 +113,7 @@ const ProductDialogContent = ({ session }: { session: Session | null }) => {
                                 )}
                             />
                         </div>
-                        <FormErrorMessage>{errors.sowingDate?.message}</FormErrorMessage>
+                        <FormErrorMessage error={errors.sowingDate}></FormErrorMessage>
                     </div>
                     <div className="grid gap-3 relative">
                         <Label htmlFor="harvest-date">Harvest Date</Label>
@@ -119,16 +128,31 @@ const ProductDialogContent = ({ session }: { session: Session | null }) => {
                                 )}
                             />
                         </div>
-                        <FormErrorMessage>{errors.harvestDate?.message}</FormErrorMessage>
+                        <FormErrorMessage error={errors.harvestDate}></FormErrorMessage>
                     </div>
                     <div className="grid gap-3 relative">
                         <Label htmlFor="cultivation-method">Cultivation Method</Label>
                         <Textarea
                             id="cultivation-method"
-                            defaultValue="Metodo di Coltivazione"
+                            placeholder="Metodo di Coltivazione"
                             {...register("cultivationMethod")}
                         />
-                        <FormErrorMessage>{errors.cultivationMethod?.message}</FormErrorMessage>
+                        <FormErrorMessage error={errors.cultivationMethod}></FormErrorMessage>
+                    </div>
+                    <div className="grid gap-3 relative">
+                        <Label htmlFor="cultivationPlace">Cultivation Place</Label>
+                        <Controller
+                            control={control}
+                            name="cultivationPlace"
+                            render={({ field }) => (
+                                <FormPlaceItem
+                                    {...field}
+                                />
+                            )}
+                        />
+                        <FormErrorMessage
+                            error={errors.cultivationPlace}
+                        ></FormErrorMessage>
                     </div>
                 </div>
                 <DialogFooter>

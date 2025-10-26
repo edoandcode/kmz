@@ -23,13 +23,13 @@ const FormPlaceItem = ({ onChange }: { onChange: (place: Place | null) => void }
                 <Label htmlFor="name">Name</Label>
                 <Input
                     id="name"
-                    defaultValue="Nome Luogo"
+                    placeholder="Nome Luogo"
                     onChange={(e) => setPlace({ ...place, name: e.target.value } as Place)}
                 />
                 <Label htmlFor="description">Description</Label>
                 <Textarea
                     id="description"
-                    defaultValue="Descrizione Luogo"
+                    placeholder="Descrizione Luogo"
                     onChange={(e) => setPlace({ ...place, description: e.target.value } as Place)}
                 />
                 <Label>Location</Label>

@@ -1,15 +1,24 @@
 import React from 'react';
 
 import clsx from 'clsx';
+import _ from 'lodash';
 
-import type { PropsWithChildren } from 'react';
+const FormErrorMessage = ({ error }: { error: object | undefined }) => {
 
-const FormErrorMessage = ({ children }: PropsWithChildren) => {
+    const message = _.find(
+        _.flatMapDeep(error, (value, key) =>
+            key === "message" ? [value] : _.isObject(value) ? value : []
+        ),
+        _.isString
+    )
+
+
     return (
         <div className={clsx(
             'text-xs text-red-600',
             'absolute -bottom-4 left-0',
-        )}>{children}</div>
+        )}
+        >{message}</div>
     )
 }
 

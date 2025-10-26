@@ -1,11 +1,12 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Session } from 'next-auth';
 import { toast } from 'sonner';
 
 import FormErrorMessage from '@/components/FormErrorMessage';
+import FormPlaceItem from '@/components/FormPlaceItem';
 import { Button } from '@/components/ui/button';
 import {
     DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle
@@ -23,7 +24,7 @@ import type { ProcessSchema } from '@/validation/contents/process/schema';
 
 const ProcessDialogContent = ({ session }: { session: Session | null }) => {
 
-    const { handleSubmit, register, formState: { errors } } = useForm<ProcessSchema>({
+    const { handleSubmit, register, formState: { errors }, control } = useForm<ProcessSchema>({
         resolver: zodResolver(processSchema)
     })
 
@@ -34,6 +35,7 @@ const ProcessDialogContent = ({ session }: { session: Session | null }) => {
             name: data.name,
             description: data.description,
             certifications: data.certifications || [],
+            processingPlace: data.processingPlace || null,
         }
 
         console.log("Process DTO:", processDto);
@@ -77,7 +79,9 @@ const ProcessDialogContent = ({ session }: { session: Session | null }) => {
                             defaultValue="Nome Processo"
                             {...register("name")}
                         />
-                        <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+                        <FormErrorMessage
+                            error={errors.name}
+                        ></FormErrorMessage>
                     </div>
                     <div className="grid gap-3 relative">
                         <Label htmlFor="description">Description</Label>
@@ -86,7 +90,24 @@ const ProcessDialogContent = ({ session }: { session: Session | null }) => {
                             defaultValue="Descrizione Processo"
                             {...register("description")}
                         />
-                        <FormErrorMessage>{errors.description?.message}</FormErrorMessage>
+                        <FormErrorMessage
+                            error={errors.description}
+                        ></FormErrorMessage>
+                    </div>
+                    <div className="grid gap-3 relative">
+                        <Label htmlFor="processingPlace">Processing Place</Label>
+                        <Controller
+                            control={control}
+                            name="processingPlace"
+                            render={({ field }) => (
+                                <FormPlaceItem
+                                    {...field}
+                                />
+                            )}
+                        />
+                        <FormErrorMessage
+                            error={errors.processingPlace}
+                        ></FormErrorMessage>
                     </div>
                 </div>
                 <DialogFooter>

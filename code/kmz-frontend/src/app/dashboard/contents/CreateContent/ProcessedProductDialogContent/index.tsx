@@ -100,9 +100,9 @@ const ProcessedProductDialogContent = ({ session }: { session: Session | null })
         <form id="product-form" onSubmit={handleSubmit(onSubmit)}>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Crea Prodotto</DialogTitle>
+                    <DialogTitle>Crea Prodotto Lavorato</DialogTitle>
                     <DialogDescription>
-                        Inserisci le informazioni del prodotto qui. Clicca salva o pubblica quando hai finito.
+                        Inserisci le informazioni del prodotto qui. Clicca salva quando hai finito.
                     </DialogDescription>
                 </DialogHeader>
                 <p></p>
@@ -111,22 +111,26 @@ const ProcessedProductDialogContent = ({ session }: { session: Session | null })
                         <Label htmlFor="name">Name</Label>
                         <Input
                             id="name"
-                            defaultValue="Nome Prodotto Lavorato"
+                            placeholder="Nome Prodotto Lavorato"
                             {...register("name")}
                         />
-                        <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+                        <FormErrorMessage
+                            error={errors.name}
+                        ></FormErrorMessage>
                     </div>
                     <div className="grid gap-3 relative">
                         <Label htmlFor="description">Description</Label>
                         <Textarea
                             id="description"
-                            defaultValue="Descrizione Prodotto Lavorato"
+                            placeholder="Descrizione Prodotto Lavorato"
                             {...register("description")}
                         />
-                        <FormErrorMessage>{errors.description?.message}</FormErrorMessage>
+                        <FormErrorMessage
+                            error={errors.description}
+                        ></FormErrorMessage>
                     </div>
                     <div className="grid gap-3 relative">
-                        <Label htmlFor="processes">Event Processes</Label>
+                        <Label htmlFor="processes">Processi di lavorazione</Label>
                         <div className="flex gap-2">
                             <Controller
                                 control={control}
@@ -139,10 +143,10 @@ const ProcessedProductDialogContent = ({ session }: { session: Session | null })
                                 )}
                             />
                         </div>
-                        <FormErrorMessage>{errors.processes?.message}</FormErrorMessage>
+                        <FormErrorMessage error={errors.processes}></FormErrorMessage>
                     </div>
                     <div className="grid gap-3 relative">
-                        <Label htmlFor="ingredients">Event Ingredients</Label>
+                        <Label htmlFor="ingredients">Ingredients</Label>
                         <div className="flex gap-2">
                             <Controller
                                 control={control}
@@ -155,7 +159,9 @@ const ProcessedProductDialogContent = ({ session }: { session: Session | null })
                                 )}
                             />
                         </div>
-                        <FormErrorMessage>{errors.ingredients?.message}</FormErrorMessage>
+                        <FormErrorMessage
+                            error={errors.ingredients}
+                        ></FormErrorMessage>
                     </div>
                 </div>
                 <DialogFooter>

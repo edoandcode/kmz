@@ -101,19 +101,23 @@ const EventDialogContent = ({ session }: { session: Session | null }) => {
                         <Label htmlFor="name">Name</Label>
                         <Input
                             id="name"
-                            defaultValue="Nome Evento"
+                            placeholder="Nome Evento"
                             {...register("name")}
                         />
-                        <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+                        <FormErrorMessage
+                            error={errors.name}
+                        ></FormErrorMessage>
                     </div>
                     <div className="grid gap-3 relative">
                         <Label htmlFor="description">Description</Label>
                         <Input
                             id="description"
-                            defaultValue="Descrizione Evento"
+                            placeholder="Descrizione Evento"
                             {...register("description")}
                         />
-                        <FormErrorMessage>{errors.description?.message}</FormErrorMessage>
+                        <FormErrorMessage
+                            error={errors.description}
+                        ></FormErrorMessage>
                     </div>
                     <div className="grid gap-3 relative">
                         <Label htmlFor="place">Place</Label>
@@ -126,7 +130,9 @@ const EventDialogContent = ({ session }: { session: Session | null }) => {
                                 />
                             )}
                         />
-                        <FormErrorMessage>{errors.date?.message}</FormErrorMessage>
+                        <FormErrorMessage
+                            error={errors.date}
+                        ></FormErrorMessage>
                     </div>
                     <div className="grid gap-3 relative">
                         <Label htmlFor="date">Event Date</Label>
@@ -141,7 +147,9 @@ const EventDialogContent = ({ session }: { session: Session | null }) => {
                                 )}
                             />
                         </div>
-                        <FormErrorMessage>{errors.date?.message}</FormErrorMessage>
+                        <FormErrorMessage
+                            error={errors.date}
+                        ></FormErrorMessage>
                     </div>
                     <div className="grid gap-3 relative">
                         <Label htmlFor="guests">Event Guests</Label>
@@ -157,7 +165,9 @@ const EventDialogContent = ({ session }: { session: Session | null }) => {
                                 )}
                             />
                         </div>
-                        <FormErrorMessage>{errors.guests?.message}</FormErrorMessage>
+                        <FormErrorMessage
+                            error={errors.guests}
+                        ></FormErrorMessage>
                     </div>
                 </div>
                 <DialogFooter>

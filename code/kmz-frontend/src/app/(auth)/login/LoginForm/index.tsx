@@ -96,7 +96,9 @@ export function LoginForm() {
                                 {...register('email')}
                             />
                             {errors.email ? (
-                                <FormErrorMessage>{errors.email.message}</FormErrorMessage>
+                                <FormErrorMessage
+                                    error={errors.email}
+                                ></FormErrorMessage>
                             ) : null}
                         </div>
                         <div className="grid gap-2 relative">
@@ -109,7 +111,9 @@ export function LoginForm() {
                                 {...register('password')}
                             />
                             {errors.password ? (
-                                <FormErrorMessage>{errors.password.message}</FormErrorMessage>
+                                <FormErrorMessage
+                                    error={errors.password}
+                                ></FormErrorMessage>
                             ) : null}
                         </div>
                     </div>

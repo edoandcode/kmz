@@ -11,8 +11,10 @@ const ProcessContent = ({ content }: { content: Content }) => {
     return (
         <>
             <CardTitle>{process.name}</CardTitle>
-            <p className='font-medium '>{'Descrizione'}</p>
+            <small className='font-medium '>{'Descrizione'}</small>
             <CardDescription>{process.description}</CardDescription>
+            <small className='font-medium '>{'Luogo di lavorazione'}</small>
+            <CardDescription>{process.processingPlace?.name}</CardDescription>
         </>
     )
 }
