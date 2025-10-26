@@ -25,7 +25,7 @@ const ContentsList = () => {
 
 
     return (
-        <div>
+        <>
             {userRoles?.filter((role) => !!roleContentMap[role]).map(role => {
                 return (
                     <div key={role}>
@@ -33,7 +33,7 @@ const ContentsList = () => {
                             const ContentComponent = content.component;
                             const label = content.label;
                             return (
-                                <div key={label} className="mb-8">
+                                <div key={label} className="mb-8 w-full">
                                     <h2 className="text-2xl font-semibold mb-4">{label}</h2>
                                     <ContentComponent session={session} />
                                 </div>
@@ -42,7 +42,7 @@ const ContentsList = () => {
                     </div>
                 )
             })}
-        </div>
+        </>
     )
 }
 

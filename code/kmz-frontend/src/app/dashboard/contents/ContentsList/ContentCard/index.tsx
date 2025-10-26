@@ -34,7 +34,7 @@ const ContentCard = ({ content, session }: { content: Content, session: Session 
     }, [session, content])
 
     return (
-        <Card className='basis-[calc(50%-1rem)] h-full'>
+        <Card className='basis-100 h-min xl:basis-[calc(50%-1rem)] xl:h-full'>
             <CardContent>
                 <CardContentRenderer content={content} />
             </CardContent>

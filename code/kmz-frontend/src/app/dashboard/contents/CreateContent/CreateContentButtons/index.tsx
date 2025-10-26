@@ -27,7 +27,7 @@ const CreateContentButtons = ({ setContentType }: { setContentType: (type: Conte
 
     return (
         <div className={clsx(
-            "flex gap-3 justify-end"
+            "flex gap-3 xl:justify-end flex-wrap mt-5 xl:mt-0"
         )}>
             {userRoles?.filter((role) => !!roleContentMap[role]).map(role => {
                 const contents = roleContentMap[role];

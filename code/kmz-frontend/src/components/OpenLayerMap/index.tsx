@@ -80,5 +80,5 @@ export default function OpenLayersMap({ lat, lon, zoom = 13 }: OpenLayersMapProp
         };
     }, [lat, lon, zoom]);
 
-    return <div ref={mapRef} style={{ width: "100%", height: "100%", minHeight: "200px" }} />;
+    return <div ref={mapRef} style={{ width: "100%", height: "100%", minHeight: "250px" }} />;
 }

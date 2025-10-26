@@ -20,13 +20,15 @@ const DashboardLayout = ({ children }: PropsWithChildren) => {
             <Grid>
                 <Grid.Col
                     span={12}
-                    span-md={3}
+                    span-md={12}
+                    span-xl={3}
                 >
                     <DashboardNav></DashboardNav>
                 </Grid.Col>
                 <Grid.Col
                     span={12}
-                    span-md={9}
+                    span-md={12}
+                    span-xl={9}
                 >
                     {children}
                 </Grid.Col>

@@ -1,6 +1,7 @@
 'use client'
 import React from 'react';
 
+import clsx from 'clsx';
 import { Session } from 'next-auth';
 import useSWR from 'swr';
 
@@ -17,7 +18,7 @@ const fetcher = (url: string, token?: string) =>
 
 const Products = ({ session }: { session: Session | null }) => {
 
-    const { data: products, error, isLoading } = useSWR(
+    const { data: products, isLoading } = useSWR(
         session ? [`/${API.MY_PRODUCTS}`, session?.user?.accessToken] : null,
         ([url, token]) => fetcher(url, token),
         {
@@ -30,7 +31,6 @@ const Products = ({ session }: { session: Session | null }) => {
 
 
     if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error loading products</div>;
     if (!products || products.length === 0) return <div>No products found</div>;
 
 
@@ -38,7 +38,10 @@ const Products = ({ session }: { session: Session | null }) => {
 
 
     return (
-        <div className="flex gap-4 flex-wrap align-stretch justify-items-stretch">
+        <div className={clsx(
+            "flex gap-4 w-full flex-col flex-grow-0",
+            "xl:flex-row xl:flex-wrap"
+        )}>
             {products.map((product, index) => (
                 <ContentCard
                     key={product.name + index}

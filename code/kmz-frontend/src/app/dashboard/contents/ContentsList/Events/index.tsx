@@ -1,6 +1,7 @@
 'use client'
 import React from 'react';
 
+import { clsx } from 'clsx';
 import { Session } from 'next-auth';
 import useSWR from 'swr';
 
@@ -38,15 +39,21 @@ const Events = ({ session }: { session: Session | null }) => {
 
 
     return (
-        <div className="flex gap-4 flex-wrap align-stretch justify-items-stretch">
-            {events.map((event, index) => (
-                <ContentCard
-                    key={event.name + index}
-                    content={event}
-                    session={session}
-                />
-            ))}
-        </div>
+        <div className={clsx(
+            "flex gap-4 w-full flex-col flex-grow-0",
+            "xl:flex-row xl:flex-wrap"
+        )}
+        >
+            {
+                events.map((event, index) => (
+                    <ContentCard
+                        key={event.name + index}
+                        content={event}
+                        session={session}
+                    />
+                ))
+            }
+        </div >
     )
 }
 
