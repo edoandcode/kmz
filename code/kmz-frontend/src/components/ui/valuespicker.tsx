@@ -52,7 +52,7 @@ const ValuesPicker = ({
                                 <SelectValue placeholder="Select a value" />
                             </SelectTrigger>
                             <SelectContent>
-                                {values.map((value) => (
+                                {values.filter(v => !pickedValues.includes(v)).map((value) => (
                                     <SelectItem key={value} value={value}>{value}</SelectItem>
                                 ))}
                             </SelectContent>

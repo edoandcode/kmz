@@ -14,7 +14,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import ValuesPicker from '@/components/ui/valuepicker';
+import ValuesPicker from '@/components/ui/valuespicker';
 
 import { get, post } from '@/services/api';
 import { API, API_REFRESH_INTERVAL } from '@/settings/api';
