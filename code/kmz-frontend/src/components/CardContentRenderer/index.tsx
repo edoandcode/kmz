@@ -17,7 +17,6 @@ const contentMap: Record<ContentType, React.ElementType> = {
 
 
 const CardContentRenderer = ({ content }: { content: Content }) => {
-    console.log('content', content);
     const ContentComponent = contentMap[content.type];
     return (
         <ContentComponent content={content} />

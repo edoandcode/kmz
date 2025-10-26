@@ -28,7 +28,7 @@ const ContentsList = () => {
         <div>
             {userRoles?.filter((role) => !!roleContentMap[role]).map(role => {
                 return (
-                    <>
+                    <div key={role}>
                         {roleContentMap[role]?.map(content => {
                             const ContentComponent = content.component;
                             const label = content.label;
@@ -39,7 +39,7 @@ const ContentsList = () => {
                                 </div>
                             )
                         })}
-                    </>
+                    </div>
                 )
             })}
         </div>

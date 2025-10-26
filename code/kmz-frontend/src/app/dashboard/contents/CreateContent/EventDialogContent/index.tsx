@@ -52,6 +52,8 @@ const EventDialogContent = ({ session }: { session: Session | null }) => {
         resolver: zodResolver(eventSchema),
     })
 
+    console.log('Events form errors', errors);
+
     const onSubmit = async (data: EventSchema) => {
         console.log(data);
 
@@ -131,7 +133,7 @@ const EventDialogContent = ({ session }: { session: Session | null }) => {
                             )}
                         />
                         <FormErrorMessage
-                            error={errors.date}
+                            error={errors.place}
                         ></FormErrorMessage>
                     </div>
                     <div className="grid gap-3 relative">

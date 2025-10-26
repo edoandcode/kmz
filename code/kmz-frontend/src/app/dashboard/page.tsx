@@ -1,13 +1,10 @@
-'use client'
-import React from 'react';
+import { redirect } from 'next/navigation';
+
+import { ROUTES } from '@/settings/routes';
 
 const DashboardPage = () => {
 
-
-    return (
-        <div>DASHBOARD</div>
-
-    )
+    redirect(`/${ROUTES.DASHBOARD_CONTENTS}`);
 }
 
 export default DashboardPage

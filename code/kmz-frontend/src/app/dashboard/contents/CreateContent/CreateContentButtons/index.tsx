@@ -33,7 +33,7 @@ const CreateContentButtons = ({ setContentType }: { setContentType: (type: Conte
                 const contents = roleContentMap[role];
 
                 return (
-                    <>
+                    <div key={role} className="flex gap-3">
                         {contents?.map(content => {
                             return (
                                 <DialogTrigger asChild key={content.label}>
@@ -46,7 +46,7 @@ const CreateContentButtons = ({ setContentType }: { setContentType: (type: Conte
                                 </DialogTrigger>
                             )
                         })}
-                    </>
+                    </div>
                 )
             }
             )}
