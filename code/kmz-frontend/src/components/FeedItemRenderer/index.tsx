@@ -1,10 +1,9 @@
 import React from 'react';
 
+import CardContentRenderer from '@/components/CardContentRenderer';
 import { Card, CardContent } from '@/components/ui/card';
 
 import { FeedItem } from '@/types/api/feed/types';
-
-import CardContentRenderer from '../CardContentRenderer';
 
 const FeedItemRenderer = ({ item }: { item: FeedItem }) => {
     return (

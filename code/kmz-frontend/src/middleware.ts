@@ -28,14 +28,16 @@ export async function middleware(req: NextRequest) {
     // Apply superAdminSetup middleware on all routes except /api/auth
     if (!pathname.startsWith('/api/auth')) {
         res = await superAdminSetupMiddleware(req);
-        if (res) return res;
+        if (res) {
+            // Apply auth middleware only on non-public routes
+            if (!isPublicRoute) {
+                res = await authMiddleware(req);
+                if (res) return res;
+            }
+        }
     }
 
-    // Apply auth middleware only on non-public routes
-    if (!isPublicRoute) {
-        res = await authMiddleware(req);
-        if (res) return res;
-    }
+
 
     // Continue request if no middleware returned a response
     return NextResponse.next();

@@ -14,7 +14,7 @@ const CardLayout = ({ content, map }: { content: React.FC, map?: { location: { l
             {map?.location ? (
                 <div className="md:w-[calc(50%-10px)] max-h-full">
                     <div
-                        className="md:w-full h-full"
+                        className="h-[250px] md:w-full md:h-full rounded-md overflow-hidden"
                     >
                         <OpenLayersMap
                             lat={map.location?.latitude}

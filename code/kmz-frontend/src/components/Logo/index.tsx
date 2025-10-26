@@ -3,6 +3,9 @@ import React, { CSSProperties } from 'react';
 
 import clsx from 'clsx';
 import Image from 'next/image';
+import Link from 'next/link';
+
+import { ROUTES } from '@/settings/routes';
 
 interface LogoProps {
     size?: CSSProperties['width']
@@ -10,9 +13,11 @@ interface LogoProps {
 
 const Logo = ({ size = '200px' }: LogoProps) => {
     return (
-        <div className={clsx(
-            "aspect-square relative"
-        )}
+        <Link
+            href={`/${ROUTES.HOME}`}
+            className={clsx(
+                "block aspect-square relative"
+            )}
             style={{ width: size, height: size }}
         >
             <Image
@@ -21,7 +26,7 @@ const Logo = ({ size = '200px' }: LogoProps) => {
                 fill
                 className="object-cover absolute"
             />
-        </div>
+        </Link>
     )
 }
 

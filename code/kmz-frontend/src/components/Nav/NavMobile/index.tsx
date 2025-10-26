@@ -32,7 +32,7 @@ const NavMobile = ({ items, activePath }: { items: NavItem[], activePath: string
                 </SheetTrigger>
                 <SheetContent
                     className={clsx(
-                        'bg-secondary z-10001',
+                        'bg-background z-10001',
                         'pt-[var(--header-height)]',
                         'px-5'
                     )}

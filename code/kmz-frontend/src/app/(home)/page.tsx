@@ -37,6 +37,7 @@ export default async function Home() {
     const products = feedData.filter((item: FeedItem) => item.content.type === ContentType.PRODUCT).map(item => ({ ...item, content: item.content as ProductContent }));
     const events = feedData.filter((item: FeedItem) => item.content.type === ContentType.EVENT).map(item => ({ ...item, content: item.content as EventContent }));
     const processedProducts = feedData.filter((item: FeedItem) => item.content.type === ContentType.PROCESSED_PRODUCT).map(item => ({ ...item, content: item.content as ProcessedProductContent }));
+    const processes = feedData.filter((item: FeedItem) => item.content.type === ContentType.PROCESS).map(item => ({ ...item, content: item.content as ProcessedProductContent }));
 
 
     return (
@@ -44,14 +45,14 @@ export default async function Home() {
             {products?.length ? (
                 <Grid className="gap-y-[var(--gap)]">
                     <Grid.Col span={12}>
-                        <h2 className="text-4xl mb-4">{APP_LABELS.PRODUCTS}</h2>
+                        <h2 className="text-lg uppercase font-bold text-secondary">{APP_LABELS.PRODUCTS}</h2>
                     </Grid.Col>
                     {products.map((productItem) => {
                         return (
                             <Grid.Col
                                 key={productItem.id}
                                 span={12}
-                                span-md={6}
+                                span-xl={6}
                             >
                                 <FeedItemRenderer item={productItem}></FeedItemRenderer>
                             </Grid.Col>
@@ -62,14 +63,14 @@ export default async function Home() {
             {events?.length ? (
                 <Grid className="gap-y-[var(--gap)]">
                     <Grid.Col span={12}>
-                        <h2 className="text-4xl mb-4">{APP_LABELS.EVENTS}</h2>
+                        <h2 className="text-lg uppercase font-bold text-secondary">{APP_LABELS.EVENTS}</h2>
                     </Grid.Col>
                     {events.map((eventItem) => {
                         return (
                             <Grid.Col
                                 key={eventItem.id}
                                 span={12}
-                                span-md={6}
+                                span-xl={6}
                             >
                                 <FeedItemRenderer item={eventItem}></FeedItemRenderer>
                             </Grid.Col>
@@ -80,16 +81,34 @@ export default async function Home() {
             {processedProducts?.length ? (
                 <Grid className="gap-y-[var(--gap)]">
                     <Grid.Col span={12}>
-                        <h2 className="text-4xl mb-4">{APP_LABELS.PROCESSED_PRODUCTS}</h2>
+                        <h2 className="text-lg uppercase font-bold text-secondary">{APP_LABELS.PROCESSED_PRODUCTS}</h2>
                     </Grid.Col>
                     {processedProducts.map((processedProductItem) => {
                         return (
                             <Grid.Col
                                 key={processedProductItem.id}
                                 span={12}
-                                span-md={6}
+                                span-xl={6}
                             >
                                 <FeedItemRenderer item={processedProductItem}></FeedItemRenderer>
+                            </Grid.Col>
+                        )
+                    })}
+                </Grid>
+            ) : null}
+            {processes?.length ? (
+                <Grid className="gap-y-[var(--gap)]">
+                    <Grid.Col span={12}>
+                        <h2 className="text-lg uppercase font-bold text-secondary">{APP_LABELS.PROCESSES}</h2>
+                    </Grid.Col>
+                    {processes.map((processItem) => {
+                        return (
+                            <Grid.Col
+                                key={processItem.id}
+                                span={12}
+                                span-xl={6}
+                            >
+                                <FeedItemRenderer item={processItem}></FeedItemRenderer>
                             </Grid.Col>
                         )
                     })}
