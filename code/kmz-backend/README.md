@@ -42,15 +42,3 @@ java -jar target/kmz-backend-0.0.1-SNAPSHOT.jar
 ```
 
 4. Access the API at http://localhost:8080.
-
-
-## TODO
-
-- Implement Marketplace
-- Create processed products and offer packages
-- Manage locations
-- Fine tuned error handling
-- Add unit and integration tests
-- Add package of products
-- Add ProcessedProduct entity
-- ...
