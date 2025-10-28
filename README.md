@@ -52,5 +52,5 @@ Devono essere utilizzati almeno due design pattern (diversi dal Singleton).
 ---
 
 ## Project Structure
-- `/code`       : Contains the backend code (Spring Boot REST API) and frontend code (TODO)
+- `/code`       : Contains the backend code (Spring Boot REST API) and frontend code (NextJS)
 - `/design/vp`  : Contains Visual Paradigm modeling files
