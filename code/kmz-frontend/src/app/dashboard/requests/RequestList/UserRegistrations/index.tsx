@@ -23,7 +23,7 @@ const UserRegistrations = ({ canProcess }: { canProcess: boolean }) => {
 
     const endpoint = canProcess ? `/${API.REQUESTS_USER_REGISTRATION}` : `/${API.REQUESTS_USER_REGISTRATION_MY}`;
 
-    const { data: userRegistrationRequests, error, isLoading } = useSWR(
+    const { data: userRegistrationRequests, isLoading } = useSWR(
         session ? [endpoint, session?.user?.accessToken] : null,
         ([url, token]) => fetcher(url, token),
         {
@@ -36,7 +36,6 @@ const UserRegistrations = ({ canProcess }: { canProcess: boolean }) => {
 
 
     if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error loading user registrations</div>;
     if (!userRegistrationRequests || userRegistrationRequests.length === 0) return <div>No user registrations found</div>;
 
 

@@ -7,7 +7,7 @@ const CardLayout = ({ content, map }: { content: React.FC, map?: { location: { l
     const ContentComponent = content;
 
     return (
-        <div className="flex h-full md:flex-row flex-col gap-y-5">
+        <div className="flex h-full md:flex-row flex-col gap-y-5 md:justify-between">
             <div className="md:w-[calc(50%-10px)]">
                 <ContentComponent></ContentComponent>
             </div>

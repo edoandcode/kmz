@@ -7,6 +7,8 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import { Card, CardContent } from '@/components/ui/card';
+
 import { APP_LABELS } from '@/settings/app-labels';
 import { ROUTES } from '@/settings/routes';
 import { UserRole } from '@/types/api/user/types';
@@ -48,25 +50,27 @@ const DashboardNav = () => {
     const items = MENU_ITEMS.filter(item => item.roles.some(role => userRoles.includes(role)))
 
     return (
-        <div>
-            <ul className={clsx(
-                "flex flex-col gap-3"
-            )}>
-                {items.map(item => (
-                    <li key={item.path}>
-                        <Link
-                            href={`/${item.path}`} className={clsx(
-                                "flex gap-4 items-center",
-                                "font-medium text-lg",
-                                { 'text-primary': pathname === `/${item.path}` }
-                            )}>
-                            {item.icon}
-                            <span>{item.label}</span>
-                        </Link>
-                    </li>
-                ))}
-            </ul>
-        </div>
+        <Card>
+            <CardContent>
+                <ul className={clsx(
+                    "flex flex-col gap-3"
+                )}>
+                    {items.map(item => (
+                        <li key={item.path}>
+                            <Link
+                                href={`/${item.path}`} className={clsx(
+                                    "flex gap-4 items-center",
+                                    "font-medium text-lg",
+                                    { 'text-primary': pathname === `/${item.path}` }
+                                )}>
+                                {item.icon}
+                                <span>{item.label}</span>
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            </CardContent>
+        </Card>
     )
 }
 

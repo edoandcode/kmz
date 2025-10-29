@@ -38,7 +38,7 @@ const CreateContentButtons = ({ setContentType }: { setContentType: (type: Conte
                             return (
                                 <DialogTrigger asChild key={content.label}>
                                     <Button
-                                        variant="outline_primary"
+                                        variant="secondary"
                                         onClick={() => setContentType(content.contentType)}
                                     >
                                         {content.label}

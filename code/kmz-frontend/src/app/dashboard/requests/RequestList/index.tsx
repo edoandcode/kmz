@@ -21,15 +21,15 @@ const RequestList = ({ session }: { session: Session | null }) => {
     const userRegistrationRequestsLabel = isAdmin ? APP_LABELS.USER_REGISTRATION_REQUESTS : APP_LABELS.USER_REGISTRATION_REQUESTS_SENT;
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-8">
             <div>
-                <h2 className="text-2xl font-medium mb-4">{contentPublicationRequestsLabel}</h2>
+                <h2 className="typography-title mb-4">{contentPublicationRequestsLabel}</h2>
                 <ContentPublications
                     canProcess={isAdmin || isCurator}
                 ></ContentPublications>
             </div>
             <div>
-                <h2 className="text-2xl font-medium mb-4">{userRegistrationRequestsLabel}</h2>
+                <h2 className="typography-title mb-4">{userRegistrationRequestsLabel}</h2>
                 <UserRegistrations
                     canProcess={isAdmin}
                 ></UserRegistrations>

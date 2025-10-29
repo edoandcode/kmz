@@ -1,7 +1,6 @@
 'use client'
 import React from 'react';
 
-import { Session } from 'next-auth';
 import { useSession } from 'next-auth/react';
 
 import { UserRole } from '@/types/api/user/types';
@@ -34,7 +33,7 @@ const ContentsList = () => {
                             const label = content.label;
                             return (
                                 <div key={label} className="mb-8 w-full">
-                                    <h2 className="text-2xl font-semibold mb-4">{label}</h2>
+                                    <h2 className="typography-title mb-2">{label}</h2>
                                     <ContentComponent session={session} />
                                 </div>
                             )

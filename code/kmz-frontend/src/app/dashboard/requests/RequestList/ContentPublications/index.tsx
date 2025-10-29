@@ -23,7 +23,7 @@ const ContentPublications = ({ canProcess }: { canProcess: boolean }) => {
 
     const endpoint = canProcess ? `/${API.REQUESTS_CONTENTS_PUBLICATION}` : `/${API.REQUEST_CONTENTS_PUBLICATION_MY}`;
 
-    const { data: publicationRequests, error, isLoading } = useSWR(
+    const { data: publicationRequests, isLoading } = useSWR(
         session ? [endpoint, session?.user?.accessToken] : null,
         ([url, token]) => fetcher(url, token),
         {
@@ -36,7 +36,6 @@ const ContentPublications = ({ canProcess }: { canProcess: boolean }) => {
 
 
     if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error loading publications</div>;
     if (!publicationRequests || publicationRequests.length === 0) return <div>No publications found</div>;
 
 

@@ -42,78 +42,87 @@ export default async function Home() {
 
     return (
         <PageWrapper className="flex flex-col gap-8">
-            {products?.length ? (
-                <Grid className="gap-y-[var(--gap)]">
-                    <Grid.Col span={12}>
-                        <h2 className="text-lg uppercase font-bold text-secondary">{APP_LABELS.PRODUCTS}</h2>
-                    </Grid.Col>
-                    {products.map((productItem) => {
-                        return (
-                            <Grid.Col
-                                key={productItem.id}
-                                span={12}
-                                span-xl={6}
-                            >
-                                <FeedItemRenderer item={productItem}></FeedItemRenderer>
-                            </Grid.Col>
-                        )
-                    })}
-                </Grid>
-            ) : null}
-            {events?.length ? (
-                <Grid className="gap-y-[var(--gap)]">
-                    <Grid.Col span={12}>
-                        <h2 className="text-lg uppercase font-bold text-secondary">{APP_LABELS.EVENTS}</h2>
-                    </Grid.Col>
-                    {events.map((eventItem) => {
-                        return (
-                            <Grid.Col
-                                key={eventItem.id}
-                                span={12}
-                                span-xl={6}
-                            >
-                                <FeedItemRenderer item={eventItem}></FeedItemRenderer>
-                            </Grid.Col>
-                        )
-                    })}
-                </Grid>
-            ) : null}
-            {processedProducts?.length ? (
-                <Grid className="gap-y-[var(--gap)]">
-                    <Grid.Col span={12}>
-                        <h2 className="text-lg uppercase font-bold text-secondary">{APP_LABELS.PROCESSED_PRODUCTS}</h2>
-                    </Grid.Col>
-                    {processedProducts.map((processedProductItem) => {
-                        return (
-                            <Grid.Col
-                                key={processedProductItem.id}
-                                span={12}
-                                span-xl={6}
-                            >
-                                <FeedItemRenderer item={processedProductItem}></FeedItemRenderer>
-                            </Grid.Col>
-                        )
-                    })}
-                </Grid>
-            ) : null}
-            {processes?.length ? (
-                <Grid className="gap-y-[var(--gap)]">
-                    <Grid.Col span={12}>
-                        <h2 className="text-lg uppercase font-bold text-secondary">{APP_LABELS.PROCESSES}</h2>
-                    </Grid.Col>
-                    {processes.map((processItem) => {
-                        return (
-                            <Grid.Col
-                                key={processItem.id}
-                                span={12}
-                                span-xl={6}
-                            >
-                                <FeedItemRenderer item={processItem}></FeedItemRenderer>
-                            </Grid.Col>
-                        )
-                    })}
-                </Grid>
-            ) : null}
+            <Grid className="gap-y-[var(--gap)]">
+                <Grid.Col span={12}>
+                    <h2 className="typography-title">{APP_LABELS.PRODUCTS}</h2>
+                </Grid.Col>
+                {products?.length ? (
+                    <>
+
+                        {products.map((productItem) => {
+                            return (
+                                <Grid.Col
+                                    key={productItem.id}
+                                    span={12}
+                                    span-xl={6}
+                                >
+                                    <FeedItemRenderer item={productItem}></FeedItemRenderer>
+                                </Grid.Col>
+                            )
+                        })}
+                    </>
+                ) : <p>No products found</p>}
+            </Grid>
+            <Grid className="gap-y-[var(--gap)]">
+                <Grid.Col span={12}>
+                    <h2 className="typography-title">{APP_LABELS.EVENTS}</h2>
+                </Grid.Col>
+                {events?.length ? (
+                    <>
+                        {events.map((eventItem) => {
+                            return (
+                                <Grid.Col
+                                    key={eventItem.id}
+                                    span={12}
+                                    span-xl={6}
+                                >
+                                    <FeedItemRenderer item={eventItem}></FeedItemRenderer>
+                                </Grid.Col>
+                            )
+                        })}
+                    </>
+                ) : <p>No events found</p>}
+            </Grid>
+            <Grid className="gap-y-[var(--gap)]">
+                <Grid.Col span={12}>
+                    <h2 className="typography-title">{APP_LABELS.PROCESSED_PRODUCTS}</h2>
+                </Grid.Col>
+                {processedProducts?.length ? (
+                    <>
+                        {processedProducts.map((processedProductItem) => {
+                            return (
+                                <Grid.Col
+                                    key={processedProductItem.id}
+                                    span={12}
+                                    span-xl={6}
+                                >
+                                    <FeedItemRenderer item={processedProductItem}></FeedItemRenderer>
+                                </Grid.Col>
+                            )
+                        })}
+                    </>
+                ) : <p>No processed products found</p>}
+            </Grid>
+            <Grid className="gap-y-[var(--gap)]">
+                <Grid.Col span={12}>
+                    <h2 className="typography-title">{APP_LABELS.PROCESSES}</h2>
+                </Grid.Col>
+                {processes?.length ? (
+                    <>
+                        {processes.map((processItem) => {
+                            return (
+                                <Grid.Col
+                                    key={processItem.id}
+                                    span={12}
+                                    span-xl={6}
+                                >
+                                    <FeedItemRenderer item={processItem}></FeedItemRenderer>
+                                </Grid.Col>
+                            )
+                        })}
+                    </>
+                ) : <p>No processes found</p>}
+            </Grid>
         </PageWrapper >
     );
 }

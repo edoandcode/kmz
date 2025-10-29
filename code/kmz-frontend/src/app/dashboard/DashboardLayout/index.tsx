@@ -28,7 +28,8 @@ const DashboardLayout = ({ children }: PropsWithChildren) => {
                 <Grid.Col
                     span={12}
                     span-md={12}
-                    span-xl={9}
+                    offset-xl={1}
+                    span-xl={8}
                 >
                     {children}
                 </Grid.Col>
