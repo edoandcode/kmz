@@ -40,7 +40,7 @@ export async function middleware(req: NextRequest) {
 
 
     // Continue request if no middleware returned a response
-    return NextResponse.next();
+    return res || NextResponse.next();
 }
 
 export const config = {
