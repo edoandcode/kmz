@@ -5,8 +5,6 @@ import Link from 'next/link';
 
 import { isActiveRoute } from '@/components/Nav';
 
-import { ROUTES } from '@/settings/routes';
-
 import MemberArea from '../MemberArea';
 
 import type { NavItem } from '..';

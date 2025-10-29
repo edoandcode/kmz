@@ -1,7 +1,4 @@
 import type { Metadata } from "next";
-import { ReactElement } from 'react';
-
-import { ColProps } from '@edoandcode/ui-kit-grid';
 import { notFound } from 'next/navigation';
 
 import FeedItemRenderer from '@/components/FeedItemRenderer';

@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import _ from 'lodash';
 import { Session } from 'next-auth';
 import { toast } from 'sonner';
 

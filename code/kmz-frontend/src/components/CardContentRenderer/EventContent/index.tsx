@@ -1,7 +1,6 @@
 import React from 'react';
 
 import KeyValueItem from '@/components/KeyValueItem';
-import OpenLayersMap from '@/components/OpenLayerMap';
 import { CardDescription, CardTitle } from '@/components/ui/card';
 
 import { Content, EventContent as EventContentType } from '@/types/api/content/types';
