@@ -1,21 +1,13 @@
-import { getToken } from 'next-auth/jwt';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
-import { ROUTES } from '@/settings/routes';
+import { auth } from '@/services/next-auth';
+import { ROUTES, SITE_URL } from '@/settings/routes';
 
-async function middleware(request: NextRequest) {
-
-    const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
-
-    if (!token) {
-        const url = new URL(`/${ROUTES.LOGIN}`, request.url);
-        return NextResponse.redirect(url)
+export default async function authProxy() {
+    const session = await auth();
+    console.log('Auth middleware session:', session);
+    if (!session) {
+        return NextResponse.redirect(`${SITE_URL}/${ROUTES.LOGIN}`);
     }
-
-    return NextResponse.next()
-
-
-}
-
-
-export default middleware;
+    return NextResponse.next();
+};

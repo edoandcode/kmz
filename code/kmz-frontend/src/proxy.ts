@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import superAdminSetupMiddleware from '@/middleware/superAdminSetup';
 import { ROUTES } from '@/settings/routes';
 
-import authMiddleware from './middleware/auth';
+import authProxy from './middleware/auth';
 
 import type { NextRequest } from 'next/server';
 
@@ -31,8 +31,7 @@ export async function proxy(req: NextRequest) {
         if (res) {
             // Apply auth middleware only on non-public routes
             if (!isPublicRoute) {
-                res = await authMiddleware(req);
-                if (res) return res;
+                res = await authProxy();
             }
         }
     }

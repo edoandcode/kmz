@@ -27,7 +27,6 @@ const NavDesktop = ({ items, activePath }: { items: NavItem[], activePath: strin
                 ))}
             </ul>
             <MemberArea />
-
         </div>
 
     )

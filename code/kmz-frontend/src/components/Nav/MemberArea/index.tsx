@@ -12,15 +12,7 @@ import { APP_LABELS } from '@/settings/app-labels';
 import { ROUTES } from '@/settings/routes';
 
 const MemberArea = () => {
-    const { status, data: session } = useSession();
-
-    console.log('Session status:', status);
-    console.log('Session data:', session);
-
-    if (!session)
-        return null;
-
-
+    const { data: session } = useSession();
 
     return (
         <div className={clsx(
@@ -55,7 +47,7 @@ const MemberArea = () => {
                 </>
             ) : (
                 <Button
-                    variant="default"
+                    variant="primary"
                     asChild
                 >
                     <Link href={`/${ROUTES.LOGIN}`}>

@@ -1,8 +1,9 @@
 'use client'
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -22,6 +23,7 @@ export function LoginForm() {
 
 
     const router = useRouter();
+    const { update, data: session } = useSession();
 
 
     const { register, handleSubmit, formState: { errors } } = useForm<LoginSchema>({
@@ -61,15 +63,21 @@ export function LoginForm() {
                 }
                 return;
             }
-
-            router.push(`/${ROUTES.DASHBOARD}`);
+            router.refresh();
         } catch (error) {
             console.error("Login error:", error);
         }
 
 
 
-    }
+    };
+
+    useEffect(() => {
+        if (session)
+            setTimeout(() => {
+                router.push(`/${ROUTES.DASHBOARD}`);
+            }, 1500);
+    }, [session, router])
 
 
     return (

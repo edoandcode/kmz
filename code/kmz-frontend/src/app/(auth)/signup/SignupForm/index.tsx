@@ -1,7 +1,9 @@
 'use client'
+import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -34,6 +36,7 @@ interface SignUpFormProps {
 export function SignupForm({ isSuperAdminSetup = false }: SignUpFormProps) {
 
     const router = useRouter();
+    const { data: session, update } = useSession();
 
     const { register, handleSubmit, formState: { errors }, control } = useForm<SignUpSchema>({
         resolver: zodResolver(signUpSchema)
@@ -56,8 +59,8 @@ export function SignupForm({ isSuperAdminSetup = false }: SignUpFormProps) {
 
             toast.success("Registration successful! You can now log in.");
 
+            router.refresh();
 
-            router.push(`/${ROUTES.LOGIN}`)
         } catch (error) {
             console.error("Signup error:", error);
 
@@ -78,6 +81,13 @@ export function SignupForm({ isSuperAdminSetup = false }: SignUpFormProps) {
             }
         }
     }
+
+    useEffect(() => {
+        if (session)
+            setTimeout(() => {
+                router.push(`/${ROUTES.DASHBOARD}`);
+            }, 1500);
+    }, [session, router])
 
 
     return (
