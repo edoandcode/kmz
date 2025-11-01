@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 
-import superAdminSetupMiddleware from '@/middleware/superAdminSetup';
 import { ROUTES } from '@/settings/routes';
 
 import authProxy from './middleware/auth';
@@ -25,18 +24,12 @@ export async function proxy(req: NextRequest) {
     let res: NextResponse | undefined;
 
 
-    // Apply superAdminSetup middleware on all routes except /api/auth
     if (!pathname.startsWith('/api/auth')) {
-        res = await superAdminSetupMiddleware(req);
-        if (res) {
-            // Apply auth middleware only on non-public routes
-            if (!isPublicRoute) {
-                res = await authProxy();
-            }
+        // Apply auth middleware only on non-public routes
+        if (!isPublicRoute) {
+            res = await authProxy();
         }
     }
-
-
 
     // Continue request if no middleware returned a response
     return res || NextResponse.next();

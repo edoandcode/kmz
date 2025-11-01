@@ -4,6 +4,7 @@ import { Toaster } from 'sonner';
 
 import AuthenticationProvider from '@/components/AuthenticationProvider';
 import Header from '@/components/Header';
+import SetupAdminRedirect from '@/components/SetupAdminRedirect';
 
 import './globals.css';
 
@@ -27,15 +28,20 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AuthenticationProvider>
-          <Header></Header>
-          {children}
-        </AuthenticationProvider>
+        <SetupAdminRedirect>
+          <AuthenticationProvider>
+            <Header></Header>
+            {children}
+          </AuthenticationProvider>
+        </SetupAdminRedirect>
         <Toaster />
       </body>
     </html>
