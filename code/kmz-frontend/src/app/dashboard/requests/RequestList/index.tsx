@@ -1,0 +1,42 @@
+import React from 'react';
+
+import { APP_LABELS } from '@/settings/app-labels';
+import { UserRole } from '@/types/api/user/types';
+
+import ContentPublications from './ContentPublications';
+import UserRegistrations from './UserRegistrations';
+
+import type { Session } from 'next-auth';
+
+const RequestList = ({ session }: { session: Session | null }) => {
+
+    const userRoles = session?.user?.roles
+
+    if (!userRoles) return null
+
+    const isAdmin = userRoles.includes(UserRole.ADMINISTRATOR);
+    const isCurator = userRoles.includes(UserRole.CURATOR);
+
+    const contentPublicationRequestsLabel = isAdmin || isCurator ? APP_LABELS.CONTENTS_PUBLICATION_REQUESTS : APP_LABELS.CONTENTS_PUBLICATION_REQUESTS_SENT;
+    const userRegistrationRequestsLabel = isAdmin ? APP_LABELS.USER_REGISTRATION_REQUESTS : APP_LABELS.USER_REGISTRATION_REQUESTS_SENT;
+
+    return (
+        <div className="flex flex-col gap-8">
+            <div>
+                <h2 className="typography-title mb-4">{contentPublicationRequestsLabel}</h2>
+                <ContentPublications
+                    canProcess={isAdmin || isCurator}
+                ></ContentPublications>
+            </div>
+            <div>
+                <h2 className="typography-title mb-4">{userRegistrationRequestsLabel}</h2>
+                <UserRegistrations
+                    canProcess={isAdmin}
+                ></UserRegistrations>
+            </div>
+
+        </div>
+    )
+}
+
+export default RequestList
