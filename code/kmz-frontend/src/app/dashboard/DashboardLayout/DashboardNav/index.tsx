@@ -50,7 +50,7 @@ const DashboardNav = () => {
     const items = MENU_ITEMS.filter(item => item.roles.some(role => userRoles.includes(role)))
 
     return (
-        <Card>
+        <Card variant={'light'}>
             <CardContent>
                 <ul className={clsx(
                     "flex flex-col gap-3"

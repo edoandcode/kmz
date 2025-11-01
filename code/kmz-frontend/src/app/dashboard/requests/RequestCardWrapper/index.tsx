@@ -43,7 +43,7 @@ const RequestCardWrapper = ({ request, canProcess, children, onApproveRequest, o
                 </div>
             </CardContent>
             <CardContent>
-                <Card>
+                <Card variant={'light'}>
                     <CardContent>
                         {children}
                     </CardContent>
