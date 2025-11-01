@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "generateTailwindSafelist": "node ./scripts/generate-ui-kit-tailwind-safelist.mjs",
-    "predev": "npm run generateTailwindSafelist"
+    "predev": "npm run generateTailwindSafelist",
+    "prebuild": "npm run generateTailwindSafelist"
   },
   "dependencies": {
     "@edoandcode/ui-kit-grid": "^0.1.46",
