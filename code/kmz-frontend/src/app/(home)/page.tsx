@@ -23,7 +23,11 @@ export default async function Home() {
     let feedData: FeedItem[];
 
     try {
-        feedData = await get<FeedItem[]>(`${API.FEED}`);
+        feedData = await get<FeedItem[]>(`${API.FEED}`, {
+            next: {
+                revalidate: 10
+            }
+        });
     } catch (error) {
         console.error("Error fetching feed data:", error);
         notFound();
