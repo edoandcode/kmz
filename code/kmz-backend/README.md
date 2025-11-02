@@ -23,6 +23,12 @@ The API documentation is available via **Swagger UI**:
 
 ---
 
+## Setup Environment Variables
+
+Create a `.env` file in the project root directory based on the provided `.env.example` template. This file contains environment-specific configurations.
+
+---
+
 ## Running the Application
 
 1. Clone the repository:
