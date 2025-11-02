@@ -35,6 +35,15 @@ This is required to install the private UI Kit library:
 ⚠️ Never commit ``.npmrc`` files containing personal tokens to version control.
 
 
+### 2. Configure environment variables
+
+Before running the application, create a ``.env`` file in the project root based on the provided .env.example:
+
+```bash
+cp .env.example .env
+```
+Then fill in the necessary values according to your environment configuration.
+
 ## Running the application
 
 1. Install dependencies
