@@ -62,6 +62,7 @@ export function LoginForm() {
                 return;
             }
 
+            router.refresh();
             router.replace(`/${ROUTES.DASHBOARD}`);
 
         } catch (error) {
