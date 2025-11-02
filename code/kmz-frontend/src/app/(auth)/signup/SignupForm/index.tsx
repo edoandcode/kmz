@@ -59,6 +59,7 @@ export function SignupForm({ isSuperAdminSetup = false }: SignUpFormProps) {
             toast.success("Registration successful! You can now log in.");
 
 
+            router.refresh();
             router.replace(`/${ROUTES.LOGIN}`);
 
         } catch (error) {
