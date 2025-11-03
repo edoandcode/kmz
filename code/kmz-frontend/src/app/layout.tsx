@@ -6,9 +6,8 @@ import AuthenticationProvider from '@/components/AuthenticationProvider';
 import Header from '@/components/Header';
 import SetupAdminRedirect from '@/components/SetupAdminRedirect';
 
-import { get } from '@/services/api';
-import { API } from '@/settings/api';
-
+/* import { get } from '@/services/api';
+import { API } from '@/settings/api'; */
 import './globals.css';
 
 const geistSans = Geist({
@@ -32,10 +31,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const systemStatus = await get<{ superAdminExists: boolean }>(`${API.SYSTEM_STATUS}`)
-  if (!systemStatus.superAdminExists)
-    children = <SetupAdminRedirect>{children}</SetupAdminRedirect>;
-
+  /*   const systemStatus = await get<{ superAdminExists: boolean }>(`${API.SYSTEM_STATUS}`)
+    if (!systemStatus.superAdminExists)
+      children = <SetupAdminRedirect>{children}</SetupAdminRedirect>;
+   */
   return (
     <html lang="en">
       <body
