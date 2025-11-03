@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 
 export default async function Home() {
 
-    let feedData: FeedItem[];
+    let feedData: FeedItem[] | undefined = undefined;
 
     try {
         feedData = await get<FeedItem[]>(`${API.FEED}`, {
@@ -28,17 +28,18 @@ export default async function Home() {
                 revalidate: 10
             }
         });
+        if (!feedData)
+            notFound();
     } catch (error) {
-        console.error("Error fetching feed data:", error);
-        notFound();
+        console.error("Error fetching feed data:", error)
     }
 
 
     //const processes = feedData.filter((item: FeedItem) => item.content.type === ContentType.PROCESS);
-    const products = feedData.filter((item: FeedItem) => item.content.type === ContentType.PRODUCT).map(item => ({ ...item, content: item.content as ProductContent }));
-    const events = feedData.filter((item: FeedItem) => item.content.type === ContentType.EVENT).map(item => ({ ...item, content: item.content as EventContent }));
-    const processedProducts = feedData.filter((item: FeedItem) => item.content.type === ContentType.PROCESSED_PRODUCT).map(item => ({ ...item, content: item.content as ProcessedProductContent }));
-    const processes = feedData.filter((item: FeedItem) => item.content.type === ContentType.PROCESS).map(item => ({ ...item, content: item.content as ProcessedProductContent }));
+    const products = feedData?.filter((item: FeedItem) => item.content.type === ContentType.PRODUCT).map(item => ({ ...item, content: item.content as ProductContent }));
+    const events = feedData?.filter((item: FeedItem) => item.content.type === ContentType.EVENT).map(item => ({ ...item, content: item.content as EventContent }));
+    const processedProducts = feedData?.filter((item: FeedItem) => item.content.type === ContentType.PROCESSED_PRODUCT).map(item => ({ ...item, content: item.content as ProcessedProductContent }));
+    const processes = feedData?.filter((item: FeedItem) => item.content.type === ContentType.PROCESS).map(item => ({ ...item, content: item.content as ProcessedProductContent }));
 
 
     return (
