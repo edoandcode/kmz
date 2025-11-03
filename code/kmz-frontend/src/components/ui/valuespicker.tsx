@@ -12,71 +12,84 @@ interface ValuePickerProps {
     valueLabel?: string;
 }
 
-
 const ValuesPicker = ({
     label,
-    onChange,
     values,
+    onChange,
     valueLabel = "Add value",
 }: ValuePickerProps) => {
-
-    const [valuesCounter, setValuesCounter] = useState<number>(1);
+    // store all selected values as an array instead of indexed object
     const [pickedValues, setPickedValues] = useState<string[]>([]);
 
     useEffect(() => {
         onChange(pickedValues);
-        //console.log('Picked values:', pickedValues);
     }, [pickedValues, onChange]);
 
+    const handleSelectChange = (index: number, newValue: string) => {
+        setPickedValues((prev) => {
+            const updated = [...prev];
+            updated[index] = newValue;
+            return updated;
+        });
+    };
+
+    const handleRemove = (index: number) => {
+        setPickedValues((prev) => prev.filter((_, i) => i !== index));
+    };
+
+    const handleAdd = () => {
+        // add a new empty slot
+        setPickedValues((prev) => [...prev, ""]);
+    };
+
+    const availableValues = (index: number) =>
+        values.filter(
+            (v) => !pickedValues.includes(v) || pickedValues[index] === v
+        );
+
     return (
-        <div className='flex flex-col gap-2'>
-            <div>
-                <label>{label}</label>
-            </div>
-            <div>
-                {new Array(valuesCounter).fill(null).map((_, index) => (
-                    <div
-                        className='flex gap-2 mb-2 items-center'
-                        key={index}
-                    >
+        <div className="flex flex-col gap-2">
+            {label && (
+                <div>
+                    <label className="font-medium text-sm">{label}</label>
+                </div>
+            )}
+
+            <div className="flex flex-col">
+                {pickedValues.map((value, index) => (
+                    <div className="flex gap-2 mb-2 items-center" key={index}>
                         <Select
-                            key={index}
-                            onValueChange={v => setPickedValues(prev => {
-                                if (prev.includes(v)) return prev;
-                                const newValues = [...prev];
-                                newValues.push(v);
-                                return newValues;
-                            })}
+                            value={value}
+                            onValueChange={(v) => handleSelectChange(index, v)}
                         >
                             <SelectTrigger>
-                                <SelectValue placeholder="Select a value" />
+                                <SelectValue placeholder="Select value" />
                             </SelectTrigger>
                             <SelectContent>
-                                {values.filter(v => !pickedValues.includes(v)).map((value) => (
-                                    <SelectItem key={value} value={value}>{value}</SelectItem>
+                                {availableValues(index).map((v) => (
+                                    <SelectItem key={v} value={v}>
+                                        {v}
+                                    </SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
+
                         <Button
                             variant="default"
-                            size={"icon-sm"}
-                            onClick={() => {
-                                setPickedValues(prev => prev.filter((_, i) => i !== index));
-                                setValuesCounter(prev => Math.max(0, prev - 1));
-                            }}
+                            size="icon-sm"
+                            onClick={() => handleRemove(index)}
                         >
                             <Trash2 size={16} />
                         </Button>
                     </div>
                 ))}
             </div>
-            <Button
-                variant={"outline_default"}
-                size={"sm"}
-                onClick={() => setValuesCounter(valuesCounter + 1)}
-            >{valueLabel}</Button>
-        </div>
-    )
-}
 
-export default ValuesPicker
+            <Button variant="outline_default" size="sm" onClick={handleAdd}>
+                {valueLabel}
+            </Button>
+        </div>
+    );
+};
+
+export default ValuesPicker;
