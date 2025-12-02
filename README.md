@@ -1,6 +1,6 @@
 # KMZ Project
 
-This repository contains the backend and design files for the **Digitalization and Valorization Platform for the Local Agricultural Supply Chain**.
+This repository contains the backend, frontend and design files for the **Digitalization and Valorization Platform for the Local Agricultural Supply Chain**.
 
 ---
 
